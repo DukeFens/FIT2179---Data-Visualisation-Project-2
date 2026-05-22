@@ -1,0 +1,16 @@
+muscle,id,body_region,activation_pct_mvic,phase
+Gastrocnemius,gastrocnemius,Leg,71.3,Jump Landing
+Vastus Lateralis,vastus_lateralis,Leg,58.1,Jump
+Rectus Femoris,rectus_femoris,Leg,62.4,Jump
+Oblique,oblique,Core,55.8,Core Rotation
+Serratus Anterior,serratus_antrior,Core,49.2,Pre-stretch
+Pectoralis Major,pectoralis_major,Chest,82.1,Acceleration
+Trapezius,trapezius,Shoulder,45.0,Follow-through
+Trapezius Upper,trapezius upper,Shoulder,58.7,Preparation
+Wrist Flexors,wrist_flexors,Forearm,85.6,Contact
+Wrist Flexors Right,wrist_flexors_right,Forearm,85.6,Contact
+Triceps Brachii,triceps_brachii,Arm,71.9,Acceleration
+Biceps Brachii,biceps_brachii,Arm,38.6,Preparation
+Deltoid,deltoid,Shoulder,78.2,Acceleration
+Latissimus Dorsi,latissimus_dorsi,Back,61.3,Acceleration
+Trapezius Lower,trapezius_lower,Shoulder,42.3,Follow-through

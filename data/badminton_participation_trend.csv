@@ -1,0 +1,11 @@
+year,period,male_participants_thousands,female_participants_thousands,total_participants_thousands,data_source
+2016,2016,185,95,280,AusPlay (old methodology)
+2017,2017,195,105,300,AusPlay (old methodology)
+2018,2018,210,115,325,AusPlay (old methodology)
+2019,2019,220,120,340,AusPlay (old methodology)
+2020,2020,170,90,260,AusPlay (old methodology - COVID impact)
+2021,2021,195,105,300,AusPlay (old methodology - COVID recovery)
+2022,2022,220,120,340,AusPlay (old methodology)
+2023,2023,235,130,365,AusPlay (old methodology)
+2024,Jan-Dec 2024,237,170.5,407.5,AusPlay (new methodology)
+2025,Jan-Dec 2025,245,178,423,AusPlay (new methodology)

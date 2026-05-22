@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Grouped bar chart comparing calorie burn per hour across activities, with Social vs Competitive split for badminton",
+  "width": 520,
+  "height": 320,
+  "background": "#FAFAF8",
+  "config": { "view": { "stroke": null } },
+
+  "data": { "url": "data/calorie_burn_activities.csv" },
+
+  "transform": [
+    {
+      "filter": {
+        "field": "activity",
+        "oneOf": ["Badminton", "Running", "Cycling", "Swimming", "Tennis", "Football (Soccer)", "Cafe/Hospitality Work", "Office/Coding"]
+      }
+    }
+  ],
+
+  "mark": { "type": "bar", "cornerRadiusTopLeft": 3, "cornerRadiusTopRight": 3 },
+
+  "encoding": {
+    "x": {
+      "field": "activity",
+      "type": "nominal",
+      "sort": "-y",
+      "axis": { "title": null, "labelAngle": -30, "labelFontSize": 11 }
+    },
+    "xOffset": { "field": "intensity", "type": "nominal" },
+    "y": {
+      "field": "calories_per_hour_70kg",
+      "type": "quantitative",
+      "axis": { "title": "Calories burned per hour (70 kg person)", "titleFontSize": 11 },
+      "scale": { "domain": [0, 900] }
+    },
+    "color": {
+      "field": "intensity",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Social/Recreational", "Competitive", "Moderate (8 km/h)", "Fast (12 km/h)", "Moderate", "Freestyle moderate", "General", "Recreational", "Standing", "Seated"],
+        "range": ["#FFB300", "#E64A19", "#1E88E5", "#1565C0", "#43A047", "#00897B", "#8E24AA", "#5E35B1", "#90A4AE", "#78909C"]
+      },
+      "legend": { "title": "Intensity", "orient": "top-right" }
+    },
+    "tooltip": [
+      { "field": "activity",              "title": "Activity" },
+      { "field": "intensity",             "title": "Intensity" },
+      { "field": "calories_per_hour_70kg","title": "Cal/hr (70 kg)" },
+      { "field": "MET",                   "title": "MET value" }
+    ]
+  },
+
+  "title": {
+    "text": "Badminton vs. Your Day — Calorie Comparison",
+    "subtitle": "Calories burned per hour for a 70 kg person · Source: Compendium of Physical Activities (Ainsworth et al., 2011)",
+    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+  }
+}

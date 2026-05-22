@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Point map — badminton venue locations in Melbourne, sized by number of courts",
+  "width": 520,
+  "height": 420,
+  "background": "#EAF4FB",
+  "config": { "view": { "stroke": null } },
+
+  "projection": {
+    "type": "mercator",
+    "center": [145.0, -37.83],
+    "scale": 55000
+  },
+
+  "layer": [
+    {
+      "comment": "─── Melbourne suburb base map ───",
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "transform": [{ "filter": "datum.properties.STATE_NAME === 'Victoria'" }],
+      "mark": { "type": "geoshape", "fill": "#D6EAF8", "stroke": "#A9CCE3", "strokeWidth": 1 }
+    },
+    {
+      "comment": "─── Venue dots ───",
+      "data": { "url": "data/melbourne_badminton_venues.csv" },
+      "mark": { "type": "circle", "opacity": 0.88, "stroke": "white", "strokeWidth": 1.2 },
+      "encoding": {
+        "longitude": { "field": "longitude", "type": "quantitative" },
+        "latitude":  { "field": "latitude",  "type": "quantitative" },
+        "size": {
+          "field": "courts",
+          "type": "quantitative",
+          "scale": { "range": [80, 700] },
+          "legend": { "title": "No. of courts", "orient": "bottom-right" }
+        },
+        "color": {
+          "field": "near_university",
+          "type": "nominal",
+          "scale": {
+            "domain": ["No", "Yes - Monash University", "Yes - Monash Caulfield", "Yes - RMIT", "Yes - UniMelb"],
+            "range": ["#1E88E5", "#E64A19", "#FF8F00", "#6A1B9A", "#2E7D32"]
+          },
+          "legend": { "title": "Near University", "orient": "top-left", "labelLimit": 180 }
+        },
+        "tooltip": [
+          { "field": "name",           "title": "Venue" },
+          { "field": "suburb",         "title": "Suburb" },
+          { "field": "courts",         "title": "Courts" },
+          { "field": "type",           "title": "Type" },
+          { "field": "near_university","title": "Near University" }
+        ]
+      }
+    }
+  ],
+
+  "title": {
+    "text": "Find Your Court in Melbourne",
+    "subtitle": "Badminton venues across Greater Melbourne · Orange/purple/green = university-adjacent · Source: Badminton Victoria & OpenStreetMap",
+    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+  }
+}

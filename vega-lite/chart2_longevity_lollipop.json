@@ -1,0 +1,216 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Lollipop chart \u2014 years of life added by sport vs sedentary lifestyle",
+  "width": 420,
+  "height": 300,
+  "background": "#FAFAF8",
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  },
+  "data": {
+    "url": "../data/longevity_sports.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 2.5,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          },
+          "axis": {
+            "title": null,
+            "labelAngle": -90,
+            "labelFontSize": 12,
+            "labelAlign": "right"
+          }
+        },
+        "y": {
+          "datum": 0,
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "years_gained",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Racket",
+              "Aerobic",
+              "Team"
+            ],
+            "range": [
+              "#E64A19",
+              "#1E88E5",
+              "#43A047"
+            ]
+          },
+          "legend": {
+            "title": "Sport Category",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleFontSize": 11,
+            "labelFontSize": 11
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 180,
+        "opacity": 0.95
+      },
+      "encoding": {
+        "x": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          }
+        },
+        "y": {
+          "field": "years_gained",
+          "type": "quantitative",
+          "axis": {
+            "title": "Extra years of life gained vs sedentary",
+            "titleFontSize": 12
+          }
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Racket",
+              "Aerobic",
+              "Team"
+            ],
+            "range": [
+              "#E64A19",
+              "#1E88E5",
+              "#43A047"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "sport",
+            "title": "Sport"
+          },
+          {
+            "field": "years_gained",
+            "title": "Years gained",
+            "format": ".1f"
+          },
+          {
+            "field": "category",
+            "title": "Category"
+          },
+          {
+            "field": "mortality_reduction_pct",
+            "title": "Mortality reduction (%)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "dy": -10,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          }
+        },
+        "y": {
+          "field": "years_gained",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "years_gained",
+          "type": "quantitative",
+          "format": ".1f"
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Racket",
+              "Aerobic",
+              "Team"
+            ],
+            "range": [
+              "#E64A19",
+              "#1E88E5",
+              "#43A047"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": "Badminton",
+            "y": 6.2,
+            "note": "+6.2 yrs \u2014 more than running!"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 6,
+        "dy": -22,
+        "fontSize": 10,
+        "color": "#E64A19",
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Play Badminton, Live Longer",
+    "subtitle": "Extra years of life vs sedentary people \u00b7 Source: Copenhagen City Heart Study (Schnohr et al., 2018)",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  }
+}

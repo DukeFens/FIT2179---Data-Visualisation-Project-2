@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Shuttlecock Effect — Badminton in Australia</title>
+
+  <!-- Vega-Lite CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container">
+    <h1>The <span>Shuttlecock</span> Effect</h1>
+    <p class="subtitle">
+      A data-driven analysis of badminton in Australia —
+      from the science of the smash to the state of the national game.
+    </p>
+    <p class="meta">Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026</p>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PART 1 — THE HUMAN BODY
+════════════════════════════════════════════════════════ -->
+<section class="part">
+  <div class="container">
+    <span class="section-label">Part 1 · The Science</span>
+    <h2 class="section-title">Why Your Body Loves Badminton</h2>
+    <p class="section-intro">
+      Badminton is far more than a backyard pastime. Research shows it is one of the most
+      effective full-body workouts available — and one of the very few sports scientifically
+      linked to a longer life.
+    </p>
+
+    <!-- Chart 1 + Chart 2 side by side -->
+    <div class="chart-grid two-col">
+
+      <div class="chart-card">
+        <h3>Muscles Fired in a Single Smash</h3>
+        <p class="chart-desc">
+          Each dot represents a muscle group activated during a forehand overhead smash.
+          Bigger and redder = working harder. The wrist and chest drive the shuttle —
+          but your legs and core are just as critical.
+        </p>
+        <div class="vega-chart" id="chart1"></div>
+        <p class="chart-source">Source: Frontiers in Sports and Active Living (2025) · PMC12170632</p>
+      </div>
+
+      <div class="chart-card">
+        <h3>Play Badminton, Live Longer</h3>
+        <p class="chart-desc">
+          The Copenhagen City Heart Study tracked 8,577 people for 25 years.
+          Badminton players outlived sedentary peers by <strong>6.2 years</strong> —
+          nearly double the benefit of running.
+        </p>
+        <div class="vega-chart" id="chart2"></div>
+        <p class="chart-source">Source: Schnohr et al. (2018) · Mayo Clinic Proceedings</p>
+      </div>
+
+    </div>
+
+    <!-- Stat callouts -->
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-number">+6.2</div>
+        <div class="stat-label">Extra years of life vs sedentary</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">47%</div>
+        <div class="stat-label">Lower all-cause mortality risk</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">15</div>
+        <div class="stat-label">Muscle groups activated in a smash</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">490</div>
+        <div class="stat-label">Calories burned per hour (competitive)</div>
+      </div>
+    </div>
+
+    <!-- Chart 3 -->
+    <div class="chart-card" style="margin-top: 0;">
+      <h3>Badminton vs. Your Day — Calorie Comparison</h3>
+      <p class="chart-desc">
+        A competitive game burns roughly the same calories as running at 8 km/h — but feels
+        far less like work. Even a social hit burns more than three hours of office coding.
+      </p>
+      <div class="vega-chart" id="chart3"></div>
+      <p class="chart-source">Source: Compendium of Physical Activities (Ainsworth et al., 2011)</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PART 2 — BADMINTON ACROSS AUSTRALIA
+════════════════════════════════════════════════════════ -->
+<section class="part">
+  <div class="container">
+    <span class="section-label">Part 2 · The Nation</span>
+    <h2 class="section-title">Half a Million Australians Already Know</h2>
+    <p class="section-intro">
+      AusPlay 2025 data shows over 420,000 Australians participate in badminton regularly.
+      Victoria leads the nation — and university suburbs cluster with courts.
+    </p>
+
+    <!-- Chart 4 — Choropleth map -->
+    <div class="chart-card">
+      <h3>Where Does Australia Play? (National Map)</h3>
+      <p class="chart-desc">
+        Hover over each state to see participation rates, total players, and registered clubs.
+        Victoria and New South Wales hold the largest communities, driven by multicultural urban populations.
+      </p>
+      <div class="vega-chart" id="chart4"></div>
+      <p class="chart-source">Source: AusPlay 2025, Australian Sports Commission (released 30 April 2026)</p>
+    </div>
+
+    <div class="narrative">
+      📈 <strong>Did you know?</strong> Victoria's participation rate of 2.4% is the highest
+      in Australia — partly explained by Melbourne's large Southeast Asian community,
+      for whom badminton is a deeply embedded cultural sport.
+    </div>
+
+    <!-- Chart 5 + Chart 6 side by side -->
+    <div class="chart-grid two-col">
+
+      <div class="chart-card">
+        <h3>A Sport on the Rise</h3>
+        <p class="chart-desc">
+          Participation has grown steadily over the decade, recovering strongly after the COVID-19 dip.
+          Note: AusPlay changed its survey methodology in 2023 (dashed line), so earlier and later
+          figures use different collection methods.
+        </p>
+        <div class="vega-chart" id="chart5"></div>
+        <p class="chart-source">Source: AusPlay 2016–2025 & Badminton Australia Annual Reports</p>
+      </div>
+
+      <div class="chart-card">
+        <h3>Gen Z Is Taking Over the Courts</h3>
+        <p class="chart-desc">
+          The 18–24 age bracket — squarely university age — is by far the largest group of
+          badminton players in Australia. Click the legend to filter by gender.
+        </p>
+        <div class="vega-chart" id="chart6"></div>
+        <p class="chart-source">Source: AusPlay 2025 (By Sport Data Tables), Australian Sports Commission</p>
+      </div>
+
+    </div>
+
+    <!-- Chart 7 — Melbourne venues map -->
+    <div class="chart-card">
+      <h3>Find Your Court in Melbourne</h3>
+      <p class="chart-desc">
+        Sixteen badminton venues are mapped across Greater Melbourne. Coloured dots indicate
+        venues near major universities — courts are genuinely accessible for students at
+        Monash, RMIT, and the University of Melbourne.
+      </p>
+      <div class="vega-chart" id="chart7"></div>
+      <p class="chart-source">Source: Badminton Victoria club directory & OpenStreetMap contributors</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PART 3 — ELITE PERFORMANCE
+════════════════════════════════════════════════════════ -->
+<section class="part">
+  <div class="container">
+    <span class="section-label">Part 3 · The Elite</span>
+    <h2 class="section-title">From School Yards to the World Stage</h2>
+    <p class="section-intro">
+      Australia's competitive ecosystem runs from 40,000 Sporting Schools participants all the
+      way up to twenty Senior Falcons representing Australia on the global circuit.
+    </p>
+
+    <!-- Chart 8 — Talent pipeline -->
+    <div class="chart-card">
+      <h3>The Talent Pipeline</h3>
+      <p class="chart-desc">
+        The funnel from grassroots participation to the Senior Falcons is steep. Of the 40,000+
+        children who try badminton through Shuttle Smash, fewer than 20 will ever wear the
+        national uniform. Hover each bar for program details.
+      </p>
+      <div class="vega-chart" id="chart8"></div>
+      <p class="chart-source">Source: Badminton Australia Annual Report 2023/24 · BWF international results</p>
+    </div>
+
+    <!-- Chart 9 + Chart 10 side by side -->
+    <div class="chart-grid two-col">
+
+      <div class="chart-card">
+        <h3>Climbing the World Rankings</h3>
+        <p class="chart-desc">
+          Australia's top players have made steady gains on the BWF circuit.
+          Setyana Mapasa and Angela Yu's rise to a top-10 Women's Doubles ranking
+          culminated in the Paris 2024 Olympics. Click a player name to highlight their line.
+        </p>
+        <div class="vega-chart" id="chart9"></div>
+        <p class="chart-source">Source: BWF Historical Rankings (corporate.bwfbadminton.com)</p>
+      </div>
+
+      <div class="chart-card">
+        <h3>Australia's Tournament Ecosystem</h3>
+        <p class="chart-desc">
+          The Australian Badminton Open has grown from a Super 300 to a Super 500 event,
+          attracting elite global players to Sydney each year.
+          Bubble size reflects total tournament entries.
+        </p>
+        <div class="vega-chart" id="chart10"></div>
+        <p class="chart-source">Source: BWF World Tour official results · Badminton Australia</p>
+      </div>
+
+    </div>
+
+    <div class="narrative">
+      🏸 <strong>The takeaway:</strong> Whether you're at Monash, RMIT, or the University of Melbourne —
+      a badminton court is minutes away. The science says it will add years to your life.
+      The data says hundreds of thousands of Australians have already figured that out.
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <p>
+      <strong style="color:#fff;">The Shuttlecock Effect</strong> ·
+      Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026
+    </p>
+    <p style="margin-top:8px;">
+      AI tools (Claude) were used to assist with data compilation, code generation, and text editing.
+      All visualisations are the author's own work built with
+      <a href="https://vega.github.io/vega-lite/">Vega-Lite v5</a>.
+    </p>
+    <div class="footer-sources">
+      <strong style="color:#fff;">Data Sources:</strong><br>
+      · AusPlay 2025 — Australian Sports Commission (ausport.gov.au/clearinghouse/research/ausplay)<br>
+      · Badminton Australia Annual Report 2023/24 (badminton.org.au)<br>
+      · Schnohr et al. (2018) — Mayo Clinic Proceedings (Copenhagen City Heart Study)<br>
+      · Ainsworth et al. (2011) — Compendium of Physical Activities<br>
+      · Frontiers in Sports (2025) — PMC12170632 (EMG muscle synergy study)<br>
+      · BWF Historical Rankings (corporate.bwfbadminton.com/players/historical-rankings/)<br>
+      · OpenStreetMap contributors (openstreetmap.org) · rowanhogan/australian-states (GitHub)
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     VEGA-LITE EMBED SCRIPTS
+════════════════════════════════════════════════════════ -->
+<script>
+  const opt = { actions: false, renderer: "svg" };
+
+  const charts = {
+    "#chart1":  "vega-lite/chart1_muscle_body_map.json",
+    "#chart2":  "vega-lite/chart2_longevity_lollipop.json",
+    "#chart3":  "vega-lite/chart3_calorie_bar.json",
+    "#chart4":  "vega-lite/chart4_choropleth_map.json",
+    "#chart5":  "vega-lite/chart5_participation_trend.json",
+    "#chart6":  "vega-lite/chart6_population_pyramid.json",
+    "#chart7":  "vega-lite/chart7_melbourne_venues_map.json",
+    "#chart8":  "vega-lite/chart8_talent_pipeline.json",
+    "#chart9":  "vega-lite/chart9_rankings_multiline.json",
+    "#chart10": "vega-lite/chart10_tournament_bubble.json"
+  };
+  Object.entries(charts).forEach(([id, url]) => {
+    vegaEmbed(id, url, opt).catch(err => console.error(`❌ ${id} (${url}):`, err));
+  });
+</script>
+
+</body>
+</html>

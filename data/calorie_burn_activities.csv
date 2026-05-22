@@ -1,0 +1,13 @@
+activity,intensity,MET,calories_per_hour_70kg,category
+Badminton,Social/Recreational,5.5,385,Racket Sport
+Badminton,Competitive,7.0,490,Racket Sport
+Running,Moderate (8 km/h),8.0,560,Aerobic
+Running,Fast (12 km/h),11.5,805,Aerobic
+Cycling,Moderate,7.5,525,Aerobic
+Swimming,Freestyle moderate,7.0,490,Aerobic
+Walking,Brisk,3.5,245,Low Intensity
+Yoga,General,2.5,175,Low Intensity
+Cafe/Hospitality Work,Standing,2.3,161,Work
+Office/Coding,Seated,1.5,105,Work
+Tennis,General,7.3,511,Racket Sport
+Football (Soccer),Recreational,7.0,490,Team Sport

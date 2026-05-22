@@ -1,0 +1,70 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Population pyramid (diverging bar) — badminton participants by age group and gender (AusPlay 2025)",
+  "width": 420,
+  "height": 340,
+  "background": "#FAFAF8",
+  "config": { "view": { "stroke": null } },
+
+  "data": { "url": "data/badminton_participation_by_age_gender.csv" },
+
+  "transform": [
+    {
+      "calculate": "datum.gender === 'Male' ? -datum.participants_thousands : datum.participants_thousands",
+      "as": "participants_signed"
+    }
+  ],
+
+  "layer": [
+    {
+      "comment": "─── Bars ───",
+      "mark": { "type": "bar", "cornerRadiusTopLeft": 3, "cornerRadiusTopRight": 3 },
+      "encoding": {
+        "y": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"],
+          "axis": { "title": "Age group", "titleFontSize": 11, "labelFontSize": 11 }
+        },
+        "x": {
+          "field": "participants_signed",
+          "type": "quantitative",
+          "axis": {
+            "title": "← Male        Female →",
+            "titleFontSize": 11,
+            "labelExpr": "abs(datum.value)"
+          },
+          "scale": { "domain": [-80, 80] }
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "scale": { "domain": ["Male", "Female"], "range": ["#7EB8D4", "#E8A0BF"] },
+          "legend": { "title": "Gender", "orient": "top-right" }
+        },
+        "tooltip": [
+          { "field": "age_group",              "title": "Age group" },
+          { "field": "gender",                 "title": "Gender" },
+          { "field": "participants_thousands",  "title": "Players (thousands)", "format": ".1f" },
+          { "field": "participation_rate_pct",  "title": "Participation rate (%)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "comment": "─── Gen Z highlight annotation ───",
+      "data": { "values": [{ "age_group": "18-24", "note": "🎓 University age — largest group" }] },
+      "mark": { "type": "text", "align": "center", "dy": -12, "fontSize": 10, "color": "#E64A19", "fontWeight": "bold" },
+      "encoding": {
+        "y":    { "field": "age_group", "type": "ordinal", "sort": ["15-17","18-24","25-34","35-44","45-54","55-64","65+"] },
+        "x":    { "value": 290 },
+        "text": { "field": "note" }
+      }
+    }
+  ],
+
+  "title": {
+    "text": "Gen Z Is Taking Over the Courts",
+    "subtitle": "Badminton players by age group and gender · Source: AusPlay 2025 (Australian Sports Commission)",
+    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+  }
+}
