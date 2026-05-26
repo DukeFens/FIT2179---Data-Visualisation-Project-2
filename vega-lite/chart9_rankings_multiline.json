@@ -1,12 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Multi-line chart — BWF world rankings of top Australian players over time (2022–2025)",
-  "width": 540,
-  "height": 320,
-  "background": "#FAFAF8",
-  "config": { "view": { "stroke": null } },
+  "width": 460,
+  "height": 300,
+  "background": "white",
+  "config": {
+    "view": { "stroke": null },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": { "labelFontSize": 11, "titleFontSize": 11, "gridColor": "#EEEEEE" }
+  },
 
-  "data": { "url": "data/australian_players_bwf_rankings.csv" },
+  "data": { "url": "../data/australian_players_bwf_rankings.csv" },
 
   "params": [
     {
@@ -18,8 +22,8 @@
 
   "layer": [
     {
-      "comment": "─── Lines per player ───",
-      "mark": { "type": "line", "point": true, "strokeWidth": 2.5 },
+      "comment": "── Lines per player ──",
+      "mark": { "type": "line", "point": { "size": 60 }, "strokeWidth": 2.5 },
       "encoding": {
         "x": {
           "field": "year",
@@ -37,9 +41,14 @@
           "type": "nominal",
           "scale": {
             "domain": ["Tiffany Ho", "Setyana Mapasa", "Angela Yu", "Gronya Sommerville"],
-            "range": ["#E64A19", "#1E88E5", "#43A047", "#8E24AA"]
+            "range": ["#1E5F74", "#F5A623", "#D94F35", "#7B4FBF"]
           },
-          "legend": { "title": "Player", "orient": "top-right" }
+          "legend": {
+            "title": "Player (click to highlight)",
+            "orient": "top-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
         },
         "strokeDash": {
           "field": "discipline",
@@ -48,11 +57,16 @@
             "domain": ["Women's Singles", "Women's Doubles", "Mixed Doubles"],
             "range": [[1, 0], [4, 2], [2, 2]]
           },
-          "legend": { "title": "Discipline", "orient": "bottom-right" }
+          "legend": {
+            "title": "Discipline",
+            "orient": "bottom-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
         },
         "opacity": {
           "condition": { "param": "playerSelect", "value": 1 },
-          "value": 0.15
+          "value": 0.12
         },
         "tooltip": [
           { "field": "player",        "title": "Player" },
@@ -64,20 +78,37 @@
       }
     },
     {
-      "comment": "─── Paris Olympics annotation ───",
-      "data": { "values": [{ "year": "2024", "note": "🏅 Paris Olympics" }] },
-      "mark": { "type": "text", "align": "left", "dx": 4, "dy": -10, "fontSize": 10, "color": "#B8860B", "fontWeight": "bold" },
+      "comment": "── Paris Olympics annotation ──",
+      "data": { "values": [{ "year": "2024", "note": "Paris Olympics" }] },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": -10,
+        "fontSize": 10,
+        "color": "#B8860B",
+        "fontWeight": "bold"
+      },
       "encoding": {
         "x":    { "field": "year", "type": "ordinal" },
         "y":    { "value": 20 },
         "text": { "field": "note" }
       }
+    },
+    {
+      "comment": "── Paris Olympics rule ──",
+      "data": { "values": [{ "year": "2024" }] },
+      "mark": { "type": "rule", "strokeDash": [4,3], "color": "#B8860B", "strokeWidth": 1, "opacity": 0.6 },
+      "encoding": { "x": { "field": "year", "type": "ordinal" } }
     }
   ],
 
   "title": {
     "text": "Climbing the World Rankings — Australia's Top Players",
-    "subtitle": "BWF World Rankings (lower number = better) · Click legend to highlight a player · Source: BWF Historical Rankings",
-    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+    "subtitle": "BWF World Rankings (lower = better) · Click legend to highlight a player · Source: BWF Historical Rankings",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
   }
 }

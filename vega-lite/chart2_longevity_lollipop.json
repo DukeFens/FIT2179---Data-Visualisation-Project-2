@@ -1,213 +1,122 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Lollipop chart \u2014 years of life added by sport vs sedentary lifestyle",
-  "width": 420,
-  "height": 300,
-  "background": "#FAFAF8",
+  "description": "Lollipop chart — years of life added by sport vs sedentary lifestyle",
+  "width": 380,
+  "height": 280,
+  "background": "white",
   "config": {
-    "view": {
-      "stroke": null
-    }
+    "view": { "stroke": null },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": { "labelFontSize": 11, "titleFontSize": 11, "gridColor": "#EEEEEE" }
   },
-  "data": {
-    "url": "../data/longevity_sports.csv"
-  },
+
+  "data": { "url": "../data/longevity_sports.csv" },
+
   "layer": [
     {
-      "mark": {
-        "type": "rule",
-        "strokeWidth": 2.5,
-        "opacity": 0.8
-      },
+      "comment": "── Vertical rule (lollipop stem) ──",
+      "mark": { "type": "rule", "strokeWidth": 2, "opacity": 0.75 },
       "encoding": {
         "x": {
           "field": "sport",
           "type": "nominal",
-          "sort": {
-            "field": "years_gained",
-            "order": "descending"
-          },
-          "axis": {
-            "title": null,
-            "labelAngle": -90,
-            "labelFontSize": 12,
-            "labelAlign": "right"
+          "sort": { "field": "years_gained", "order": "descending" },
+          "axis": { "title": null, "labelAngle": -35, "labelFontSize": 11 }
+        },
+        "y":  { "datum": 0, "type": "quantitative" },
+        "y2": { "field": "years_gained", "type": "quantitative" },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Racket", "Aerobic", "Team"],
+            "range": ["#1E5F74", "#F5A623", "#D94F35"]
           }
+        }
+      }
+    },
+    {
+      "comment": "── Dot ──",
+      "mark": { "type": "circle", "size": 150, "opacity": 0.95 },
+      "encoding": {
+        "x": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": { "field": "years_gained", "order": "descending" }
         },
         "y": {
-          "datum": 0,
-          "type": "quantitative"
-        },
-        "y2": {
           "field": "years_gained",
-          "type": "quantitative"
+          "type": "quantitative",
+          "axis": { "title": "Extra years of life vs sedentary", "titleFontSize": 11 }
         },
         "color": {
           "field": "category",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "Racket",
-              "Aerobic",
-              "Team"
-            ],
-            "range": [
-              "#E64A19",
-              "#1E88E5",
-              "#43A047"
-            ]
+            "domain": ["Racket", "Aerobic", "Team"],
+            "range": ["#1E5F74", "#F5A623", "#D94F35"]
           },
           "legend": {
             "title": "Sport Category",
-            "orient": "bottom",
+            "orient": "top-left",
             "direction": "horizontal",
-            "titleFontSize": 11,
-            "labelFontSize": 11
-          }
-        }
-      }
-    },
-    {
-      "mark": {
-        "type": "circle",
-        "size": 180,
-        "opacity": 0.95
-      },
-      "encoding": {
-        "x": {
-          "field": "sport",
-          "type": "nominal",
-          "sort": {
-            "field": "years_gained",
-            "order": "descending"
-          }
-        },
-        "y": {
-          "field": "years_gained",
-          "type": "quantitative",
-          "axis": {
-            "title": "Extra years of life gained vs sedentary",
-            "titleFontSize": 12
-          }
-        },
-        "color": {
-          "field": "category",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Racket",
-              "Aerobic",
-              "Team"
-            ],
-            "range": [
-              "#E64A19",
-              "#1E88E5",
-              "#43A047"
-            ]
+            "titleFontSize": 10,
+            "labelFontSize": 10
           }
         },
         "tooltip": [
-          {
-            "field": "sport",
-            "title": "Sport"
-          },
-          {
-            "field": "years_gained",
-            "title": "Years gained",
-            "format": ".1f"
-          },
-          {
-            "field": "category",
-            "title": "Category"
-          },
-          {
-            "field": "mortality_reduction_pct",
-            "title": "Mortality reduction (%)"
-          }
+          { "field": "sport",                   "title": "Sport" },
+          { "field": "years_gained",            "title": "Years gained", "format": ".1f" },
+          { "field": "category",                "title": "Category" },
+          { "field": "mortality_reduction_pct", "title": "Mortality reduction (%)" }
         ]
       }
     },
     {
-      "mark": {
-        "type": "text",
-        "align": "center",
-        "dy": -10,
-        "fontSize": 11,
-        "fontWeight": "bold"
-      },
+      "comment": "── Value labels ──",
+      "mark": { "type": "text", "align": "center", "dy": -10, "fontSize": 11, "fontWeight": "bold" },
       "encoding": {
         "x": {
           "field": "sport",
           "type": "nominal",
-          "sort": {
-            "field": "years_gained",
-            "order": "descending"
-          }
+          "sort": { "field": "years_gained", "order": "descending" }
         },
-        "y": {
-          "field": "years_gained",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "years_gained",
-          "type": "quantitative",
-          "format": ".1f"
-        },
+        "y": { "field": "years_gained", "type": "quantitative" },
+        "text": { "field": "years_gained", "type": "quantitative", "format": ".1f" },
         "color": {
           "field": "category",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "Racket",
-              "Aerobic",
-              "Team"
-            ],
-            "range": [
-              "#E64A19",
-              "#1E88E5",
-              "#43A047"
-            ]
+            "domain": ["Racket", "Aerobic", "Team"],
+            "range": ["#1E5F74", "#C47A00", "#B03525"]
           }
         }
       }
     },
     {
-      "data": {
-        "values": [
-          {
-            "x": "Badminton",
-            "y": 6.2,
-            "note": "+6.2 yrs \u2014 more than running!"
-          }
-        ]
-      },
+      "comment": "── Badminton highlight annotation ──",
+      "data": { "values": [{ "x": "Badminton", "y": 6.2, "note": "Badminton: +6.2 yrs" }] },
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": 6,
-        "dy": -22,
+        "dx": 8,
+        "dy": -6,
         "fontSize": 10,
-        "color": "#E64A19",
-        "fontStyle": "italic"
+        "color": "#1E5F74",
+        "fontStyle": "italic",
+        "fontWeight": "bold"
       },
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "nominal"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "note"
-        }
+        "x": { "field": "x", "type": "nominal" },
+        "y": { "field": "y", "type": "quantitative" },
+        "text": { "field": "note" }
       }
     }
   ],
+
   "title": {
     "text": "Play Badminton, Live Longer",
-    "subtitle": "Extra years of life vs sedentary people \u00b7 Source: Copenhagen City Heart Study (Schnohr et al., 2018)",
+    "subtitle": "Extra years of life vs sedentary · Copenhagen City Heart Study (Schnohr et al., 2018)",
     "fontSize": 15,
     "subtitleFontSize": 10,
     "subtitleColor": "#666",

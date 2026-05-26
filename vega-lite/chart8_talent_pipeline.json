@@ -1,17 +1,26 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Isotype-style funnel — badminton talent pipeline from Sporting Schools to the Senior Falcons",
-  "width": 500,
-  "height": 320,
-  "background": "#FAFAF8",
-  "config": { "view": { "stroke": null } },
+  "description": "Funnel bar chart — badminton talent pipeline from Sporting Schools to the Senior Falcons",
+  "width": 560,
+  "height": 300,
+  "background": "white",
+  "config": {
+    "view": { "stroke": null },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": { "labelFontSize": 12, "titleFontSize": 11, "gridColor": "#EEEEEE" }
+  },
 
-  "data": { "url": "data/talent_pipeline.csv" },
+  "data": { "url": "../data/talent_pipeline.csv" },
 
   "layer": [
     {
-      "comment": "─── Horizontal bars (funnel shape) ───",
-      "mark": { "type": "bar", "cornerRadiusTopRight": 4, "cornerRadiusBottomRight": 4, "opacity": 0.9 },
+      "comment": "── Horizontal bars ──",
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopRight": 4,
+        "cornerRadiusBottomRight": 4,
+        "opacity": 0.9
+      },
       "encoding": {
         "y": {
           "field": "level",
@@ -23,7 +32,11 @@
           "field": "estimated_players",
           "type": "quantitative",
           "scale": { "type": "log", "base": 10 },
-          "axis": { "title": "Estimated players (log scale)", "titleFontSize": 11, "format": "," }
+          "axis": {
+            "title": "Estimated players (log scale)",
+            "titleFontSize": 11,
+            "format": ","
+          }
         },
         "color": {
           "field": "level",
@@ -31,29 +44,40 @@
           "sort": ["Grassroots", "Club", "State", "National", "Elite"],
           "scale": {
             "domain": ["Grassroots", "Club", "State", "National", "Elite"],
-            "range": ["#B3E5FC", "#4FC3F7", "#0288D1", "#01579B", "#E64A19"]
+            "range": ["#C8E6F5", "#7EB8D4", "#2B88A1", "#1E5F74", "#D94F35"]
           },
           "legend": null
         },
         "tooltip": [
-          { "field": "level",            "title": "Level" },
-          { "field": "program",          "title": "Program" },
-          { "field": "estimated_players","title": "Estimated players", "format": "," },
-          { "field": "age_range",        "title": "Age range" },
-          { "field": "description",      "title": "Description" }
+          { "field": "level",             "title": "Level" },
+          { "field": "program",           "title": "Program" },
+          { "field": "estimated_players", "title": "Estimated players", "format": "," },
+          { "field": "age_range",         "title": "Age range" },
+          { "field": "description",       "title": "Description" }
         ]
       }
     },
     {
-      "comment": "─── Player count labels ───",
-      "mark": { "type": "text", "align": "left", "dx": 6, "fontSize": 11, "fontWeight": "bold", "color": "#333" },
+      "comment": "── Player count labels ──",
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#333"
+      },
       "encoding": {
         "y": {
           "field": "level",
           "type": "ordinal",
           "sort": ["Grassroots", "Club", "State", "National", "Elite"]
         },
-        "x": { "field": "estimated_players", "type": "quantitative", "scale": { "type": "log", "base": 10 } },
+        "x": {
+          "field": "estimated_players",
+          "type": "quantitative",
+          "scale": { "type": "log", "base": 10 }
+        },
         "text": { "field": "estimated_players", "type": "quantitative", "format": "," }
       }
     }
@@ -62,6 +86,9 @@
   "title": {
     "text": "From School Yard to World Stage — The Talent Pipeline",
     "subtitle": "Estimated players at each level (log scale) · Source: Badminton Australia Annual Report 2023/24 & BWF records",
-    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
   }
 }

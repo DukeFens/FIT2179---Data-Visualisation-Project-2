@@ -20,18 +20,23 @@
 ════════════════════════════════════════════════════════ -->
 <header class="hero">
   <div class="container">
-    <h1>The <span>Shuttlecock</span> Effect</h1>
-    <p class="subtitle">
-      A data-driven analysis of badminton in Australia —
-      from the science of the smash to the state of the national game.
-    </p>
-    <p class="meta">Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026</p>
+    <div class="hero-inner">
+      <div>
+        <h1>The <span>Shuttlecock</span> Effect</h1>
+        <p class="subtitle">
+          A data-driven analysis of badminton in Australia —
+          from the science of the smash to the state of the national game.
+        </p>
+        <p class="meta">Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026</p>
+      </div>
+      <div class="hero-shuttle">🏸</div>
+    </div>
   </div>
 </header>
 
 
 <!-- ═══════════════════════════════════════════════════════
-     PART 1 — THE HUMAN BODY
+     PART 1 — THE SCIENCE
 ════════════════════════════════════════════════════════ -->
 <section class="part">
   <div class="container">
@@ -49,9 +54,9 @@
       <div class="chart-card">
         <h3>Muscles Fired in a Single Smash</h3>
         <p class="chart-desc">
-          Each dot represents a muscle group activated during a forehand overhead smash.
-          Bigger and redder = working harder. The wrist and chest drive the shuttle —
-          but your legs and core are just as critical.
+          Each point represents a muscle group activated during a forehand overhead smash,
+          ordered by intensity. Wrist flexors and pectorals drive the shuttle — but legs,
+          core, and back are just as critical for a full-power smash.
         </p>
         <div class="vega-chart" id="chart1"></div>
         <p class="chart-source">Source: Frontiers in Sports and Active Living (2025) · PMC12170632</p>
@@ -91,7 +96,7 @@
     </div>
 
     <!-- Chart 3 -->
-    <div class="chart-card" style="margin-top: 0;">
+    <div class="chart-card">
       <h3>Badminton vs. Your Day — Calorie Comparison</h3>
       <p class="chart-desc">
         A competitive game burns roughly the same calories as running at 8 km/h — but feels
@@ -106,7 +111,7 @@
 
 
 <!-- ═══════════════════════════════════════════════════════
-     PART 2 — BADMINTON ACROSS AUSTRALIA
+     PART 2 — THE NATION
 ════════════════════════════════════════════════════════ -->
 <section class="part">
   <div class="container">
@@ -129,7 +134,7 @@
     </div>
 
     <div class="narrative">
-      📈 <strong>Did you know?</strong> Victoria's participation rate of 2.4% is the highest
+      <strong>Did you know?</strong> Victoria's participation rate of 2.4% is the highest
       in Australia — partly explained by Melbourne's large Southeast Asian community,
       for whom badminton is a deeply embedded cultural sport.
     </div>
@@ -141,11 +146,11 @@
         <h3>A Sport on the Rise</h3>
         <p class="chart-desc">
           Participation has grown steadily over the decade, recovering strongly after the COVID-19 dip.
-          Note: AusPlay changed its survey methodology in 2023 (dashed line), so earlier and later
+          The dashed line marks a survey methodology change in 2024, so earlier and later
           figures use different collection methods.
         </p>
         <div class="vega-chart" id="chart5"></div>
-        <p class="chart-source">Source: AusPlay 2016–2025 & Badminton Australia Annual Reports</p>
+        <p class="chart-source">Source: AusPlay 2016–2025 &amp; Badminton Australia Annual Reports</p>
       </div>
 
       <div class="chart-card">
@@ -164,12 +169,12 @@
     <div class="chart-card">
       <h3>Find Your Court in Melbourne</h3>
       <p class="chart-desc">
-        Sixteen badminton venues are mapped across Greater Melbourne. Coloured dots indicate
+        Sixteen badminton venues mapped across Greater Melbourne. Coloured dots indicate
         venues near major universities — courts are genuinely accessible for students at
         Monash, RMIT, and the University of Melbourne.
       </p>
       <div class="vega-chart" id="chart7"></div>
-      <p class="chart-source">Source: Badminton Victoria club directory & OpenStreetMap contributors</p>
+      <p class="chart-source">Source: Badminton Victoria club directory &amp; OpenStreetMap contributors</p>
     </div>
 
   </div>
@@ -177,7 +182,7 @@
 
 
 <!-- ═══════════════════════════════════════════════════════
-     PART 3 — ELITE PERFORMANCE
+     PART 3 — THE ELITE
 ════════════════════════════════════════════════════════ -->
 <section class="part">
   <div class="container">
@@ -228,7 +233,7 @@
     </div>
 
     <div class="narrative">
-      🏸 <strong>The takeaway:</strong> Whether you're at Monash, RMIT, or the University of Melbourne —
+      <strong>The takeaway:</strong> Whether you're at Monash, RMIT, or the University of Melbourne —
       a badminton court is minutes away. The science says it will add years to your life.
       The data says hundreds of thousands of Australians have already figured that out.
     </div>
@@ -242,8 +247,8 @@
 ════════════════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="container">
+    <p class="footer-brand">The Shuttlecock Effect</p>
     <p>
-      <strong style="color:#fff;">The Shuttlecock Effect</strong> ·
       Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026
     </p>
     <p style="margin-top:8px;">
@@ -252,7 +257,7 @@
       <a href="https://vega.github.io/vega-lite/">Vega-Lite v5</a>.
     </p>
     <div class="footer-sources">
-      <strong style="color:#fff;">Data Sources:</strong><br>
+      <strong style="color:#bbb;">Data Sources:</strong><br>
       · AusPlay 2025 — Australian Sports Commission (ausport.gov.au/clearinghouse/research/ausplay)<br>
       · Badminton Australia Annual Report 2023/24 (badminton.org.au)<br>
       · Schnohr et al. (2018) — Mayo Clinic Proceedings (Copenhagen City Heart Study)<br>

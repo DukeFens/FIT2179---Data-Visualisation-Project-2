@@ -1,16 +1,25 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Bubble chart — BWF tournaments in Australia: prize money vs BWF points, sized by entries",
-  "width": 500,
-  "height": 340,
-  "background": "#FAFAF8",
-  "config": { "view": { "stroke": null } },
+  "width": 440,
+  "height": 300,
+  "background": "white",
+  "config": {
+    "view": { "stroke": null },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": { "labelFontSize": 11, "titleFontSize": 11, "gridColor": "#EEEEEE" }
+  },
 
-  "data": { "url": "data/bwf_tournaments_australia.csv" },
+  "data": { "url": "../data/bwf_tournaments_australia.csv" },
 
   "transform": [{ "filter": "datum.prize_money_usd > 0" }],
 
-  "mark": { "type": "circle", "opacity": 0.82, "stroke": "white", "strokeWidth": 1.5 },
+  "mark": {
+    "type": "circle",
+    "opacity": 0.85,
+    "stroke": "white",
+    "strokeWidth": 1.5
+  },
 
   "encoding": {
     "x": {
@@ -29,16 +38,26 @@
       "field": "total_entries",
       "type": "quantitative",
       "scale": { "range": [100, 1400] },
-      "legend": { "title": "Total entries", "orient": "bottom-right" }
+      "legend": {
+        "title": "Total entries",
+        "orient": "bottom-right",
+        "titleFontSize": 10,
+        "labelFontSize": 10
+      }
     },
     "color": {
       "field": "grade",
       "type": "nominal",
       "scale": {
         "domain": ["Super 500", "Super 300", "International Challenge"],
-        "range": ["#E64A19", "#FFB300", "#1E88E5"]
+        "range": ["#1E5F74", "#F5A623", "#D94F35"]
       },
-      "legend": { "title": "Tournament Grade", "orient": "top-left" }
+      "legend": {
+        "title": "Tournament Grade",
+        "orient": "top-left",
+        "titleFontSize": 10,
+        "labelFontSize": 10
+      }
     },
     "tooltip": [
       { "field": "tournament",        "title": "Tournament" },
@@ -54,6 +73,9 @@
   "title": {
     "text": "Australia's Badminton Tournament Ecosystem",
     "subtitle": "Prize money vs. BWF ranking points · Bubble size = total entries · Source: BWF World Tour results",
-    "fontSize": 15, "subtitleFontSize": 10, "subtitleColor": "#666", "anchor": "start"
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
   }
 }
