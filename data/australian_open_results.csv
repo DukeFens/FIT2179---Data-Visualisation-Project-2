@@ -1,0 +1,16 @@
+year,grade,host_city,prize_money_usd,ms_winner,ms_nationality,ws_winner,ws_nationality,md_winner,md_nationality,wd_winner,wd_nationality,xd_winner,xd_nationality,total_entries,estimated
+2010,Grand Prix Gold,Melbourne,100000,Nguyen Tien Minh,Vietnam,Seo Yoon-hee,South Korea,Hiroyuki Endo / Kenichi Hayakawa,Japan,Kim Min-seo / Lee Kyung-won,South Korea,Cho Gun-woo / Kim Min-seo,South Korea,160,True
+2011,Grand Prix Gold,Melbourne,120000,Sho Sasaki,Japan,Liu Xin,China,Shizuka Matsuo / Mami Naito,Japan,Songphon Anugritayawon / Kunchala Voravichitchaikul,Thailand,,,170,True
+2012,Grand Prix Gold,Sydney,120000,Chen Jin,China,Han Li,China,Markis Kido / Hendra Setiawan,Indonesia,Luo Ying / Luo Yu,China,Chen Hung-ling / Cheng Wen-hsing,Chinese Taipei,180,True
+2013,Grand Prix Gold,Sydney,120000,Tian Houwei,China,Sayaka Takahashi,Japan,Angga Pratama / Rian Agung Saputro,Indonesia,Aprilsasi Putri / Variella Vita Marissa,Indonesia,Irfan Fadhilah / Weni Anggraini,Indonesia,185,True
+2014,Super Series,Sydney,250000,Lin Dan,China,Saina Nehwal,India,Lee Yong-dae / Yoo Yeon-seong,South Korea,Tian Qing / Zhao Yunlei,China,Ko Sung-hyun / Kim Ha-na,South Korea,200,False
+2015,Super Series,Sydney,250000,Chen Long,China,Carolina Marin,Spain,Ma Jin / Tang Yuanting,China,Lee Chun Hei / Chau Hoi Wah,Hong Kong,,,205,True
+2016,Super Series,Sydney,250000,Hans-Kristian Vittinghus,Denmark,Saina Nehwal,India,Marcus Fernaldi Gideon / Kevin Sanjaya Sukamuljo,Indonesia,Bao Yixin / Chen Qingchen,China,Lu Kai / Huang Yaqiong,China,210,False
+2017,Super Series,Sydney,250000,Srikanth Kidambi,India,Nozomi Okuhara,Japan,Takeshi Kamura / Keigo Sonoda,Japan,Misaki Matsutomo / Ayaka Takahashi,Japan,Zheng Siwei / Chen Qingchen,China,215,False
+2018,Super 300,Sydney,150000,Lu Guangzu,China,Cai Yanyan,China,Berry Angriawan / Hardianto,Indonesia,Ayako Sakuramoto / Yukiko Takahata,Japan,Seo Seung-jae / Chae Yoo-jung,South Korea,220,False
+2019,Super 300,Sydney,150000,Jonatan Christie,Indonesia,Chen Yufei,China,Ko Sung-hyun / Shin Baek-cheol,South Korea,Yuki Fukushima / Sayaka Hirota,Japan,Wang Yilyu / Huang Dongping,China,225,False
+2020,,,,,,,,,,,,,,0,False
+2021,,,,,,,,,,,,,,0,False
+2022,Super 300,Sydney,180000,Shi Yuqi,China,An Se-young,South Korea,Liu Yuchen / Ou Xuanyi,China,Zhang Shuxian / Zheng Yu,China,Seo Seung-jae / Chae Yoo-jung,South Korea,200,False
+2023,Super 500,Sydney,400000,Weng Hongyang,China,Beiwen Zhang,United States,Kang Min-hyuk / Seo Seung-jae,South Korea,Kim So-yeong / Kong Hee-yong,South Korea,Feng Yanzhe / Huang Dongping,China,240,False
+2024,Super 500,Sydney,475000,Lee Zii Jia,Malaysia,Aya Ohori,Japan,He Jiting / Ren Xiangyu,China,Febriana Dwipuji Kusuma / Amallia Cahaya Pratiwi,Indonesia,Jiang Zhenbang / Wei Yaxin,China,256,False

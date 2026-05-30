@@ -1,0 +1,9 @@
+player,dob,height_m,weight_kg,handedness,birth_country,representing,wikipedia_found
+Setyana Mapasa,1995-08-15,1.66,60,Left,Indonesia,Australia,true
+Gronya Somerville,1995-05-10,1.71,62,Right,Australia,Australia,true
+Angela Yu,2003-03-08,1.74,,Right,Australia,Australia,true
+Sawan Serasinghe,1994-02-21,1.78,79,Left,Sri Lanka,Australia,true
+Tiffany Ho,1998-01-06,1.55,,Right,Australia,Australia,true
+Simon Leung,,,,,,Australia,false
+Wendy Chen,,,,,,Australia,false
+Jack Yu,,,,,,Australia,false
