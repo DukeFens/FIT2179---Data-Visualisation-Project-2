@@ -86,8 +86,7 @@
       "mark": { "type": "rule", "color": "#506158", "strokeWidth": 1.5, "strokeDash": [4, 3], "opacity": 0.7 },
       "data": { "values": [{ "year": 2020 }] },
       "encoding": {
-        "x": { "field": "year", "type": "quantitative" },
-        "y": null
+        "x": { "field": "year", "type": "quantitative" }
       }
     },
     {
@@ -105,8 +104,7 @@
       "mark": { "type": "rule", "color": "#839489", "strokeWidth": 1.2, "strokeDash": [2, 4], "opacity": 0.6 },
       "data": { "values": [{ "year": 2024 }] },
       "encoding": {
-        "x": { "field": "year", "type": "quantitative" },
-        "y": null
+        "x": { "field": "year", "type": "quantitative" }
       }
     },
     {
@@ -121,9 +119,10 @@
     },
     {
       "comment": "── End-point labels ──",
-      "transform": [{ "filter": "datum.year === 2025" }],
+      "transform": [{ "filter": "datum.year == 2025" }],
       "mark": { "type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "600" },
       "encoding": {
+        "x": { "field": "year", "type": "quantitative" },
         "y": { "field": "participants", "type": "quantitative" },
         "color": {
           "field": "Gender", "type": "nominal",
