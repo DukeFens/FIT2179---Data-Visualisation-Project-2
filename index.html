@@ -90,7 +90,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--canvas);
+      background-color: #E2EAE5;
+      background-image: radial-gradient(#C8D5CB 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
       color: var(--ink);
       font-family: var(--font-body);
       font-size: var(--text-base);
@@ -106,6 +108,13 @@
        LAYOUT — 3-Track Story Grid
        ================================================================= */
     .story {
+      max-width: 1400px;
+      margin: 3rem auto;
+      background: var(--canvas);
+      border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(23, 40, 33, 0.1), 0 2px 8px rgba(23, 40, 33, 0.05);
+      border: 1px solid rgba(26, 122, 76, 0.08);
+      overflow: hidden;
       display: grid;
       grid-template-columns:
         [full-start] minmax(var(--sp-3), 1fr)
@@ -424,6 +433,9 @@
        ================================================================= */
     @media (max-width: 900px) {
       .story {
+        margin: 0;
+        border-radius: 0;
+        border: none;
         grid-template-columns:
           [full-start standard-start] var(--sp-3)
           [narrow-start] 1fr
