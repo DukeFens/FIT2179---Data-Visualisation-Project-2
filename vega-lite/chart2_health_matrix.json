@@ -2,9 +2,13 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
   "height": 280,
-  "data": { "url": "data/longevity_sports.csv" },
+  "data": {
+    "url": "data/longevity_sports.csv"
+  },
   "config": {
-    "view": { "stroke": null },
+    "view": {
+      "stroke": null
+    },
     "font": "Inter, sans-serif"
   },
   "transform": [
@@ -15,30 +19,72 @@
   ],
   "layer": [
     {
-      "comment": "── Average reference line ──",
-      "mark": { "type": "rule", "color": "#C8D5CB", "strokeDash": [4, 3], "strokeWidth": 1.5 },
+      "comment": "\u2500\u2500 Average reference line \u2500\u2500",
+      "mark": {
+        "type": "rule",
+        "color": "#C8D5CB",
+        "strokeDash": [
+          4,
+          3
+        ],
+        "strokeWidth": 1.5
+      },
       "encoding": {
-        "x": { "aggregate": "mean", "field": "years_gained", "type": "quantitative" }
+        "x": {
+          "aggregate": "mean",
+          "field": "years_gained",
+          "type": "quantitative"
+        }
       }
     },
     {
-      "comment": "── Average label ──",
-      "mark": { "type": "text", "align": "left", "dx": 4, "dy": -5, "fontSize": 10, "fontStyle": "italic", "color": "#839489" },
-      "data": { "values": [{ "x": 4.74, "sport": "Running", "label": "avg. 4.7 yrs" }] },
+      "comment": "\u2500\u2500 Average label \u2500\u2500",
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 4,
+        "dy": -5,
+        "fontSize": 10,
+        "fontStyle": "italic",
+        "color": "#839489"
+      },
+      "data": {
+        "values": [
+          {
+            "x": 4.74,
+            "sport": "Running",
+            "label": "avg. 4.7 yrs"
+          }
+        ]
+      },
       "encoding": {
-        "x": { "field": "x", "type": "quantitative" },
-        "y": { "field": "sport", "type": "nominal" },
-        "text": { "field": "label" }
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "sport",
+          "type": "nominal"
+        },
+        "text": {
+          "field": "label"
+        }
       }
     },
     {
-      "comment": "── Stick ──",
-      "mark": { "type": "rule", "strokeCap": "round" },
+      "comment": "\u2500\u2500 Stick \u2500\u2500",
+      "mark": {
+        "type": "rule",
+        "strokeCap": "round"
+      },
       "encoding": {
         "y": {
           "field": "sport",
           "type": "nominal",
-          "sort": { "field": "years_gained", "order": "descending" },
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          },
           "title": null,
           "axis": {
             "grid": false,
@@ -48,30 +94,60 @@
             "tickColor": "#C8D5CB"
           }
         },
-        "x": { "datum": 0 },
-        "x2": { "field": "years_gained", "type": "quantitative" },
+        "x": {
+          "datum": 0
+        },
+        "x2": {
+          "field": "years_gained",
+          "type": "quantitative"
+        },
         "color": {
           "field": "highlight",
           "type": "nominal",
-          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#C8D5CB"] },
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              "#1A7A4C",
+              "#C8D5CB"
+            ]
+          },
           "legend": null
         },
         "strokeWidth": {
           "field": "highlight",
           "type": "nominal",
-          "scale": { "domain": ["Badminton", "Other"], "range": [3, 1.5] },
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              3,
+              1.5
+            ]
+          },
           "legend": null
         }
       }
     },
     {
-      "comment": "── Dot ──",
-      "mark": { "type": "circle", "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "comment": "\u2500\u2500 Dot \u2500\u2500",
+      "mark": {
+        "type": "circle",
+        "stroke": "#F3F6F0",
+        "strokeWidth": 1.5
+      },
       "encoding": {
         "y": {
           "field": "sport",
           "type": "nominal",
-          "sort": { "field": "years_gained", "order": "descending" }
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          }
         },
         "x": {
           "field": "years_gained",
@@ -88,36 +164,98 @@
         "color": {
           "field": "highlight",
           "type": "nominal",
-          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#839489"] },
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              "#1A7A4C",
+              "#839489"
+            ]
+          },
           "legend": null
         },
         "size": {
           "field": "highlight",
           "type": "nominal",
-          "scale": { "domain": ["Badminton", "Other"], "range": [130, 70] },
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              130,
+              70
+            ]
+          },
           "legend": null
         },
         "tooltip": [
-          { "field": "sport", "title": "Sport" },
-          { "field": "category", "title": "Category" },
-          { "field": "years_gained", "title": "Years gained", "format": ".1f" },
-          { "field": "mortality_reduction_pct", "title": "Mortality reduction (%)" }
+          {
+            "field": "sport",
+            "title": "Sport"
+          },
+          {
+            "field": "category",
+            "title": "Category"
+          },
+          {
+            "field": "years_gained",
+            "title": "Years gained",
+            "format": ".1f"
+          },
+          {
+            "field": "mortality_reduction_pct",
+            "title": "Mortality reduction (%)"
+          }
         ]
       }
     },
     {
-      "comment": "── Badminton value label only ──",
-      "transform": [{ "filter": "datum.sport === 'Badminton'" }],
-      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 12, "fontWeight": "700", "color": "#1A7A4C" },
+      "comment": "\u2500\u2500 Badminton value label only \u2500\u2500",
+      "transform": [
+        {
+          "filter": "datum.sport === 'Badminton'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 12,
+        "fontWeight": "700",
+        "color": "#1A7A4C"
+      },
       "encoding": {
         "y": {
           "field": "sport",
           "type": "nominal",
-          "sort": { "field": "years_gained", "order": "descending" }
+          "sort": {
+            "field": "years_gained",
+            "order": "descending"
+          }
         },
-        "x": { "field": "years_gained", "type": "quantitative" },
-        "text": { "field": "years_gained", "type": "quantitative", "format": ".1f" }
+        "x": {
+          "field": "years_gained",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "years_gained",
+          "type": "quantitative",
+          "format": ".1f"
+        }
       }
     }
-  ]
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 13,
+    "subtitleFontSize": 10,
+    "color": "#172821",
+    "subtitleColor": "#506158",
+    "offset": 8,
+    "text": "Life-expectancy gains vs. sedentary peers",
+    "subtitle": "The social dimension of racket sports appears to drive the outsized longevity benefit."
+  }
 }

@@ -1,25 +1,46 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
-  "height": { "step": 56 },
-  "data": { "url": "data/talent_pipeline.csv" },
+  "height": {
+    "step": 56
+  },
+  "data": {
+    "url": "data/talent_pipeline.csv"
+  },
   "config": {
-    "view": { "stroke": null },
+    "view": {
+      "stroke": null
+    },
     "font": "Inter, sans-serif"
   },
   "transform": [
-    { "calculate": "-datum.estimated_players / 2", "as": "x_start" },
-    { "calculate": "datum.estimated_players / 2", "as": "x_end" }
+    {
+      "calculate": "-datum.estimated_players / 2",
+      "as": "x_start"
+    },
+    {
+      "calculate": "datum.estimated_players / 2",
+      "as": "x_end"
+    }
   ],
   "layer": [
     {
-      "comment": "── Funnel bars ──",
-      "mark": { "type": "bar", "cornerRadius": 3 },
+      "comment": "\u2500\u2500 Funnel bars \u2500\u2500",
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 3
+      },
       "encoding": {
         "y": {
           "field": "level",
           "type": "ordinal",
-          "sort": ["Elite", "National", "State", "Club", "Grassroots"],
+          "sort": [
+            "Elite",
+            "National",
+            "State",
+            "Club",
+            "Grassroots"
+          ],
           "title": null,
           "axis": {
             "grid": false,
@@ -32,43 +53,96 @@
         "x": {
           "field": "x_start",
           "type": "quantitative",
-          "scale": { "type": "symlog", "constant": 10 },
+          "scale": {
+            "type": "symlog",
+            "constant": 10
+          },
           "title": null,
-          "axis": { "labels": false, "ticks": false, "domain": false, "grid": false }
+          "axis": {
+            "labels": false,
+            "ticks": false,
+            "domain": false,
+            "grid": false
+          }
         },
-        "x2": { "field": "x_end" },
+        "x2": {
+          "field": "x_end"
+        },
         "color": {
           "field": "level",
           "type": "nominal",
           "scale": {
-            "domain": ["Grassroots", "Club", "State", "National", "Elite"],
-            "range": ["#DDE5DF", "#C8D5CB", "#B0C4B6", "#4AB87D", "#1A7A4C"]
+            "domain": [
+              "Grassroots",
+              "Club",
+              "State",
+              "National",
+              "Elite"
+            ],
+            "range": [
+              "#DDE5DF",
+              "#C8D5CB",
+              "#B0C4B6",
+              "#4AB87D",
+              "#1A7A4C"
+            ]
           },
           "legend": null
         },
         "tooltip": [
-          { "field": "level", "title": "Level" },
-          { "field": "program", "title": "Program" },
-          { "field": "estimated_players", "title": "Players", "format": "," },
-          { "field": "next_level_pct", "title": "% advancing" }
+          {
+            "field": "level",
+            "title": "Level"
+          },
+          {
+            "field": "program",
+            "title": "Program"
+          },
+          {
+            "field": "estimated_players",
+            "title": "Players",
+            "format": ","
+          },
+          {
+            "field": "next_level_pct",
+            "title": "% advancing"
+          }
         ]
       }
     },
     {
-      "comment": "── Player count label (centre of bar) ──",
-      "mark": { "type": "text", "align": "center", "fontSize": 12, "fontWeight": "700", "color": "#172821" },
+      "comment": "\u2500\u2500 Player count label (centre of bar) \u2500\u2500",
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "fontSize": 12,
+        "fontWeight": "700",
+        "color": "#172821"
+      },
       "encoding": {
         "y": {
           "field": "level",
           "type": "ordinal",
-          "sort": ["Elite", "National", "State", "Club", "Grassroots"]
+          "sort": [
+            "Elite",
+            "National",
+            "State",
+            "Club",
+            "Grassroots"
+          ]
         },
-        "x": { "datum": 0 },
-        "text": { "field": "estimated_players", "type": "quantitative", "format": ",~s" }
+        "x": {
+          "datum": 0
+        },
+        "text": {
+          "field": "estimated_players",
+          "type": "quantitative",
+          "format": ",~s"
+        }
       }
     },
     {
-      "comment": "── Sharpest drop annotation: Club → State (92% do not advance) ──",
+      "comment": "\u2500\u2500 Sharpest drop annotation: Club \u2192 State (92% do not advance) \u2500\u2500",
       "mark": {
         "type": "text",
         "align": "left",
@@ -81,17 +155,40 @@
         "y": {
           "field": "level",
           "type": "ordinal",
-          "sort": ["Elite", "National", "State", "Club", "Grassroots"]
+          "sort": [
+            "Elite",
+            "National",
+            "State",
+            "Club",
+            "Grassroots"
+          ]
         },
-        "x": { "field": "x_end", "type": "quantitative", "scale": { "type": "symlog", "constant": 10 } },
+        "x": {
+          "field": "x_end",
+          "type": "quantitative",
+          "scale": {
+            "type": "symlog",
+            "constant": 10
+          }
+        },
         "text": {
           "condition": {
             "test": "datum.level === 'Club'",
-            "value": "↓ 92% do not advance"
+            "value": "\u2193 92% do not advance"
           },
           "value": ""
         }
       }
     }
-  ]
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 13,
+    "subtitleFontSize": 10,
+    "color": "#172821",
+    "subtitleColor": "#506158",
+    "offset": 8,
+    "text": "Talent pipeline drop-off across competitive tiers",
+    "subtitle": "Logarithmic scale showing the narrowing path to elite representation."
+  }
 }

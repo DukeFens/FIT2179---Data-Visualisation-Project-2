@@ -1,0 +1,371 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif",
+    "axis": {
+      "gridColor": "#E8EDE9",
+      "domainColor": "#C8D5CB",
+      "tickColor": "#C8D5CB",
+      "labelFontSize": 9,
+      "titleFontSize": 9,
+      "titleFontWeight": 600,
+      "titleColor": "#172821",
+      "labelColor": "#506158"
+    }
+  },
+  "params": [
+    {
+      "name": "StateSelect",
+      "value": "All Australia",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All Australia",
+          "New South Wales",
+          "Victoria",
+          "Queensland",
+          "Western Australia",
+          "South Australia",
+          "Australian Capital Territory",
+          "Tasmania",
+          "Northern Territory"
+        ],
+        "name": "State: "
+      }
+    }
+  ],
+  "spacing": 16,
+  "hconcat": [
+    {
+      "title": {
+        "text": "Participation rate by state, 2025",
+        "subtitle": "Select a state to highlight; others fade to grey",
+        "anchor": "start",
+        "fontSize": 12,
+        "subtitleFontSize": 9,
+        "color": "#172821",
+        "subtitleColor": "#506158",
+        "offset": 4
+      },
+      "width": 460,
+      "height": 500,
+      "projection": { "type": "mercator" },
+      "layer": [
+        {
+          "data": {
+            "url": "data/aus_states_mainland.geojson",
+            "format": { "property": "features" }
+          },
+          "transform": [
+            {
+              "lookup": "properties.STATE_NAME",
+              "from": {
+                "data": { "url": "data/australia_badminton_participation_by_state.csv" },
+                "key": "state",
+                "fields": [
+                  "state_code",
+                  "participation_rate_pct",
+                  "total_participants_thousands",
+                  "registered_clubs"
+                ]
+              }
+            }
+          ],
+          "mark": { "type": "geoshape", "strokeWidth": 0.6 },
+          "encoding": {
+            "color": {
+              "condition": {
+                "test": "StateSelect == 'All Australia' || datum.properties.STATE_NAME == StateSelect",
+                "field": "participation_rate_pct",
+                "type": "quantitative",
+                "scale": { "scheme": "greens", "domain": [0.8, 2.5] },
+                "legend": {
+                  "title": "Rate (%)",
+                  "format": ".1f",
+                  "orient": "bottom",
+                  "direction": "horizontal",
+                  "gradientLength": 110,
+                  "gradientThickness": 8,
+                  "titleFontSize": 9,
+                  "labelFontSize": 8,
+                  "offset": 4
+                }
+              },
+              "value": "#C5CBC5"
+            },
+            "stroke": {
+              "condition": {
+                "test": "StateSelect != 'All Australia' && datum.properties.STATE_NAME == StateSelect",
+                "value": "#172821"
+              },
+              "value": "#506158"
+            },
+            "strokeWidth": {
+              "condition": {
+                "test": "StateSelect != 'All Australia' && datum.properties.STATE_NAME == StateSelect",
+                "value": 2.5
+              },
+              "value": 0.6
+            },
+            "tooltip": [
+              { "field": "properties.STATE_NAME", "title": "State" },
+              { "field": "participation_rate_pct", "title": "Rate (%)", "format": ".1f" },
+              { "field": "total_participants_thousands", "title": "Players (000s)", "format": ".1f" },
+              { "field": "registered_clubs", "title": "Clubs" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "spacing": 10,
+      "resolve": {
+        "scale": { "color": "independent" },
+        "legend": { "color": "independent" }
+      },
+      "vconcat": [
+        {
+          "title": {
+            "text": "State rank",
+            "subtitle": "Select a state — 1 = highest rate",
+            "anchor": "start",
+            "fontSize": 11,
+            "subtitleFontSize": 8,
+            "color": "#172821",
+            "subtitleColor": "#506158",
+            "offset": 2
+          },
+          "width": 300,
+          "height": 155,
+          "data": { "url": "data/ausplay_state_dashboard.csv" },
+          "transform": [
+            { "filter": "StateSelect != 'All Australia'" },
+            { "filter": "datum.state_name == StateSelect" }
+          ],
+          "layer": [
+            {
+              "data": { "values": [{}] },
+              "mark": { "type": "rect", "color": "#1A7A4C", "opacity": 0.06, "cornerRadius": 2 },
+              "encoding": {
+                "x": { "value": 0 },
+                "x2": { "value": 300 },
+                "y": { "datum": 1, "type": "quantitative", "scale": { "reverse": true, "domain": [1, 8] } },
+                "y2": { "datum": 3 }
+              }
+            },
+            {
+              "mark": { "type": "line", "interpolate": "monotone", "strokeWidth": 2, "color": "#1A7A4C" },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "quantitative",
+                  "title": null,
+                  "axis": { "format": "d", "grid": false, "tickCount": 5, "labelFontSize": 8 }
+                },
+                "y": {
+                  "field": "rank",
+                  "type": "quantitative",
+                  "title": "Rank",
+                  "scale": { "reverse": true, "domain": [1, 8], "nice": false },
+                  "axis": { "grid": true, "values": [1, 2, 3, 4, 5, 6, 7, 8], "labelFontSize": 8 }
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "point",
+                "filled": true,
+                "size": 35,
+                "color": "#1A7A4C",
+                "stroke": "#F3F6F0",
+                "strokeWidth": 1
+              },
+              "encoding": {
+                "x": { "field": "year", "type": "quantitative" },
+                "y": { "field": "rank", "type": "quantitative", "scale": { "reverse": true, "domain": [1, 8] } },
+                "tooltip": [
+                  { "field": "year", "title": "Year" },
+                  { "field": "rank", "title": "Rank" },
+                  { "field": "participation_rate_pct", "title": "Rate (%)", "format": ".2f" }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": {
+            "text": "Participation rate",
+            "subtitle": "Dashed = national average",
+            "anchor": "start",
+            "fontSize": 11,
+            "subtitleFontSize": 8,
+            "color": "#172821",
+            "subtitleColor": "#506158",
+            "offset": 2
+          },
+          "width": 300,
+          "height": 155,
+          "data": { "url": "data/ausplay_state_dashboard.csv" },
+          "transform": [
+            {
+              "filter": "StateSelect == 'All Australia' ? datum.state_code == 'NSW' : datum.state_name == StateSelect"
+            },
+            {
+              "calculate": "StateSelect == 'All Australia' ? datum.national_avg_rate_pct : datum.participation_rate_pct",
+              "as": "display_rate"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "area",
+                "interpolate": "monotone",
+                "color": "#1A7A4C",
+                "opacity": 0.12,
+                "line": { "color": "#1A7A4C", "strokeWidth": 2 }
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "quantitative",
+                  "title": null,
+                  "axis": { "format": "d", "grid": false, "tickCount": 5, "labelFontSize": 8 }
+                },
+                "y": {
+                  "field": "display_rate",
+                  "type": "quantitative",
+                  "title": "Rate (%)",
+                  "scale": { "domain": [0.5, 3.5] },
+                  "axis": { "format": ".1f", "labelFontSize": 8 }
+                }
+              }
+            },
+            {
+              "transform": [{ "filter": "StateSelect != 'All Australia'" }],
+              "mark": {
+                "type": "line",
+                "interpolate": "monotone",
+                "strokeDash": [5, 4],
+                "strokeWidth": 1.2,
+                "color": "#839489"
+              },
+              "encoding": {
+                "x": { "field": "year", "type": "quantitative" },
+                "y": { "field": "national_avg_rate_pct", "type": "quantitative" }
+              }
+            },
+            {
+              "mark": {
+                "type": "point",
+                "filled": true,
+                "size": 30,
+                "color": "#1A7A4C",
+                "stroke": "#F3F6F0",
+                "strokeWidth": 1
+              },
+              "encoding": {
+                "x": { "field": "year", "type": "quantitative" },
+                "y": { "field": "display_rate", "type": "quantitative" },
+                "tooltip": [
+                  { "field": "year", "title": "Year" },
+                  { "field": "display_rate", "title": "Rate (%)", "format": ".2f" },
+                  { "field": "national_avg_rate_pct", "title": "National avg (%)", "format": ".2f" }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": {
+            "text": "Players by era",
+            "subtitle": "State vs rest of Australia",
+            "anchor": "start",
+            "fontSize": 11,
+            "subtitleFontSize": 8,
+            "color": "#172821",
+            "subtitleColor": "#506158",
+            "offset": 2
+          },
+          "width": 300,
+          "height": 168,
+          "data": { "url": "data/ausplay_state_dashboard.csv" },
+          "transform": [
+            { "filter": "datum.year <= 2024" },
+            {
+              "calculate": "StateSelect == 'All Australia' ? datum.participants_thousands : (datum.state_name == StateSelect ? datum.participants_thousands : 0)",
+              "as": "selected_players"
+            },
+            {
+              "calculate": "StateSelect == 'All Australia' ? 0 : (datum.state_name != StateSelect ? datum.participants_thousands : 0)",
+              "as": "other_players"
+            },
+            {
+              "aggregate": [
+                { "op": "sum", "field": "selected_players", "as": "selected" },
+                { "op": "sum", "field": "other_players", "as": "other" }
+              ],
+              "groupby": ["year", "period"]
+            },
+            {
+              "aggregate": [
+                { "op": "mean", "field": "selected", "as": "selected" },
+                { "op": "mean", "field": "other", "as": "other" }
+              ],
+              "groupby": ["period"]
+            },
+            { "fold": ["selected", "other"], "as": ["segment_key", "players"] },
+            {
+              "calculate": "datum.segment_key == 'selected' ? 'Selected state' : 'Other states'",
+              "as": "segment"
+            },
+            { "filter": "StateSelect == 'All Australia' ? datum.segment_key == 'selected' : true" }
+          ],
+          "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+          "encoding": {
+            "x": {
+              "field": "period",
+              "type": "nominal",
+              "title": null,
+              "sort": ["Pre-COVID (2016–19)", "COVID era (2020–21)", "Recovery (2022–24)"],
+              "axis": { "labelAngle": -30, "labelLimit": 90, "grid": false, "labelFontSize": 7 }
+            },
+            "y": {
+              "field": "players",
+              "type": "quantitative",
+              "title": "Players (000s)",
+              "stack": "zero",
+              "axis": { "format": ".0f", "labelFontSize": 8 }
+            },
+            "color": {
+              "condition": {
+                "test": "StateSelect != 'All Australia'",
+                "field": "segment",
+                "type": "nominal",
+                "scale": {
+                  "domain": ["Selected state", "Other states"],
+                  "range": ["#1A7A4C", "#D4C4A8"]
+                },
+                "legend": {
+                  "orient": "top",
+                  "direction": "horizontal",
+                  "title": null,
+                  "labelFontSize": 8,
+                  "symbolSize": 50,
+                  "offset": 6,
+                  "padding": 2
+                }
+              },
+              "value": "#1A7A4C"
+            },
+            "tooltip": [
+              { "field": "period", "title": "Period" },
+              { "field": "segment", "title": "Segment" },
+              { "field": "players", "title": "Players (000s)", "format": ".1f" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

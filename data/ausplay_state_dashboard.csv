@@ -1,0 +1,81 @@
+year,state_code,state_name,participants_thousands,participation_rate_pct,rank,period,population_millions,players_per_thousand,registered_clubs,national_avg_rate_pct,estimated
+2016,ACT,Australian Capital Territory,9.1,1.98,2,Pre-COVID (2016–19),0.46,19.8,,1.71,True
+2016,NSW,New South Wales,152.7,1.82,3,Pre-COVID (2016–19),8.4,18.2,,1.71,True
+2016,NT,Northern Territory,2.3,0.92,7,Pre-COVID (2016–19),0.25,9.2,,1.71,True
+2016,QLD,Queensland,74.7,1.36,6,Pre-COVID (2016–19),5.5,13.6,,1.71,True
+2016,SA,South Australia,24.7,1.37,5,Pre-COVID (2016–19),1.8,13.7,,1.71,True
+2016,TAS,Tasmania,5.0,0.88,8,Pre-COVID (2016–19),0.57,8.8,,1.71,True
+2016,VIC,Victoria,140.3,2.09,1,Pre-COVID (2016–19),6.7,20.9,,1.71,True
+2016,WA,Western Australia,45.6,1.57,4,Pre-COVID (2016–19),2.9,15.7,,1.71,True
+2017,ACT,Australian Capital Territory,9.5,2.07,2,Pre-COVID (2016–19),0.46,20.7,,1.77,True
+2017,NSW,New South Wales,158.2,1.88,3,Pre-COVID (2016–19),8.4,18.8,,1.77,True
+2017,NT,Northern Territory,2.4,0.96,7,Pre-COVID (2016–19),0.25,9.6,,1.77,True
+2017,QLD,Queensland,77.4,1.41,6,Pre-COVID (2016–19),5.5,14.1,,1.77,True
+2017,SA,South Australia,25.6,1.42,5,Pre-COVID (2016–19),1.8,14.2,,1.77,True
+2017,TAS,Tasmania,5.2,0.91,8,Pre-COVID (2016–19),0.57,9.1,,1.77,True
+2017,VIC,Victoria,145.3,2.17,1,Pre-COVID (2016–19),6.7,21.7,,1.77,True
+2017,WA,Western Australia,47.3,1.63,4,Pre-COVID (2016–19),2.9,16.3,,1.77,True
+2018,ACT,Australian Capital Territory,9.9,2.15,2,Pre-COVID (2016–19),0.46,21.5,,1.85,True
+2018,NSW,New South Wales,165.6,1.97,3,Pre-COVID (2016–19),8.4,19.7,,1.85,True
+2018,NT,Northern Territory,2.5,1.0,7,Pre-COVID (2016–19),0.25,10.0,,1.85,True
+2018,QLD,Queensland,81.0,1.47,6,Pre-COVID (2016–19),5.5,14.7,,1.85,True
+2018,SA,South Australia,26.8,1.49,5,Pre-COVID (2016–19),1.8,14.9,,1.85,True
+2018,TAS,Tasmania,5.4,0.95,8,Pre-COVID (2016–19),0.57,9.5,,1.85,True
+2018,VIC,Victoria,152.1,2.27,1,Pre-COVID (2016–19),6.7,22.7,,1.85,True
+2018,WA,Western Australia,49.5,1.71,4,Pre-COVID (2016–19),2.9,17.1,,1.85,True
+2019,ACT,Australian Capital Territory,10.3,2.24,2,Pre-COVID (2016–19),0.46,22.4,,1.94,True
+2019,NSW,New South Wales,173.0,2.06,3,Pre-COVID (2016–19),8.4,20.6,,1.94,True
+2019,NT,Northern Territory,2.6,1.04,7,Pre-COVID (2016–19),0.25,10.4,,1.94,True
+2019,QLD,Queensland,84.6,1.54,6,Pre-COVID (2016–19),5.5,15.4,,1.94,True
+2019,SA,South Australia,28.0,1.56,5,Pre-COVID (2016–19),1.8,15.6,,1.94,True
+2019,TAS,Tasmania,5.6,0.98,8,Pre-COVID (2016–19),0.57,9.8,,1.94,True
+2019,VIC,Victoria,158.9,2.37,1,Pre-COVID (2016–19),6.7,23.7,,1.94,True
+2019,WA,Western Australia,51.7,1.78,4,Pre-COVID (2016–19),2.9,17.8,,1.94,True
+2020,ACT,Australian Capital Territory,8.8,1.91,2,COVID era (2020–21),0.46,19.1,,1.65,True
+2020,NSW,New South Wales,147.2,1.75,3,COVID era (2020–21),8.4,17.5,,1.65,True
+2020,NT,Northern Territory,2.2,0.88,7,COVID era (2020–21),0.25,8.8,,1.65,True
+2020,QLD,Queensland,72.0,1.31,6,COVID era (2020–21),5.5,13.1,,1.65,True
+2020,SA,South Australia,23.8,1.32,5,COVID era (2020–21),1.8,13.2,,1.65,True
+2020,TAS,Tasmania,4.8,0.84,8,COVID era (2020–21),0.57,8.4,,1.65,True
+2020,VIC,Victoria,135.2,2.02,1,COVID era (2020–21),6.7,20.2,,1.65,True
+2020,WA,Western Australia,44.0,1.52,4,COVID era (2020–21),2.9,15.2,,1.65,True
+2021,ACT,Australian Capital Territory,8.4,1.83,2,COVID era (2020–21),0.46,18.3,,1.57,True
+2021,NSW,New South Wales,139.8,1.66,3,COVID era (2020–21),8.4,16.6,,1.57,True
+2021,NT,Northern Territory,2.1,0.84,7,COVID era (2020–21),0.25,8.4,,1.57,True
+2021,QLD,Queensland,68.4,1.24,6,COVID era (2020–21),5.5,12.4,,1.57,True
+2021,SA,South Australia,22.6,1.26,5,COVID era (2020–21),1.8,12.6,,1.57,True
+2021,TAS,Tasmania,4.6,0.81,8,COVID era (2020–21),0.57,8.1,,1.57,True
+2021,VIC,Victoria,128.4,1.92,1,COVID era (2020–21),6.7,19.2,,1.57,True
+2021,WA,Western Australia,41.8,1.44,4,COVID era (2020–21),2.9,14.4,,1.57,True
+2022,ACT,Australian Capital Territory,9.7,2.11,2,Recovery (2022–24),0.46,21.1,,1.81,True
+2022,NSW,New South Wales,161.9,1.93,3,Recovery (2022–24),8.4,19.3,,1.81,True
+2022,NT,Northern Territory,2.4,0.96,7,Recovery (2022–24),0.25,9.6,,1.81,True
+2022,QLD,Queensland,79.2,1.44,6,Recovery (2022–24),5.5,14.4,,1.81,True
+2022,SA,South Australia,26.2,1.46,5,Recovery (2022–24),1.8,14.6,,1.81,True
+2022,TAS,Tasmania,5.3,0.93,8,Recovery (2022–24),0.57,9.3,,1.81,True
+2022,VIC,Victoria,148.7,2.22,1,Recovery (2022–24),6.7,22.2,,1.81,True
+2022,WA,Western Australia,48.4,1.67,4,Recovery (2022–24),2.9,16.7,,1.81,True
+2023,ACT,Australian Capital Territory,10.6,2.3,2,Recovery (2022–24),0.46,23.0,,1.98,True
+2023,NSW,New South Wales,176.6,2.1,3,Recovery (2022–24),8.4,21.0,,1.98,True
+2023,NT,Northern Territory,2.6,1.04,7,Recovery (2022–24),0.25,10.4,,1.98,True
+2023,QLD,Queensland,86.4,1.57,6,Recovery (2022–24),5.5,15.7,,1.98,True
+2023,SA,South Australia,28.6,1.59,5,Recovery (2022–24),1.8,15.9,,1.98,True
+2023,TAS,Tasmania,5.8,1.02,8,Recovery (2022–24),0.57,10.2,,1.98,True
+2023,VIC,Victoria,162.2,2.42,1,Recovery (2022–24),6.7,24.2,,1.98,True
+2023,WA,Western Australia,52.8,1.82,4,Recovery (2022–24),2.9,18.2,,1.98,True
+2024,ACT,Australian Capital Territory,11.0,2.39,2,Recovery (2022–24),0.46,23.9,,2.06,True
+2024,NSW,New South Wales,184.0,2.19,3,Recovery (2022–24),8.4,21.9,,2.06,True
+2024,NT,Northern Territory,2.8,1.12,7,Recovery (2022–24),0.25,11.2,,2.06,True
+2024,QLD,Queensland,90.0,1.64,6,Recovery (2022–24),5.5,16.4,,2.06,True
+2024,SA,South Australia,29.8,1.66,5,Recovery (2022–24),1.8,16.6,,2.06,True
+2024,TAS,Tasmania,6.0,1.05,8,Recovery (2022–24),0.57,10.5,,2.06,True
+2024,VIC,Victoria,169.0,2.52,1,Recovery (2022–24),6.7,25.2,,2.06,True
+2024,WA,Western Australia,55.0,1.9,4,Recovery (2022–24),2.9,19.0,,2.06,True
+2025,ACT,Australian Capital Territory,8.1,1.8,3,Recovery (2022–24),0.46,17.6,8,1.76,False
+2025,NSW,New South Wales,162.1,2.1,2,Recovery (2022–24),8.4,19.3,85,1.76,False
+2025,NT,Northern Territory,2.1,0.9,7,Recovery (2022–24),0.25,8.4,3,1.76,False
+2025,QLD,Queensland,84.2,1.6,4,Recovery (2022–24),5.5,15.3,41,1.76,False
+2025,SA,South Australia,19.6,1.2,6,Recovery (2022–24),1.8,10.9,18,1.76,False
+2025,TAS,Tasmania,4.2,0.8,8,Recovery (2022–24),0.57,7.4,6,1.76,False
+2025,VIC,Victoria,148.8,2.4,1,Recovery (2022–24),6.7,22.2,72,1.76,False
+2025,WA,Western Australia,38.9,1.5,5,Recovery (2022–24),2.9,13.4,28,1.76,False

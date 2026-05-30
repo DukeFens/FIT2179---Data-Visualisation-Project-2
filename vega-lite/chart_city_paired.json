@@ -1,0 +1,183 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter, sans-serif"
+  },
+  "title": {
+    "anchor": "start",
+    "fontSize": 13,
+    "subtitleFontSize": 10,
+    "color": "#172821",
+    "subtitleColor": "#506158",
+    "offset": 8,
+    "text": "Badminton courts by Greater Melbourne LGA",
+    "subtitle": "Circle size = number of courts; shade = Asian-born residents (%)."
+  },
+  "width": 720,
+  "height": 680,
+  "projection": {
+    "type": "mercator",
+    "center": [
+      145.05,
+      -37.96
+    ],
+    "scale": 26000
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/melbourne_lga_boundaries.geojson",
+        "format": {
+          "property": "features"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.properties.LGA_NAME_2021 !== 'Mitchell'"
+        },
+        {
+          "calculate": "datum.properties.LGA_NAME_2021",
+          "as": "lga"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#E7EEE8",
+        "stroke": "#C2D2C6",
+        "strokeWidth": 0.7
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "lga",
+            "title": "LGA"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/melbourne_lga_centroids.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.courts > 0"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.9,
+        "stroke": "#F3F6F0",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "courts",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "range": [
+              60,
+              1500
+            ],
+            "domain": [
+              0,
+              30
+            ]
+          },
+          "legend": {
+            "orient": "bottom-right",
+            "title": "Badminton courts",
+            "direction": "horizontal",
+            "values": [
+              5,
+              10,
+              15,
+              20,
+              25
+            ],
+            "titleFontSize": 10,
+            "labelFontSize": 9,
+            "symbolFillColor": "#9DBBA8",
+            "symbolStrokeColor": "#F3F6F0"
+          }
+        },
+        "color": {
+          "field": "asian_born_pct",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "greens",
+            "domain": [
+              0,
+              32
+            ]
+          },
+          "legend": {
+            "orient": "bottom-left",
+            "title": "Asian-born residents (%)",
+            "direction": "horizontal",
+            "gradientLength": 150,
+            "titleFontSize": 10,
+            "labelFontSize": 9
+          }
+        },
+        "tooltip": [
+          {
+            "field": "lga",
+            "title": "LGA"
+          },
+          {
+            "field": "courts",
+            "title": "Courts"
+          },
+          {
+            "field": "asian_born_pct",
+            "title": "Asian-born (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/melbourne_lga_centroids.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.courts >= 12"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dy": -14,
+        "fontSize": 9,
+        "fontWeight": "600",
+        "color": "#172821"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "lga"
+        }
+      }
+    }
+  ]
+}

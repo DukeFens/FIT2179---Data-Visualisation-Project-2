@@ -1,0 +1,200 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 360,
+  "padding": {
+    "left": 5,
+    "top": 5,
+    "right": 30,
+    "bottom": 5
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter, sans-serif"
+  },
+  "title": {
+    "anchor": "start",
+    "fontSize": 13,
+    "subtitleFontSize": 10,
+    "color": "#172821",
+    "subtitleColor": "#506158",
+    "offset": 8,
+    "text": "Australian Open titles by nation, 2010\u20132024",
+    "subtitle": "Use the dropdown to filter by discipline."
+  },
+  "data": {
+    "url": "data/aus_open_wins_matrix.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "wins": "number"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "disc",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "MS",
+          "WS",
+          "MD",
+          "WD",
+          "XD"
+        ],
+        "labels": [
+          "All disciplines",
+          "Men's Singles",
+          "Women's Singles",
+          "Men's Doubles",
+          "Women's Doubles",
+          "Mixed Doubles"
+        ],
+        "name": "Discipline:  "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "disc == 'All' || datum.discipline == disc"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "wins",
+          "as": "titles"
+        }
+      ],
+      "groupby": [
+        "nationality"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "titles",
+          "as": "maxTitles"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.titles > 0 && datum.titles == datum.maxTitles ? 'lead' : 'other'",
+      "as": "rank"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "nationality",
+      "type": "nominal",
+      "sort": [
+        "China",
+        "South Korea",
+        "Japan",
+        "Indonesia",
+        "India",
+        "Chinese Taipei",
+        "Hong Kong",
+        "Spain",
+        "Thailand",
+        "Vietnam"
+      ],
+      "title": null,
+      "axis": {
+        "labelFontSize": 11,
+        "domainColor": "#C8D5CB",
+        "tickColor": "#C8D5CB"
+      }
+    },
+    "x": {
+      "field": "titles",
+      "type": "quantitative",
+      "title": "Titles won",
+      "scale": {
+        "domain": [
+          0,
+          23
+        ]
+      },
+      "axis": {
+        "grid": true,
+        "gridColor": "#E8EDE9",
+        "tickMinStep": 1,
+        "tickCount": 5,
+        "format": "d",
+        "domainColor": "#C8D5CB",
+        "tickColor": "#C8D5CB",
+        "labelFontSize": 11
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusEnd": 3,
+        "height": {
+          "band": 0.7
+        }
+      },
+      "encoding": {
+        "color": {
+          "field": "rank",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "lead",
+              "other"
+            ],
+            "range": [
+              "#2C8454",
+              "#C2D2C6"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "nationality",
+            "title": "Nation"
+          },
+          {
+            "field": "titles",
+            "title": "Titles"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.titles > 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#172821"
+      },
+      "encoding": {
+        "text": {
+          "field": "titles",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

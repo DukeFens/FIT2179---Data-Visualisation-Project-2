@@ -1,0 +1,99 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {"view": {"stroke": null}, "font": "Inter, sans-serif"},
+  "hconcat": [
+    {
+      "title": {"text": "Life-Expectancy Gain (years)", "fontSize": 12, "anchor": "start", "color": "#172821"},
+      "width": 280, "height": 240,
+      "data": {"url": "data/longevity_sports.csv"},
+      "layer": [
+        {
+          "mark": {"type": "rule", "strokeWidth": 2},
+          "encoding": {
+            "y": {"field": "sport", "type": "nominal", "sort": "-x", "axis": {"title": null, "labelFontSize": 11}},
+            "x": {"field": "years_gained", "type": "quantitative", "scale": {"domain": [0, 10]}, "axis": {"title": "Years gained vs. sedentary", "grid": true, "gridColor": "#E8EDE9"}},
+            "x2": {"datum": 0},
+            "color": {
+              "condition": {"test": "datum.category == 'Racket'", "value": "#1A7A4C"},
+              "value": "#C8D5CB"
+            }
+          }
+        },
+        {
+          "mark": {"type": "circle", "size": 160, "stroke": "#F3F6F0", "strokeWidth": 1.5},
+          "encoding": {
+            "y": {"field": "sport", "type": "nominal", "sort": "-x"},
+            "x": {"field": "years_gained", "type": "quantitative"},
+            "color": {
+              "condition": {"test": "datum.category == 'Racket'", "value": "#1A7A4C"},
+              "value": "#C8D5CB"
+            }
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 10, "fontWeight": "600"},
+          "encoding": {
+            "y": {"field": "sport", "type": "nominal", "sort": "-x"},
+            "x": {"field": "years_gained", "type": "quantitative"},
+            "text": {"field": "years_gained", "type": "quantitative", "format": ".1f"},
+            "color": {
+              "condition": {"test": "datum.category == 'Racket'", "value": "#1A7A4C"},
+              "value": "#839489"
+            }
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "left", "fontSize": 10, "fontWeight": "700", "fontStyle": "italic", "color": "#1A7A4C"},
+          "data": {"values": [{"label": "Racket sports: +6 years", "x": 5.5, "y": "Badminton"}]},
+          "encoding": {
+            "x": {"field": "x", "type": "quantitative"},
+            "y": {"value": -10},
+            "text": {"field": "label"}
+          }
+        }
+      ]
+    },
+    {
+      "title": {"text": "Calories Burned per Hour (70 kg)", "fontSize": 12, "anchor": "start", "color": "#172821"},
+      "width": 280, "height": 240,
+      "data": {"url": "data/calorie_burn_activities.csv"},
+      "layer": [
+        {
+          "mark": {"type": "rule", "strokeWidth": 2},
+          "encoding": {
+            "y": {"field": "activity", "type": "nominal", "sort": "-x", "axis": {"title": null, "labelFontSize": 11}},
+            "x": {"field": "calories_per_hour_70kg", "type": "quantitative", "axis": {"title": "kcal / hour", "grid": true, "gridColor": "#E8EDE9"}},
+            "x2": {"datum": 0},
+            "color": {
+              "condition": {"test": "indexof(datum.activity, 'adminton') >= 0", "value": "#1A7A4C"},
+              "value": "#C8D5CB"
+            }
+          }
+        },
+        {
+          "mark": {"type": "circle", "size": 160, "stroke": "#F3F6F0", "strokeWidth": 1.5},
+          "encoding": {
+            "y": {"field": "activity", "type": "nominal", "sort": "-x"},
+            "x": {"field": "calories_per_hour_70kg", "type": "quantitative"},
+            "color": {
+              "condition": {"test": "indexof(datum.activity, 'adminton') >= 0", "value": "#1A7A4C"},
+              "value": "#C8D5CB"
+            }
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 10, "fontWeight": "600"},
+          "encoding": {
+            "y": {"field": "activity", "type": "nominal", "sort": "-x"},
+            "x": {"field": "calories_per_hour_70kg", "type": "quantitative"},
+            "text": {"field": "calories_per_hour_70kg", "type": "quantitative"},
+            "color": {
+              "condition": {"test": "indexof(datum.activity, 'adminton') >= 0", "value": "#1A7A4C"},
+              "value": "#839489"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

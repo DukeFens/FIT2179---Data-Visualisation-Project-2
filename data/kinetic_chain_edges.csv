@@ -1,0 +1,15 @@
+source,target,weight,x1,y1,x2,y2
+gastrocnemius,oblique,0.8,60,220,180,190
+vastus_lateralis,oblique,0.9,60,160,180,190
+rectus_femoris,latissimus_dorsi,0.7,60,100,180,110
+oblique,serratus_anterior,0.8,180,190,300,200
+oblique,pectoralis_major,0.9,180,190,300,130
+latissimus_dorsi,deltoid,0.9,180,110,300,60
+serratus_anterior,trapezius_upper,0.7,300,200,420,80
+pectoralis_major,deltoid,0.8,300,130,300,60
+deltoid,trapezius_upper,0.9,300,60,420,80
+deltoid,triceps_brachii,0.9,300,60,540,110
+trapezius_upper,triceps_brachii,0.7,420,80,540,110
+trapezius_lower,triceps_brachii,0.6,420,160,540,110
+triceps_brachii,wrist_flexors,1.0,540,110,660,140
+biceps_brachii,wrist_flexors,0.6,540,180,660,140

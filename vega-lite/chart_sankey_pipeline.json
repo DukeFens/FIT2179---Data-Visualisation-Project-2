@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container", "height": 380,
+  "config": {"view": {"stroke": null}, "font": "Inter, sans-serif"},
+  "layer": [
+    {
+      "data": {
+        "url": "data/sankey_ribbons.csv",
+        "format": {"type": "csv", "parse": {"x": "number", "y": "number", "y2": "number", "retention_pct": "number"}}
+      },
+      "params": [
+        {"name": "tierHov", "select": {"type": "point", "on": "mouseover", "fields": ["source_level"], "clear": "mouseout"}}
+      ],
+      "mark": {"type": "area", "interpolate": "monotone", "line": false},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [0, 720]}, "axis": null},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [0, 380]}, "axis": null},
+        "y2": {"field": "y2"},
+        "detail": {"field": "link_id", "type": "nominal"},
+        "color": {
+          "field": "source_level", "type": "nominal",
+          "scale": {
+            "domain": ["Grassroots", "Club", "State", "National", "Elite"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#D4B83D", "#8B5197"]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {"param": "tierHov", "value": 0.85},
+          "value": 0.45
+        },
+        "tooltip": [
+          {"field": "source_level", "title": "From"},
+          {"field": "target_level", "title": "To"},
+          {"field": "retention_pct", "title": "Advance rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/sankey_nodes.csv",
+        "format": {"type": "csv", "parse": {"cx": "number", "x": "number", "x2": "number", "y": "number", "y2": "number", "count": "number", "name_y": "number", "count_y": "number"}}
+      },
+      "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#F3F6F0", "strokeWidth": 1},
+      "encoding": {
+        "x":  {"field": "x",  "type": "quantitative", "scale": {"domain": [0, 720]}, "axis": null},
+        "x2": {"field": "x2"},
+        "y":  {"field": "y",  "type": "quantitative", "scale": {"domain": [0, 380]}, "axis": null},
+        "y2": {"field": "y2"},
+        "color": {
+          "field": "level", "type": "nominal",
+          "scale": {
+            "domain": ["Grassroots", "Club", "State", "National", "Elite"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#D4B83D", "#8B5197"]
+          },
+          "legend": {"orient": "bottom", "title": null, "direction": "horizontal", "symbolType": "square"}
+        },
+        "tooltip": [
+          {"field": "level", "title": "Stage"},
+          {"field": "label", "title": "Program"},
+          {"field": "count", "title": "Players", "format": ","},
+          {"field": "next_level_pct", "title": "Advance to next (%)"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/sankey_nodes.csv",
+        "format": {"type": "csv", "parse": {"cx": "number", "x": "number", "x2": "number", "y": "number", "y2": "number", "count": "number", "name_y": "number", "count_y": "number"}}
+      },
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": "700", "color": "#172821", "align": "center"},
+      "encoding": {
+        "x": {"field": "cx", "type": "quantitative", "scale": {"domain": [0, 720]}, "axis": null},
+        "y": {"field": "name_y", "type": "quantitative", "scale": {"domain": [0, 380]}, "axis": null},
+        "text": {"field": "level"}
+      }
+    },
+    {
+      "data": {
+        "url": "data/sankey_nodes.csv",
+        "format": {"type": "csv", "parse": {"cx": "number", "x": "number", "x2": "number", "y": "number", "y2": "number", "count": "number", "name_y": "number", "count_y": "number"}}
+      },
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "600", "color": "#506158", "align": "center"},
+      "encoding": {
+        "x": {"field": "cx", "type": "quantitative", "scale": {"domain": [0, 720]}, "axis": null},
+        "y": {"field": "count_y", "type": "quantitative", "scale": {"domain": [0, 380]}, "axis": null},
+        "text": {"field": "count", "type": "quantitative", "format": ","}
+      }
+    },
+    {
+      "data": {
+        "url": "data/sankey_labels.csv",
+        "format": {"type": "csv", "parse": {"x": "number", "y": "number"}}
+      },
+      "mark": {"type": "text", "fontSize": 10.5, "fontStyle": "italic", "fontWeight": "600", "color": "#1A7A4C", "align": "center"},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [0, 720]}, "axis": null},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [0, 380]}, "axis": null},
+        "text": {"field": "label"}
+      }
+    }
+  ]
+}

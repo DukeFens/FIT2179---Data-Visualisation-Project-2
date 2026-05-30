@@ -193,12 +193,18 @@
       border-top: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
       background: var(--accent-100);
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns:
+        [full-start] minmax(var(--sp-3), 1fr)
+        [standard-start] minmax(0, 140px)
+        [narrow-start] minmax(0, 62ch)
+        [narrow-end] minmax(0, 140px)
+        [standard-end] minmax(var(--sp-3), 1fr)
+        [full-end];
     }
     .part-divider__inner {
-      width: min(62ch, 100%);
-      padding: var(--sp-12) var(--sp-3);
+      grid-column: standard;
+      padding: var(--sp-12) 0;
       text-align: left;
     }
     .part-divider__number {
@@ -251,6 +257,72 @@
     .vg-container > div { width: 100% !important; }
     .vg-container canvas, .vg-container svg { max-width: 100%; display: block; }
     #vis-muscles svg { width: 100%; height: auto; }
+
+    /* Figure 4 — full-bleed within standard track, left-aligned */
+    #vis-states.vg-container {
+      justify-content: flex-start;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    #vis-states .vega-embed,
+    #vis-states .vega-embed summary,
+    #vis-states svg {
+      width: 100% !important;
+      max-width: 100%;
+    }
+    #vis-states svg { height: auto; display: block; }
+    #vis-states .vega-bind {
+      width: 100%;
+      text-align: left;
+      margin-top: var(--sp-2);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--ink-soft);
+    }
+    #vis-states .vega-bind select {
+      margin-left: 6px;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 2px 6px;
+      background: var(--paper);
+    }
+
+    /* Figure 10 — filtered bar chart dropdown */
+    #vis-adjacency .vega-bind {
+      width: 100%;
+      text-align: left;
+      margin-top: var(--sp-2);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--ink-soft);
+    }
+    #vis-adjacency .vega-bind select {
+      margin-left: 6px;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 2px 6px;
+      background: var(--paper);
+    }
+
+    /* Figure 7 — full width within standard track */
+    #vis-melb-map.vg-container {
+      justify-content: flex-start;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    #vis-melb-map .vega-embed,
+    #vis-melb-map svg {
+      width: 100% !important;
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
 
     figcaption {
       font-family: var(--font-body);
@@ -312,18 +384,21 @@
       margin-bottom: var(--sp-3);
     }
 
-    /* =================================================================
-       FOOTER
-       ================================================================= */
     .essay-footer {
-      grid-column: standard;
+      grid-column: full;
+      display: grid;
+      grid-template-columns: subgrid;
+      background-color: var(--accent-100);
       margin-top: var(--sp-16);
-      padding-top: var(--sp-6);
+      padding-top: var(--sp-8);
       padding-bottom: var(--sp-16);
       border-top: 1px solid var(--rule);
       font-size: var(--text-sm);
       color: var(--ink-soft);
       line-height: var(--lh-normal);
+    }
+    .essay-footer-inner {
+      grid-column: standard;
     }
     .essay-footer p { color: var(--ink-soft); margin-bottom: var(--sp-1); }
     .essay-footer strong { color: var(--ink); font-weight: 600; }
@@ -395,13 +470,13 @@
   <div class="section-unit reveal">
     <span class="kicker">01 · Longevity</span>
     <h2>Six extra years, hidden inside an hour of play</h2>
-    <p>In 2018, the Copenhagen City Heart Study published a quarter-century of follow-up on 8,577 adults across eight sports. Gym work added under two years. Jogging added roughly three. <strong>Racket sports added six.</strong> The mechanism was not aerobic capacity alone — it was the social structure of the game: the unbroken proximity of a doubles partner forced adherence.</p>
+    <p>In 2018, the Copenhagen City Heart Study published a quarter-century of follow-up on 8,577 adults across eight sports. Swimming and jogging added roughly three years. <strong>Badminton added over six.</strong> The mechanism was not aerobic capacity alone — it was the social structure of the game: the unbroken proximity of a doubles partner forced adherence.</p>
   </div>
 
   <figure class="fig track-standard section-unit reveal">
     <div class="vg-container" id="vis-health"></div>
     <figcaption>
-      <span class="fig-num">Figure 1.</span> Life-expectancy gains vs. sedentary peers, eight sport categories. The social dimension of racket sports appears to drive the outsized longevity benefit.
+      <span class="fig-num">Figure 1.</span> Life-expectancy gains vs. sedentary peers, eight sport categories.
       <span class="fig-src">Source: Schnohr et al. (2018), Mayo Clinic Proceedings · Copenhagen City Heart Study.</span>
     </figcaption>
   </figure>
@@ -417,7 +492,7 @@
     <figure class="fig">
       <div class="vg-container" id="vis-calories"></div>
       <figcaption>
-        <span class="fig-num">Figure 2.</span> Energy expenditure per hour, 70-kg adult.
+        <span class="fig-num">Figure 2.</span> Energy expenditure per hour.
         <span class="fig-src">Source: Compendium of Physical Activities, Ainsworth et al. (2011).</span>
       </figcaption>
     </figure>
@@ -434,7 +509,7 @@
     <figure class="fig">
       <div class="vg-container" id="vis-muscles"></div>
       <figcaption>
-        <span class="fig-num">Figure 3.</span> Muscle activation intensity (% MVIC) during a forehand overhead smash. Darker green = higher activation.
+        <span class="fig-num">Figure 3.</span> Muscle activation intensity during a forehand overhead smash.
         <span class="fig-src">Source: Frontiers in Sports and Active Living (2025) · PMC12170632.</span>
       </figcaption>
     </figure>
@@ -453,18 +528,17 @@
   </div>
 
 
-  <!-- Section 04 — Geography (chart below text) -->
   <div class="section-unit reveal">
     <span class="kicker">04 · Geography</span>
-    <h2>Victoria hosts 40% of the national player base with 20% of the population</h2>
-    <p>The 2025 AusPlay survey recorded 420,000 Australians playing monthly — a 38% increase over the 2021 trough. But the national figure conceals an extreme regional skew driven by Southeast Asian diaspora communities who have carried the sport as a multigenerational social practice.</p>
+    <h2>New South Wales surpasses Victoria in total players, but Victoria retains the highest rate</h2>
+    <p>The 2025 AusPlay survey recorded over 420,000 Australians playing monthly — a massive increase over the 2020 trough. But the national figure conceals shifting regional dominance. While Victoria historically led the nation, New South Wales has recently surpassed it in absolute numbers. Select a state to see its rank, participation rate trend, and share of players across three eras.</p>
   </div>
 
-  <figure class="fig track-standard section-unit reveal">
+  <figure class="fig fig-dashboard track-standard section-unit reveal">
     <div class="vg-container" id="vis-states"></div>
     <figcaption>
-      <span class="fig-num">Figure 4.</span> Adult badminton participation rate by state, 2025. Victoria's rate is more than double the national average.
-      <span class="fig-src">Source: AusPlay 2025, Australian Sports Commission.</span>
+      <span class="fig-num">Figure 4.</span> Interactive state dashboard.
+      <span class="fig-src">Source: AusPlay 2016–2025 · ABS Population Estimates · Australian Sports Commission.</span>
     </figcaption>
   </figure>
 
@@ -479,7 +553,7 @@
   <figure class="fig track-standard section-unit reveal">
     <div class="vg-container" id="vis-growth"></div>
     <figcaption>
-      <span class="fig-num">Figure 5.</span> National adult participation by gender, 2016–2025. Area band = gap between male and female participation; dashed line marks 2024 AusPlay methodology revision.
+      <span class="fig-num">Figure 5 ·</span> National adult participation by gender, 2016–2025.
       <span class="fig-src">Source: AusPlay 2016–2025 · Badminton Australia annual reports.</span>
     </figcaption>
   </figure>
@@ -488,95 +562,137 @@
   <!-- Section 06 — Demographics (interactive) -->
   <div class="section-unit reveal">
     <span class="kicker">06 · Demographics</span>
-    <h2>A generation finds the court: the 18–24 cohort now dominates</h2>
-    <p>University-age players now account for more than a quarter of all regular participants. The colour scale is fixed across years — use the dropdown to compare demographic shifts directly.</p>
+    <h2>A generation finds the court: the 25–34 cohort now dominates</h2>
+    <p>Young professionals and university-age players (15–34) now account for the vast majority of all regular participants, with the 25–34 demographic leading the charge. The colour scale is fixed across years — use the dropdown to compare demographic shifts directly.</p>
   </div>
 
   <div class="track-standard section-unit reveal">
-    <div class="explorer-block">
-      <figure class="fig">
-        <div class="vg-container" id="vis-demo"></div>
-        <figcaption>
-          <span class="fig-num">Figure 6.</span> Participation % by age group and gender. The young-adult skew is consistent across years but intensifying.
-          <span class="fig-src">Source: AusPlay By-Sport Tables · Australian Sports Commission.</span>
-        </figcaption>
-      </figure>
-    </div>
+    <figure class="fig">
+      <div class="vg-container" id="vis-demo"></div>
+      <figcaption>
+        <span class="fig-num">Figure 6 ·</span> Participation % by age group and gender.
+        <span class="fig-src">Source: AusPlay By-Sport Tables · Australian Sports Commission.</span>
+      </figcaption>
+    </figure>
   </div>
 
 
   <!-- ═══════════════════════════════════════════════
-       PART THREE — THE ELITE
+       PART THREE — THE CITY
        ═══════════════════════════════════════════════ -->
   <div class="part-divider track-full">
     <div class="part-divider__inner">
       <span class="part-divider__number">Part Three</span>
-      <div class="part-divider__title">The Competitive Edge</div>
-      <p class="part-divider__frame">From forty thousand children to twenty Falcons — the steepest talent pyramid in Australian sport.</p>
+      <div class="part-divider__title">The City</div>
+      <p class="part-divider__frame">Sixteen million square metres of Greater Melbourne — and the courts are not where you expect them.</p>
     </div>
   </div>
 
 
-  <!-- Section 07 — Pipeline (text beside chart) -->
+  <!-- Section 07 — Melbourne Proportional Map -->
+  <div class="section-unit reveal">
+    <span class="kicker">07 · The Map</span>
+    <h2>Courts cluster where the diaspora settled</h2>
+    <p>Each circle marks a Local Government Area: its size is the number of badminton courts, its shade the Asian-born share of residents from the 2021 Census. The largest, darkest circles sit together in Melbourne's east and south-east — notably Monash, Greater Dandenong, and Wyndham — where deep diaspora communities and dense court provision overlap.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-melb-map"></div>
+    <figcaption>
+      <span class="fig-num">Figure 7 ·</span> Badminton courts by Greater Melbourne LGA.
+      <span class="fig-src">Source: ABS 2021 Census · Badminton Victoria club directory 2024.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- Section 08 — Diaspora Scatter -->
+  <div class="section-unit reveal">
+    <span class="kicker">08 · Clubs</span>
+    <h2>More diaspora, more courts — but not everywhere</h2>
+    <p>Plotting each LGA's Asian-born share against its court count confirms the link: the trend line slopes clearly upward, and the highest-diaspora areas — Monash, Greater Dandenong, and Melbourne (City) — are among the best supplied. The pattern is a tendency, not a rule: outer-suburban Hume and Knox carry robust court numbers on more modest diaspora shares.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-melb"></div>
+    <figcaption>
+      <span class="fig-num">Figure 8 ·</span> Asian-born population vs. badminton courts by LGA.
+      <span class="fig-src">Source: ABS 2021 Census · Badminton Victoria club directory.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PART FOUR — THE COMPETITIVE EDGE
+       ═══════════════════════════════════════════════ -->
+  <div class="part-divider track-full">
+    <div class="part-divider__inner">
+      <span class="part-divider__number">Part Four</span>
+      <div class="part-divider__title">The Competitive Edge</div>
+      <p class="part-divider__frame">From forty thousand children to twenty Falcons — and into the world's toughest doubles draw.</p>
+    </div>
+  </div>
+
+
+  <!-- Section 10 — Pipeline (text beside chart) -->
   <div class="split-row section-unit reveal">
     <div class="split-row__text">
-      <span class="kicker">07 · Pipeline</span>
+      <span class="kicker">09 · Pipeline</span>
       <h2>From forty thousand children to twenty elite athletes</h2>
       <p>Badminton Australia's <em>Sporting Schools</em> programme reaches ~40,000 children per year. Fewer than twenty will ever wear a national singlet abroad — less than 0.05% survive the funnel.</p>
     </div>
     <figure class="fig">
       <div class="vg-container" id="vis-pipeline"></div>
       <figcaption>
-        <span class="fig-num">Figure 7.</span> Logarithmic drop-off across competitive tiers.
+        <span class="fig-num">Figure 9 ·</span> Talent pipeline drop-off across competitive tiers.
         <span class="fig-src">Source: Badminton Australia Annual Report 2023/24.</span>
       </figcaption>
     </figure>
   </div>
 
 
-  <!-- Section 08 — Diaspora Scatter -->
+  <!-- Section 10 — Australian Open dominance -->
   <div class="section-unit reveal">
-    <span class="kicker">08 · The City</span>
-    <h2>Where diaspora lives, courts follow</h2>
-    <p>Plotting Melbourne's Local Government Areas by their Asian-born population share against their badminton court count reveals a striking pattern: the correlation is nearly linear. Monash, Whitehorse and Greater Dandenong — the three LGAs with the highest diaspora concentration — together account for more than half of all metropolitan courts.</p>
+    <span class="kicker">10 · Dominance</span>
+    <h2>China has won every discipline at the Australian Open — but not every year</h2>
+    <p>Across 14 editions of the Australian Open (2010–2024), China leads the title tally by a significant margin. Use the discipline filter to compare nations within a single event — Indonesia tops Men's Doubles, while China leads Mixed.</p>
   </div>
 
   <figure class="fig track-standard section-unit reveal">
-    <div class="vg-container" id="vis-melb"></div>
+    <div class="vg-container" id="vis-adjacency"></div>
     <figcaption>
-      <span class="fig-num">Figure 8.</span> Melbourne LGAs: Asian-born % (2021 Census) vs. badminton courts. Dot size = LGA population; trend line shows positive correlation.
-      <span class="fig-src">Source: ABS 2021 Census · Badminton Victoria club directory.</span>
+      <span class="fig-num">Figure 10 ·</span> Australian Open titles by nation, 2010–2024.
+      <span class="fig-src">Source: BWF Tournament Software · Wikipedia Australian Open (badminton) results.</span>
     </figcaption>
   </figure>
 
 
-  <!-- Section 09 — Elite Rankings -->
+  <!-- Section 11 — Elite Rankings -->
   <div class="section-unit reveal">
-    <span class="kicker">09 · Rankings</span>
+    <span class="kicker">11 · Rankings</span>
     <h2>Paris 2024 qualification required two years of top-30 consistency</h2>
-    <p>The chart traces ranking trajectories for four key Australian players over four years, culminating in a top-ten Women's Doubles placement that sent two players to Paris.</p>
+    <p>The chart traces ranking trajectories for four key Australian players over four years, highlighting an Olympic qualification for Paris, followed by a surge into the top-ten in 2025.</p>
   </div>
 
   <figure class="fig track-standard section-unit reveal">
     <div class="vg-container" id="vis-rankings"></div>
     <figcaption>
-      <span class="fig-num">Figure 9.</span> BWF world ranking history, 2022–2025. Lower values = higher rankings.
+      <span class="fig-num">Figure 11 ·</span> BWF world ranking trajectories, 2022–2025.
       <span class="fig-src">Source: BWF Historical Rankings · corporate.bwfbadminton.com.</span>
     </figcaption>
   </figure>
 
 
-  <!-- Section 10 — Tournaments -->
+  <!-- Section 12 — Tournaments -->
   <div class="section-unit reveal">
-    <span class="kicker">10 · Tournaments</span>
-    <h2>The Super 500 upgrade doubled prize money and shifted tournament gravity</h2>
-    <p>The Australian Open was upgraded from BWF Super 300 to Super 500 in 2023, doubling prize-money pools and pulling an entirely new bracket of global players south for the winter.</p>
+    <span class="kicker">12 · Tournaments</span>
+    <h2>The Super 500 upgrade significantly boosted prize money and shifted tournament gravity</h2>
+    <p>The Australian Open was upgraded from BWF Super 300 to Super 500 in 2022, massively increasing prize-money pools and pulling an entirely new bracket of global players south for the winter.</p>
   </div>
 
   <figure class="fig track-standard section-unit reveal">
     <div class="vg-container" id="vis-tournaments"></div>
     <figcaption>
-      <span class="fig-num">Figure 10.</span> Australian-hosted BWF events, 2016–2025. Bubble size = total entries; colour = tournament grade.
+      <span class="fig-num">Figure 12 ·</span> Australian-hosted BWF events, 2016–2025.
       <span class="fig-src">Source: BWF World Tour official results · Badminton Australia.</span>
     </figcaption>
   </figure>
@@ -596,10 +712,12 @@
        FOOTER
        ═══════════════════════════════════════════════ -->
   <footer class="essay-footer reveal">
-    <p><strong>The Shuttlecock Effect</strong></p>
-    <p>A visual essay by Duke Phan for FIT2179 Data Visualisation 2, Monash University, May 2026.</p>
-    <p style="margin-top: var(--sp-2);">Primary sources: AusPlay 2025 (Australian Sports Commission) · Badminton Australia Annual Report 2023/24 · BWF Historical Rankings · Badminton Victoria Club Directory · Copenhagen City Heart Study (Schnohr et al., 2018) · Compendium of Physical Activities (Ainsworth et al., 2011) · Frontiers in Sports and Active Living (2025).</p>
-    <p style="margin-top: var(--sp-2);">All ten visualisations were built with Vega-Lite v5. AI tooling (Claude) assisted with data compilation and code generation. All editorial decisions are the author's own.</p>
+    <div class="essay-footer-inner">
+      <p><strong>The Shuttlecock Effect</strong></p>
+      <p>A visual essay by Duke Phan for FIT2179 Data Visualisation 2, Monash University, May 2026.</p>
+      <p style="margin-top: var(--sp-2);">Primary sources: AusPlay 2016-2025 (Australian Sports Commission) · ABS 2021 Census · ABS Population Estimates · Badminton Australia Annual Report 2023/24 · BWF Historical Rankings & Tournament Software · Badminton Victoria Club Directory · Copenhagen City Heart Study (Schnohr et al., 2018) · Compendium of Physical Activities (Ainsworth et al., 2011) · Frontiers in Sports and Active Living (2025).</p>
+      <p style="margin-top: var(--sp-2);">All fourteen visualisations were built with Vega-Lite v5. AI tooling (Claude) assisted with data compilation and code generation. All editorial decisions are the author's own.</p>
+    </div>
   </footer>
 
 </main>
@@ -708,16 +826,85 @@
 
   const opt = { actions: false, renderer: "svg", config: courtGreenConfig };
 
+  /** Size Figure 4 dashboard to fill the standard-track column (map ~64%, charts ~36%). */
+  function sizeStateDashboard(spec, containerWidth) {
+    const gap = 16;
+    const rightW = Math.max(260, Math.round(containerWidth * 0.36));
+    const mapW = Math.max(320, containerWidth - rightW - gap);
+    const mapH = Math.round(mapW * (500 / 460));
+
+    const sized = JSON.parse(JSON.stringify(spec));
+    delete sized.width;
+    sized.spacing = gap;
+    sized.hconcat[0].width = mapW;
+    sized.hconcat[0].height = mapH;
+    sized.hconcat[1].vconcat.forEach((chart, i) => {
+      chart.width = rightW;
+      if (i === 0 && chart.layer?.[0]?.encoding?.x2) {
+        chart.layer[0].encoding.x2 = { value: rightW };
+      }
+    });
+    return sized;
+  }
+
+  let stateDashboardView = null;
+  let stateDashboardWidth = 0;
+
+  async function embedStateDashboard() {
+    const el = document.querySelector('#vis-states');
+    if (!el) return;
+    const url = 'vega-lite/chart4_state_dashboard.json';
+    const base = await fetch(url).then(r => r.json());
+    const w = el.clientWidth || el.offsetWidth;
+    stateDashboardWidth = w;
+    const spec = sizeStateDashboard(base, w);
+    try {
+      if (stateDashboardView) stateDashboardView.finalize();
+      stateDashboardView = (await vegaEmbed('#vis-states', spec, opt)).view;
+    } catch (e) {
+      console.error('#vis-states', e);
+    }
+  }
+
+  let melbMapView = null;
+  let melbMapWidth = 0;
+
+  function sizeMelbMap(spec, containerWidth) {
+    const w = Math.max(640, containerWidth);
+    const sized = JSON.parse(JSON.stringify(spec));
+    // Single fixed-scale map: container sets the width (map is centred via
+    // translate=[w/2,h/2]); height is fixed so the fixed-scale projection
+    // always fits regardless of how wide the container is.
+    sized.width = w;
+    sized.height = 680;
+    return sized;
+  }
+
+  async function embedMelbMap() {
+    const el = document.querySelector('#vis-melb-map');
+    if (!el) return;
+    const base = await fetch('vega-lite/chart_city_paired.json').then(r => r.json());
+    const w = el.clientWidth || el.offsetWidth || 720;
+    melbMapWidth = w;
+    const spec = sizeMelbMap(base, w);
+    try {
+      if (melbMapView) melbMapView.finalize();
+      melbMapView = (await vegaEmbed('#vis-melb-map', spec, opt)).view;
+    } catch (e) {
+      console.error('#vis-melb-map', e);
+    }
+  }
+
   // Chart → file mapping
   const specs = {
     "#vis-health":      "vega-lite/chart2_health_matrix.json",
     "#vis-calories":    "vega-lite/chart3_calorie_bar.json",
     "#vis-muscles":     "vega-lite/chart1_muscle_body_map.json",
-    "#vis-states":      "vega-lite/chart4_choropleth_map.json",
     "#vis-growth":      "vega-lite/chart4_longitudinal_growth.json",
     "#vis-demo":        "vega-lite/chart5_demographic_heatmap.json",
-    "#vis-pipeline":    "vega-lite/chart6_talent_pipeline.json",
     "#vis-melb":        "vega-lite/chart10_melbourne_venues.json",
+    "#vis-pipeline":    "vega-lite/chart6_talent_pipeline.json",
+    "#vis-adjacency":   "vega-lite/chart_adjacency_matrix.json",
     "#vis-rankings":    "vega-lite/chart9_elite_rankings.json",
     "#vis-tournaments": "vega-lite/chart8_tournament_density.json"
   };
@@ -725,6 +912,22 @@
   Object.entries(specs).forEach(([sel, url]) => {
     const el = document.querySelector(sel);
     if (el) vegaEmbed(sel, url, opt).catch(e => console.error(sel, e));
+  });
+
+  embedStateDashboard();
+  embedMelbMap();
+
+  window.addEventListener('resize', () => {
+    const statesEl = document.querySelector('#vis-states');
+    if (statesEl) {
+      const w = statesEl.clientWidth;
+      if (Math.abs(w - stateDashboardWidth) > 12) embedStateDashboard();
+    }
+    const melbEl = document.querySelector('#vis-melb-map');
+    if (melbEl) {
+      const w = melbEl.clientWidth;
+      if (Math.abs(w - melbMapWidth) > 12) embedMelbMap();
+    }
   });
 
   // ── Scroll reveal (IntersectionObserver) ──

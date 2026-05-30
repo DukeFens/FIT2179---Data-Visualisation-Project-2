@@ -1,0 +1,152 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {"view": {"stroke": null}, "font": "Inter, sans-serif"},
+  "hconcat": [
+    {
+      "title": {"text": "Geographic Distribution", "fontSize": 12, "anchor": "start", "color": "#172821"},
+      "width": 340, "height": 380,
+      "projection": {"type": "mercator"},
+      "layer": [
+        {
+          "data": {
+            "url": "data/aus_states_mainland.geojson",
+            "format": {"type": "json", "property": "features"}
+          },
+          "transform": [
+            {"calculate": "{'New South Wales':'NSW','Victoria':'VIC','Queensland':'QLD','South Australia':'SA','Western Australia':'WA','Tasmania':'TAS','Northern Territory':'NT','Australian Capital Territory':'ACT'}[datum.properties.STATE_NAME]", "as": "state_abbr"},
+            {
+              "lookup": "state_abbr",
+              "from": {
+                "data": {"url": "data/cartogram_dorling.csv", "format": {"type": "csv", "parse": {"participants_thousands": "number", "participation_rate_per_million": "number"}}},
+                "key": "state",
+                "fields": ["participants_thousands", "participation_rate_per_million"]
+              }
+            }
+          ],
+          "mark": {"type": "geoshape", "stroke": "#F3F6F0", "strokeWidth": 0.8},
+          "encoding": {
+            "color": {
+              "field": "participation_rate_per_million", "type": "quantitative",
+              "scale": {"scheme": "greens"},
+              "legend": {"orient": "bottom", "title": "Players per thousand residents", "direction": "horizontal", "gradientLength": 140}
+            },
+            "opacity": {
+              "condition": {"param": "pick", "value": 1},
+              "value": 0.3
+            },
+            "tooltip": [
+              {"field": "properties.STATE_NAME", "title": "State"},
+              {"field": "participation_rate_per_million", "title": "Players per thousand", "format": ".1f"},
+              {"field": "participants_thousands", "title": "Players (thousands)", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {"state": "NSW", "lat": -32.0, "lon": 147.0, "participants_thousands": 176.6},
+              {"state": "VIC", "lat": -37.0, "lon": 145.0, "participants_thousands": 162.2},
+              {"state": "QLD", "lat": -22.0, "lon": 147.0, "participants_thousands": 86.4},
+              {"state": "WA",  "lat": -26.0, "lon": 122.0, "participants_thousands": 52.8},
+              {"state": "SA",  "lat": -31.0, "lon": 136.0, "participants_thousands": 28.6},
+              {"state": "TAS", "lat": -42.0, "lon": 146.5, "participants_thousands": 5.8},
+              {"state": "ACT", "lat": -35.3, "lon": 149.1, "participants_thousands": 10.6},
+              {"state": "NT",  "lat": -19.5, "lon": 133.0, "participants_thousands": 2.6}
+            ]
+          },
+          "mark": {"type": "circle", "opacity": 0.7, "stroke": "#F3F6F0", "strokeWidth": 1.5},
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "size": {
+              "field": "participants_thousands", "type": "quantitative",
+              "scale": {"type": "sqrt", "range": [20, 2000]},
+              "legend": {"orient": "bottom", "title": "Players (thousands)", "direction": "horizontal"}
+            },
+            "color": {"value": "#1A7A4C"},
+            "opacity": {
+              "condition": {"param": "pick", "value": 0.85},
+              "value": 0.15
+            },
+            "tooltip": [
+              {"field": "state", "title": "State"},
+              {"field": "participants_thousands", "title": "Players (thousands)", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {"state": "NSW", "lat": -32.0, "lon": 147.0},
+              {"state": "VIC", "lat": -37.0, "lon": 145.0},
+              {"state": "QLD", "lat": -22.0, "lon": 147.0},
+              {"state": "WA",  "lat": -26.0, "lon": 122.0},
+              {"state": "SA",  "lat": -31.0, "lon": 136.0}
+            ]
+          },
+          "mark": {"type": "text", "fontSize": 10, "fontWeight": "700", "color": "#172821"},
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "state"}
+          }
+        }
+      ]
+    },
+    {
+      "title": {"text": "Resized by Players (Dorling Cartogram)", "fontSize": 12, "anchor": "start", "color": "#172821"},
+      "width": 340, "height": 380,
+      "data": {
+        "url": "data/cartogram_dorling.csv",
+        "format": {"type": "csv", "parse": {"x": "number", "y": "number", "radius": "number", "area": "number", "participants_thousands": "number", "participation_rate_per_million": "number"}}
+      },
+      "layer": [
+        {
+          "mark": {"type": "circle", "stroke": "#F3F6F0", "strokeWidth": 2},
+          "params": [{"name": "pick", "select": {"type": "point", "fields": ["state"]}, "bind": "legend"}],
+          "encoding": {
+            "x": {"field": "x", "type": "quantitative", "scale": {"domain": [80, 750]}, "axis": null},
+            "y": {"field": "y", "type": "quantitative", "scale": {"domain": [-20, 500]}, "axis": null},
+            "size": {
+              "field": "area", "type": "quantitative",
+              "scale": null,
+              "legend": null
+            },
+            "color": {
+              "field": "participation_rate_per_million", "type": "quantitative",
+              "scale": {"scheme": "greens", "domainMid": 18},
+              "legend": {"orient": "bottom", "title": "Players per thousand residents", "direction": "horizontal", "gradientLength": 140}
+            },
+            "opacity": {
+              "condition": {"param": "pick", "value": 1},
+              "value": 0.3
+            },
+            "tooltip": [
+              {"field": "state", "title": "State"},
+              {"field": "participants_thousands", "title": "Players (thousands)", "format": ".1f"},
+              {"field": "population_millions", "title": "Population (millions)", "format": ".2f"},
+              {"field": "participation_rate_per_million", "title": "Per thousand", "format": ".0f"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "fontSize": 13, "fontWeight": "700", "color": "#172821"},
+          "encoding": {
+            "x": {"field": "x", "type": "quantitative", "axis": null},
+            "y": {"field": "y", "type": "quantitative", "axis": null},
+            "text": {"field": "state"}
+          }
+        },
+        {
+          "data": {"values": [{"label": "▲ VIC: 20% of pop, 40% of players"}]},
+          "mark": {"type": "text", "align": "left", "fontSize": 10, "fontStyle": "italic", "fontWeight": "600", "color": "#1A7A4C"},
+          "encoding": {
+            "x": {"value": 0},
+            "y": {"value": -10},
+            "text": {"field": "label"}
+          }
+        }
+      ]
+    }
+  ]
+}

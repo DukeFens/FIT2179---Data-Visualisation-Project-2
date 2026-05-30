@@ -1,0 +1,137 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container", "height": 340,
+  "config": {"view": {"stroke": null}, "font": "Inter, sans-serif"},
+  "title": {
+    "text": "Australian BWF ranking trajectories",
+    "subtitle": "Hover or select a player to highlight their path (lower = better)",
+    "anchor": "start", "fontSize": 14, "subtitleFontSize": 11,
+    "color": "#172821", "subtitleColor": "#506158", "offset": 8
+  },
+  "params": [
+    {
+      "name": "playerSel",
+      "value": "Setyana Mapasa",
+      "bind": {
+        "input": "select",
+        "options": ["", "Setyana Mapasa", "Angela Yu", "Gronya Somerville", "Sawan Serasinghe", "Simon Leung", "Tiffany Ho", "Wendy Chen", "Jack Yu"],
+        "name": "Highlight player: "
+      }
+    }
+  ],
+  "data": {
+    "url": "data/australian_players_bwf_rankings.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "week": "number", "world_ranking": "number", "points": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.world_ranking > 0"},
+    {"calculate": "datum.year + (datum.week - 1) / 52", "as": "date_approx"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rect", "color": "#1A7A4C", "opacity": 0.05},
+      "data": {"values": [{}]},
+      "encoding": {
+        "y": {"datum": 1, "type": "quantitative", "scale": {"reverse": true, "domain": [1, 100]}},
+        "y2": {"datum": 30}
+      }
+    },
+    {
+      "mark": {"type": "rule", "color": "#1A7A4C", "strokeDash": [5, 3], "strokeWidth": 1, "opacity": 0.5},
+      "data": {"values": [{"threshold": 30}]},
+      "encoding": {"y": {"field": "threshold", "type": "quantitative", "scale": {"reverse": true, "domain": [1, 100]}}}
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 4, "dy": -8, "fontSize": 9, "fontStyle": "italic", "color": "#1A7A4C", "fontWeight": "600"},
+      "data": {"values": [{"label": "Top 30 — Olympic qualification zone"}]},
+      "encoding": {
+        "x": {"value": 0},
+        "y": {"datum": 30, "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "mark": {"type": "rect", "color": "#E07B39", "opacity": 0.06},
+      "data": {"values": [{}]},
+      "encoding": {
+        "x": {"datum": 2022, "type": "quantitative", "scale": {"domain": [2022, 2025.5]}},
+        "x2": {"datum": 2024.5}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "center", "dy": 12, "fontSize": 9, "fontWeight": "600", "color": "#E07B39"},
+      "data": {"values": [{"label": "2 yrs top-30 → Paris 2024", "x": 2023.25}]},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"datum": 1, "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "mark": {"type": "line", "strokeWidth": 2.5, "interpolate": "monotone", "strokeCap": "round"},
+      "params": [{"name": "playerHov", "select": {"type": "point", "on": "mouseover", "fields": ["player"], "clear": "mouseout"}}],
+      "encoding": {
+        "x": {
+          "field": "date_approx", "type": "quantitative",
+          "title": "Year",
+          "axis": {"grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 11, "format": "d"}
+        },
+        "y": {
+          "field": "world_ranking", "type": "quantitative",
+          "title": "BWF World Ranking",
+          "scale": {"reverse": true, "domain": [1, 100]},
+          "axis": {"grid": true, "gridColor": "#E8EDE9", "labelFontSize": 11}
+        },
+        "color": {
+          "field": "player", "type": "nominal",
+          "scale": {
+            "domain": ["Setyana Mapasa", "Gronya Somerville", "Sawan Serasinghe", "Simon Leung", "Angela Yu", "Tiffany Ho", "Wendy Chen", "Jack Yu"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#D4B83D", "#8B5197", "#4AB87D", "#839489", "#C8D5CB"]
+          },
+          "legend": {"orient": "bottom", "title": null, "direction": "horizontal", "columns": 4}
+        },
+        "detail": {"field": "discipline", "type": "nominal"},
+        "opacity": {
+          "condition": [
+            {"test": "playerSel != '' && datum.player == playerSel", "value": 1},
+            {"param": "playerHov", "value": 1}
+          ],
+          "value": 0.12
+        },
+        "strokeWidth": {
+          "condition": [
+            {"test": "playerSel != '' && datum.player == playerSel", "value": 3.5},
+            {"param": "playerHov", "value": 3}
+          ],
+          "value": 2
+        }
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "stroke": "#F3F6F0", "strokeWidth": 1, "size": 50},
+      "encoding": {
+        "x": {"field": "date_approx", "type": "quantitative"},
+        "y": {"field": "world_ranking", "type": "quantitative", "scale": {"reverse": true, "domain": [1, 100]}},
+        "color": {
+          "field": "player", "type": "nominal",
+          "legend": null
+        },
+        "opacity": {
+          "condition": [
+            {"test": "playerSel != '' && datum.player == playerSel", "value": 1},
+            {"param": "playerHov", "value": 1}
+          ],
+          "value": 0.08
+        },
+        "tooltip": [
+          {"field": "player", "title": "Player"},
+          {"field": "discipline", "title": "Discipline"},
+          {"field": "year", "title": "Year"},
+          {"field": "week", "title": "Week"},
+          {"field": "world_ranking", "title": "Ranking"},
+          {"field": "points", "title": "Points"}
+        ]
+      }
+    }
+  ]
+}

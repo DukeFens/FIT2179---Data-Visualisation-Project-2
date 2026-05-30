@@ -1,0 +1,169 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "config": {"view": {"stroke": null}, "font": "Inter, sans-serif"},
+  "title": {
+    "text": "Explore participation by state",
+    "subtitle": "One control updates the map, state trend, and age breakdown",
+    "anchor": "start", "fontSize": 14, "subtitleFontSize": 11,
+    "color": "#172821", "subtitleColor": "#506158", "offset": 8
+  },
+  "params": [
+    {
+      "name": "stateSel",
+      "value": "VIC",
+      "bind": {
+        "input": "select",
+        "options": ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"],
+        "name": "State: "
+      }
+    },
+    {
+      "name": "yearSel",
+      "value": 2024,
+      "bind": {
+        "input": "select",
+        "options": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+        "name": "Year: "
+      }
+    }
+  ],
+  "vconcat": [
+    {
+      "height": 220,
+      "projection": {"type": "mercator"},
+      "data": {
+        "url": "data/aus_states_mainland.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "transform": [
+        {"calculate": "{'New South Wales':'NSW','Victoria':'VIC','Queensland':'QLD','South Australia':'SA','Western Australia':'WA','Tasmania':'TAS','Northern Territory':'NT','Australian Capital Territory':'ACT'}[datum.properties.STATE_NAME]", "as": "state_abbr"},
+        {
+          "lookup": "state_abbr",
+          "from": {
+            "data": {"url": "data/cartogram_dorling.csv", "format": {"type": "csv", "parse": {"participation_rate_per_million": "number"}}},
+            "key": "state",
+            "fields": ["participation_rate_per_million", "participants_thousands"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "#F3F6F0", "strokeWidth": 0.8},
+      "encoding": {
+        "color": {
+          "field": "participation_rate_per_million", "type": "quantitative",
+          "scale": {"range": ["#DDE5DF", "#5BAE7C", "#3F9A66", "#2C8454", "#1E6B41", "#13502F"]},
+          "legend": {"orient": "bottom", "title": "Players per thousand", "direction": "horizontal", "gradientLength": 140}
+        },
+        "opacity": {
+          "condition": {"test": "datum.state_abbr == stateSel", "value": 1},
+          "value": 0.35
+        },
+        "stroke": {
+          "condition": {"test": "datum.state_abbr == stateSel", "value": "#172821"},
+          "value": "#F3F6F0"
+        },
+        "strokeWidth": {
+          "condition": {"test": "datum.state_abbr == stateSel", "value": 2},
+          "value": 0.8
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "title": "State"},
+          {"field": "participation_rate_per_million", "title": "Per thousand", "format": ".1f"},
+          {"field": "participants_thousands", "title": "Players (K)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "height": 200,
+      "data": {
+        "url": "data/ausplay_state_by_year.csv",
+        "format": {"type": "csv", "parse": {"year": "number", "participants_thousands": "number", "participation_rate_pct": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.state == stateSel"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "line", "interpolate": "monotone", "strokeWidth": 2.5, "color": "#2C8454"},
+          "encoding": {
+            "x": {
+              "field": "year", "type": "quantitative",
+              "title": "Year",
+              "axis": {"format": "d", "grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 11}
+            },
+            "y": {
+              "field": "participants_thousands", "type": "quantitative",
+              "title": "Participants (thousands)",
+              "axis": {"grid": true, "gridColor": "#DDE5DF", "labelFontSize": 11}
+            }
+          }
+        },
+        {
+          "mark": {"type": "circle", "size": 50, "color": "#1E6B41", "stroke": "#F3F6F0", "strokeWidth": 1.5},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "participants_thousands", "type": "quantitative"}
+          }
+        },
+        {
+          "transform": [{"filter": "datum.year == yearSel"}],
+          "mark": {"type": "circle", "size": 120, "color": "#13502F", "stroke": "#172821", "strokeWidth": 2},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "participants_thousands", "type": "quantitative"}
+          }
+        }
+      ]
+    },
+    {
+      "height": {"step": 52},
+      "data": {"url": "data/ausplay_badminton_demographics.csv"},
+      "transform": [
+        {"filter": "datum.year == yearSel"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "rect", "stroke": "#F3F6F0", "strokeWidth": 2},
+          "encoding": {
+            "x": {
+              "field": "age_group", "type": "ordinal",
+              "sort": ["15-24", "25-34", "35-44", "45-54", "55+"],
+              "title": "Age group",
+              "axis": {"labelFontSize": 11, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB"}
+            },
+            "y": {
+              "field": "gender", "type": "nominal",
+              "sort": ["Male", "Female"],
+              "title": null,
+              "axis": {"labelFontSize": 11, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB"}
+            },
+            "color": {
+              "field": "percentage", "type": "quantitative",
+              "scale": {"range": ["#F3F6F0", "#5BAE7C", "#3F9A66", "#2C8454", "#1E6B41", "#13502F"], "domain": [5, 25]},
+              "legend": {"orient": "bottom", "title": "Participation %", "direction": "horizontal", "gradientLength": 140}
+            },
+            "tooltip": [
+              {"field": "age_group", "title": "Age"},
+              {"field": "gender", "title": "Gender"},
+              {"field": "percentage", "title": "%", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "center", "baseline": "middle", "fontSize": 11, "fontWeight": 600},
+          "encoding": {
+            "x": {"field": "age_group", "type": "ordinal", "sort": ["15-24", "25-34", "35-44", "45-54", "55+"]},
+            "y": {"field": "gender", "type": "nominal", "sort": ["Male", "Female"]},
+            "text": {"field": "percentage", "type": "quantitative", "format": ".1f"},
+            "color": {
+              "condition": {"test": "datum.percentage > 16", "value": "#F3F6F0"},
+              "value": "#172821"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "spacing": 16,
+  "resolve": {"scale": {"color": "independent"}}
+}

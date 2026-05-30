@@ -1,0 +1,91 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "config": { "view": { "stroke": null }, "font": "Inter, sans-serif" },
+  "layer": [
+    {
+      "comment": "── Phase stage labels at top ──",
+      "data": {
+        "values": [
+          { "phase": "Jump / Launch", "x": 60 },
+          { "phase": "Core Rotation", "x": 180 },
+          { "phase": "Arm Drive",     "x": 300 },
+          { "phase": "Shoulder Load", "x": 420 },
+          { "phase": "Elbow Snap",    "x": 540 },
+          { "phase": "Wrist Contact", "x": 660 }
+        ]
+      },
+      "mark": { "type": "text", "align": "center", "fontSize": 9, "fontStyle": "italic", "color": "#839489" },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative", "scale": { "domain": [0, 720] }, "axis": null },
+        "y": { "value": 14 },
+        "text": { "field": "phase" }
+      }
+    },
+    {
+      "comment": "── Phase divider lines ──",
+      "data": { "values": [{ "x": 130 }, { "x": 250 }, { "x": 370 }, { "x": 490 }, { "x": 610 }] },
+      "mark": { "type": "rule", "color": "#E8EDE9", "strokeWidth": 1, "strokeDash": [3, 3] },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative", "scale": { "domain": [0, 720] }, "axis": null }
+      }
+    },
+    {
+      "comment": "── Edges ──",
+      "data": { "url": "data/kinetic_chain_edges.csv",
+        "format": { "type": "csv", "parse": { "x1": "number", "y1": "number", "x2": "number", "y2": "number", "weight": "number" } }
+      },
+      "mark": { "type": "rule", "opacity": 0.5, "color": "#C8D5CB" },
+      "encoding": {
+        "x":  { "field": "x1", "type": "quantitative", "scale": { "domain": [0, 720] }, "axis": null },
+        "y":  { "field": "y1", "type": "quantitative", "scale": { "domain": [0, 280] }, "axis": null },
+        "x2": { "field": "x2", "type": "quantitative" },
+        "y2": { "field": "y2", "type": "quantitative" },
+        "strokeWidth": { "field": "weight", "type": "quantitative", "scale": { "range": [1, 4] }, "legend": null }
+      }
+    },
+    {
+      "comment": "── Nodes: circles sized by activation ──",
+      "data": { "url": "data/kinetic_chain_nodes.csv",
+        "format": { "type": "csv", "parse": { "x": "number", "y": "number", "activation": "number" } }
+      },
+      "mark": { "type": "circle", "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative", "scale": { "domain": [0, 720] }, "axis": null },
+        "y": { "field": "y", "type": "quantitative", "scale": { "domain": [0, 280] }, "axis": null },
+        "size": {
+          "field": "activation", "type": "quantitative",
+          "scale": { "range": [180, 2400] },
+          "legend": { "orient": "bottom", "title": "Muscle activation (%MVIC)", "direction": "horizontal", "values": [40, 60, 75, 86] }
+        },
+        "color": {
+          "field": "group", "type": "nominal",
+          "scale": {
+            "domain": ["Leg", "Core", "Back", "Chest", "Shoulder", "Arm", "Forearm"],
+            "range": ["#1A7A4C", "#2B7A9B", "#4AB87D", "#E07B39", "#D4B83D", "#8B5197", "#839489"]
+          },
+          "legend": { "orient": "bottom", "title": "Muscle group", "direction": "horizontal", "columns": 4 }
+        },
+        "tooltip": [
+          { "field": "label",      "title": "Muscle" },
+          { "field": "group",      "title": "Group" },
+          { "field": "activation", "title": "Activation (%MVIC)", "format": ".1f" },
+          { "field": "phase",      "title": "Peak phase" }
+        ]
+      }
+    },
+    {
+      "comment": "── Node labels below circles ──",
+      "data": { "url": "data/kinetic_chain_nodes.csv",
+        "format": { "type": "csv", "parse": { "x": "number", "y": "number" } }
+      },
+      "mark": { "type": "text", "dy": 24, "fontSize": 9, "fontWeight": "600", "color": "#172821" },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative", "scale": { "domain": [0, 720] }, "axis": null },
+        "y": { "field": "y", "type": "quantitative", "scale": { "domain": [0, 280] }, "axis": null },
+        "text": { "field": "label" }
+      }
+    }
+  ]
+}

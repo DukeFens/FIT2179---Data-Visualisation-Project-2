@@ -4,12 +4,18 @@
   "height": 900,
   "background": null,
   "config": {
-    "view": { "stroke": null },
-    "range": { "heatmap": { "scheme": "greens" } }
+    "view": {
+      "stroke": null
+    },
+    "range": {
+      "heatmap": {
+        "scheme": "greens"
+      }
+    }
   },
   "layer": [
     {
-      "comment": "── Layer 1: body silhouette (base64 embedded) ──",
+      "comment": "\u2500\u2500 Layer 1: body silhouette (base64 embedded) \u2500\u2500",
       "data": {
         "values": [
           {
@@ -54,7 +60,7 @@
       }
     },
     {
-      "comment": "── Layer 2: muscle activation regions (GeoJSON) ──",
+      "comment": "\u2500\u2500 Layer 2: muscle activation regions (GeoJSON) \u2500\u2500",
       "data": {
         "url": "data/muscle_regions.geojson",
         "format": {
@@ -144,5 +150,15 @@
       }
     }
   ],
-  "padding": 4
+  "padding": 4,
+  "title": {
+    "anchor": "start",
+    "fontSize": 13,
+    "subtitleFontSize": 10,
+    "color": "#172821",
+    "subtitleColor": "#506158",
+    "offset": 8,
+    "text": "Muscle activation intensity during a forehand smash",
+    "subtitle": "Darker green = higher activation (% MVIC)."
+  }
 }

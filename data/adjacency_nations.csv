@@ -1,0 +1,170 @@
+nation_a,nation_b,meetings
+China,China,23
+China,Chinese Taipei,3
+China,Denmark,2
+China,Hong Kong,2
+China,India,5
+China,Indonesia,14
+China,Japan,12
+China,Malaysia,2
+China,South Korea,18
+China,Spain,2
+China,Thailand,1
+China,United States,2
+China,Vietnam,0
+Chinese Taipei,China,3
+Chinese Taipei,Chinese Taipei,1
+Chinese Taipei,Denmark,0
+Chinese Taipei,Hong Kong,0
+Chinese Taipei,India,0
+Chinese Taipei,Indonesia,1
+Chinese Taipei,Japan,0
+Chinese Taipei,Malaysia,0
+Chinese Taipei,South Korea,0
+Chinese Taipei,Spain,0
+Chinese Taipei,Thailand,0
+Chinese Taipei,United States,0
+Chinese Taipei,Vietnam,0
+Denmark,China,2
+Denmark,Chinese Taipei,0
+Denmark,Denmark,1
+Denmark,Hong Kong,0
+Denmark,India,1
+Denmark,Indonesia,1
+Denmark,Japan,0
+Denmark,Malaysia,0
+Denmark,South Korea,0
+Denmark,Spain,0
+Denmark,Thailand,0
+Denmark,United States,0
+Denmark,Vietnam,0
+Hong Kong,China,2
+Hong Kong,Chinese Taipei,0
+Hong Kong,Denmark,0
+Hong Kong,Hong Kong,1
+Hong Kong,India,0
+Hong Kong,Indonesia,0
+Hong Kong,Japan,0
+Hong Kong,Malaysia,0
+Hong Kong,South Korea,0
+Hong Kong,Spain,1
+Hong Kong,Thailand,0
+Hong Kong,United States,0
+Hong Kong,Vietnam,0
+India,China,5
+India,Chinese Taipei,0
+India,Denmark,1
+India,Hong Kong,0
+India,India,3
+India,Indonesia,1
+India,Japan,3
+India,Malaysia,0
+India,South Korea,2
+India,Spain,0
+India,Thailand,0
+India,United States,0
+India,Vietnam,0
+Indonesia,China,14
+Indonesia,Chinese Taipei,1
+Indonesia,Denmark,1
+Indonesia,Hong Kong,0
+Indonesia,India,1
+Indonesia,Indonesia,8
+Indonesia,Japan,6
+Indonesia,Malaysia,1
+Indonesia,South Korea,2
+Indonesia,Spain,0
+Indonesia,Thailand,0
+Indonesia,United States,0
+Indonesia,Vietnam,0
+Japan,China,12
+Japan,Chinese Taipei,0
+Japan,Denmark,0
+Japan,Hong Kong,0
+Japan,India,3
+Japan,Indonesia,6
+Japan,Japan,10
+Japan,Malaysia,1
+Japan,South Korea,5
+Japan,Spain,0
+Japan,Thailand,2
+Japan,United States,0
+Japan,Vietnam,1
+Malaysia,China,2
+Malaysia,Chinese Taipei,0
+Malaysia,Denmark,0
+Malaysia,Hong Kong,0
+Malaysia,India,0
+Malaysia,Indonesia,1
+Malaysia,Japan,1
+Malaysia,Malaysia,1
+Malaysia,South Korea,0
+Malaysia,Spain,0
+Malaysia,Thailand,0
+Malaysia,United States,0
+Malaysia,Vietnam,0
+South Korea,China,18
+South Korea,Chinese Taipei,0
+South Korea,Denmark,0
+South Korea,Hong Kong,0
+South Korea,India,2
+South Korea,Indonesia,2
+South Korea,Japan,5
+South Korea,Malaysia,0
+South Korea,South Korea,11
+South Korea,Spain,0
+South Korea,Thailand,0
+South Korea,United States,2
+South Korea,Vietnam,3
+Spain,China,2
+Spain,Chinese Taipei,0
+Spain,Denmark,0
+Spain,Hong Kong,1
+Spain,India,0
+Spain,Indonesia,0
+Spain,Japan,0
+Spain,Malaysia,0
+Spain,South Korea,0
+Spain,Spain,1
+Spain,Thailand,0
+Spain,United States,0
+Spain,Vietnam,0
+Thailand,China,1
+Thailand,Chinese Taipei,0
+Thailand,Denmark,0
+Thailand,Hong Kong,0
+Thailand,India,0
+Thailand,Indonesia,0
+Thailand,Japan,2
+Thailand,Malaysia,0
+Thailand,South Korea,0
+Thailand,Spain,0
+Thailand,Thailand,1
+Thailand,United States,0
+Thailand,Vietnam,0
+United States,China,2
+United States,Chinese Taipei,0
+United States,Denmark,0
+United States,Hong Kong,0
+United States,India,0
+United States,Indonesia,0
+United States,Japan,0
+United States,Malaysia,0
+United States,South Korea,2
+United States,Spain,0
+United States,Thailand,0
+United States,United States,1
+United States,Vietnam,0
+Vietnam,China,0
+Vietnam,Chinese Taipei,0
+Vietnam,Denmark,0
+Vietnam,Hong Kong,0
+Vietnam,India,0
+Vietnam,Indonesia,0
+Vietnam,Japan,1
+Vietnam,Malaysia,0
+Vietnam,South Korea,3
+Vietnam,Spain,0
+Vietnam,Thailand,0
+Vietnam,United States,0
+Vietnam,Vietnam,1
