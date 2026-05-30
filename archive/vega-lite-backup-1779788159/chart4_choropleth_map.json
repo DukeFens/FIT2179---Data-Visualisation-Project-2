@@ -1,0 +1,175 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth map of Australia \u2014 badminton participation rate by state (AusPlay 2025)",
+  "width": 600,
+  "height": 380,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif"
+  },
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "comment": "\u2500\u2500 State fill by participation rate \u2500\u2500",
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "url": "../data/australia_badminton_participation_by_state.csv"
+            },
+            "key": "state",
+            "fields": [
+              "participation_rate_pct",
+              "total_participants_thousands",
+              "registered_clubs",
+              "state_code"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "field": "participation_rate_pct",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0.5,
+              2.5
+            ],
+            "range": [
+              "#C8E6F5",
+              "#2B88A1",
+              "#1E5F74"
+            ]
+          },
+          "legend": {
+            "title": "Participation rate (%)",
+            "orient": "bottom-right",
+            "direction": "horizontal",
+            "gradientLength": 160,
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {
+            "field": "properties.STATE_NAME",
+            "title": "State"
+          },
+          {
+            "field": "participation_rate_pct",
+            "title": "Participation rate (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "total_participants_thousands",
+            "title": "Players (thousands)",
+            "format": ".1f"
+          },
+          {
+            "field": "registered_clubs",
+            "title": "Registered clubs"
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 State labels \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "label": "WA",
+            "lon": 122.0,
+            "lat": -25.5
+          },
+          {
+            "label": "NT",
+            "lon": 133.0,
+            "lat": -19.5
+          },
+          {
+            "label": "SA",
+            "lon": 135.5,
+            "lat": -29.5
+          },
+          {
+            "label": "QLD",
+            "lon": 145.0,
+            "lat": -22.0
+          },
+          {
+            "label": "NSW",
+            "lon": 146.5,
+            "lat": -32.5
+          },
+          {
+            "label": "VIC",
+            "lon": 144.5,
+            "lat": -37.0
+          },
+          {
+            "label": "TAS",
+            "lon": 146.5,
+            "lat": -42.0
+          },
+          {
+            "label": "ACT",
+            "lon": 149.2,
+            "lat": -35.5
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "white",
+        "opacity": 0.9
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Where Does Australia Play Badminton?",
+    "subtitle": "Participation rate by state \u00b7 Source: AusPlay 2025 (Australian Sports Commission, April 2026)",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

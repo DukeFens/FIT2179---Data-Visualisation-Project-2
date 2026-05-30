@@ -1,0 +1,123 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "data": { "url": "../data/longevity_sports.csv" },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "transform": [
+    {
+      "calculate": "datum.sport === 'Badminton' ? 'Badminton' : 'Other'",
+      "as": "highlight"
+    }
+  ],
+  "layer": [
+    {
+      "comment": "── Average reference line ──",
+      "mark": { "type": "rule", "color": "#C8D5CB", "strokeDash": [4, 3], "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "aggregate": "mean", "field": "years_gained", "type": "quantitative" }
+      }
+    },
+    {
+      "comment": "── Average label ──",
+      "mark": { "type": "text", "align": "left", "dx": 4, "dy": -5, "fontSize": 10, "fontStyle": "italic", "color": "#839489" },
+      "data": { "values": [{ "x": 4.74, "sport": "Running", "label": "avg. 4.7 yrs" }] },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative" },
+        "y": { "field": "sport", "type": "nominal" },
+        "text": { "field": "label" }
+      }
+    },
+    {
+      "comment": "── Stick ──",
+      "mark": { "type": "rule", "strokeCap": "round" },
+      "encoding": {
+        "y": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": { "field": "years_gained", "order": "descending" },
+          "title": null,
+          "axis": {
+            "grid": false,
+            "labelFontSize": 12,
+            "labelColor": "#506158",
+            "domainColor": "#C8D5CB",
+            "tickColor": "#C8D5CB"
+          }
+        },
+        "x": { "datum": 0 },
+        "x2": { "field": "years_gained", "type": "quantitative" },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#C8D5CB"] },
+          "legend": null
+        },
+        "strokeWidth": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": { "domain": ["Badminton", "Other"], "range": [3, 1.5] },
+          "legend": null
+        }
+      }
+    },
+    {
+      "comment": "── Dot ──",
+      "mark": { "type": "circle", "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
+        "y": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": { "field": "years_gained", "order": "descending" }
+        },
+        "x": {
+          "field": "years_gained",
+          "type": "quantitative",
+          "title": "Years of life expectancy gained vs. sedentary peers",
+          "axis": {
+            "grid": true,
+            "gridColor": "#E8EDE9",
+            "domainColor": "#C8D5CB",
+            "tickColor": "#C8D5CB",
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#839489"] },
+          "legend": null
+        },
+        "size": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": { "domain": ["Badminton", "Other"], "range": [130, 70] },
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "sport", "title": "Sport" },
+          { "field": "category", "title": "Category" },
+          { "field": "years_gained", "title": "Years gained", "format": ".1f" },
+          { "field": "mortality_reduction_pct", "title": "Mortality reduction (%)" }
+        ]
+      }
+    },
+    {
+      "comment": "── Badminton value label only ──",
+      "transform": [{ "filter": "datum.sport === 'Badminton'" }],
+      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 12, "fontWeight": "700", "color": "#1A7A4C" },
+      "encoding": {
+        "y": {
+          "field": "sport",
+          "type": "nominal",
+          "sort": { "field": "years_gained", "order": "descending" }
+        },
+        "x": { "field": "years_gained", "type": "quantitative" },
+        "text": { "field": "years_gained", "type": "quantitative", "format": ".1f" }
+      }
+    }
+  ]
+}

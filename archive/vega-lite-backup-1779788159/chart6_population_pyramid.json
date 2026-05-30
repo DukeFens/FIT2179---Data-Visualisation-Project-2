@@ -1,0 +1,165 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Population pyramid \u2014 badminton participants by age group and gender (AusPlay 2025)",
+  "width": "container",
+  "height": 320,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/badminton_participation_by_age_gender.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.gender === 'Male' ? -datum.participants_thousands : datum.participants_thousands",
+      "as": "participants_signed"
+    }
+  ],
+  "layer": [
+    {
+      "comment": "\u2500\u2500 Bars \u2500\u2500",
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+      "encoding": {
+        "y": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": [
+            "15-17",
+            "18-24",
+            "25-34",
+            "35-44",
+            "45-54",
+            "55-64",
+            "65+"
+          ],
+          "axis": {
+            "title": "Age group",
+            "titleFontSize": 11,
+            "labelFontSize": 11
+          }
+        },
+        "x": {
+          "field": "participants_signed",
+          "type": "quantitative",
+          "axis": {
+            "title": "\u2190 Male        Female \u2192",
+            "titleFontSize": 11,
+            "labelExpr": "abs(datum.value)"
+          },
+          "scale": {
+            "domain": [
+              -80,
+              80
+            ]
+          }
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Male",
+              "Female"
+            ],
+            "range": [
+              "#2B88A1",
+              "#F5A623"
+            ]
+          },
+          "legend": {
+            "title": "Gender",
+            "orient": "bottom-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {
+            "field": "age_group",
+            "title": "Age group"
+          },
+          {
+            "field": "gender",
+            "title": "Gender"
+          },
+          {
+            "field": "participants_thousands",
+            "title": "Players (thousands)",
+            "format": ".1f"
+          },
+          {
+            "field": "participation_rate_pct",
+            "title": "Participation rate (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 18-24 highlight annotation \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "age_group": "18-24",
+            "note": "University age \u2014 largest group"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -4,
+        "fontSize": 10,
+        "color": "#1E5F74",
+        "fontWeight": "bold",
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "y": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": [
+            "15-17",
+            "18-24",
+            "25-34",
+            "35-44",
+            "45-54",
+            "55-64",
+            "65+"
+          ]
+        },
+        "x": {
+          "value": 400
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Gen Z Is Taking Over the Courts",
+    "subtitle": "Badminton players by age group and gender \u00b7 Source: AusPlay 2025",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

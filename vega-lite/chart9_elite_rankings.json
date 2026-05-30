@@ -1,0 +1,129 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 320,
+  "data": {
+    "url": "../data/australian_players_bwf_rankings.csv",
+    "format": {
+      "type": "csv",
+      "parse": { "year": "number", "week": "number", "world_ranking": "number", "points": "number" }
+    }
+  },
+  "config": { "view": { "stroke": null }, "font": "Inter, sans-serif" },
+  "transform": [{ "filter": "datum.week == 26" }],
+  "layer": [
+    {
+      "mark": { "type": "rule", "color": "#C8D5CB", "strokeDash": [4, 3], "strokeWidth": 1.2 },
+      "data": { "values": [{ "threshold": 30 }] },
+      "encoding": {
+        "y": {
+          "field": "threshold", "type": "quantitative",
+          "scale": { "reverse": true, "domain": [1, 100] }
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 4, "dy": -6, "fontSize": 10, "fontStyle": "italic", "color": "#839489" },
+      "data": { "values": [{ "year": "2022", "threshold": 30, "label": "Paris qualification zone (top 30)" }] },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": {
+          "field": "threshold", "type": "quantitative",
+          "scale": { "reverse": true, "domain": [1, 100] }
+        },
+        "text": { "field": "label" }
+      }
+    },
+    {
+      "mark": { "type": "line", "strokeWidth": 2.5, "strokeCap": "round", "interpolate": "linear" },
+      "encoding": {
+        "x": {
+          "field": "year", "type": "ordinal",
+          "title": "Year",
+          "axis": { "grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 13 }
+        },
+        "y": {
+          "field": "world_ranking", "type": "quantitative",
+          "title": "BWF World Ranking",
+          "scale": { "reverse": true, "domain": [1, 100] },
+          "axis": { "grid": true, "gridColor": "#E8EDE9", "labelFontSize": 11 }
+        },
+        "color": {
+          "field": "player", "type": "nominal",
+          "scale": {
+            "domain": ["Setyana Mapasa", "Angela Yu", "Gronya Sommerville", "Tiffany Ho"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#839489"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": { "type": "point", "filled": true, "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "world_ranking", "type": "quantitative" },
+        "color": {
+          "field": "player", "type": "nominal",
+          "scale": {
+            "domain": ["Setyana Mapasa", "Angela Yu", "Gronya Sommerville", "Tiffany Ho"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#839489"]
+          },
+          "legend": { "orient": "top", "title": null, "direction": "horizontal" }
+        },
+        "size": {
+          "field": "points", "type": "quantitative",
+          "scale": { "range": [40, 350] },
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "player", "title": "Player" },
+          { "field": "discipline", "title": "Discipline" },
+          { "field": "year", "title": "Year" },
+          { "field": "world_ranking", "title": "World Rank" },
+          { "field": "points", "title": "Points", "format": "," }
+        ]
+      }
+    },
+    {
+      "transform": [
+        { "filter": "datum.year == 2025 && datum.week == 26" },
+        {
+          "calculate": "datum.player === 'Angela Yu' ? datum.world_ranking + 6 : datum.player === 'Setyana Mapasa' ? datum.world_ranking - 6 : datum.world_ranking",
+          "as": "label_y"
+        }
+      ],
+      "mark": { "type": "text", "align": "left", "dx": 10, "fontSize": 10, "fontWeight": "600" },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": {
+          "field": "label_y", "type": "quantitative",
+          "scale": { "reverse": true, "domain": [1, 100] }
+        },
+        "text": { "field": "player" },
+        "color": {
+          "field": "player", "type": "nominal",
+          "scale": {
+            "domain": ["Setyana Mapasa", "Angela Yu", "Gronya Sommerville", "Tiffany Ho"],
+            "range": ["#1A7A4C", "#2B7A9B", "#E07B39", "#839489"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": { "type": "rule", "color": "#E07B39", "strokeWidth": 1.5, "strokeDash": [5, 3], "opacity": 0.85 },
+      "data": { "values": [{ "year": 2024 }] },
+      "encoding": { "x": { "field": "year", "type": "ordinal" } }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "dy": -8, "fontSize": 10, "fontWeight": "700", "color": "#E07B39" },
+      "data": { "values": [{ "year": 2024, "label": "Paris '24" }] },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "value": 0 },
+        "text": { "field": "label" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "data": {
+    "url": "../data/bwf_tournaments_australia.csv",
+    "format": { "type": "csv", "parse": { "year": "number", "prize_money_usd": "number", "bwf_points_winner": "number", "total_entries": "number" } }
+  },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "transform": [
+    { "filter": "datum.prize_money_usd > 0" }
+  ],
+  "layer": [
+    {
+      "comment": "── Grouped bars ──",
+      "mark": { "type": "bar", "cornerRadiusEnd": 3 },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": { "grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 11, "labelAngle": 0 }
+        },
+        "y": {
+          "field": "prize_money_usd",
+          "type": "quantitative",
+          "title": "Prize Money (USD)",
+          "axis": { "grid": true, "gridColor": "#E8EDE9", "format": "$~s", "labelFontSize": 11 }
+        },
+        "xOffset": { "field": "tournament", "type": "nominal" },
+        "color": {
+          "field": "grade",
+          "type": "nominal",
+          "title": "BWF Grade",
+          "scale": {
+            "domain": ["Super 500", "Super 300", "International Challenge"],
+            "range": ["#1A7A4C", "#4AB87D", "#C8D5CB"]
+          },
+          "legend": { "orient": "top", "title": null, "direction": "horizontal" }
+        },
+        "tooltip": [
+          { "field": "tournament", "title": "Tournament" },
+          { "field": "year", "title": "Year" },
+          { "field": "grade", "title": "Grade" },
+          { "field": "prize_money_usd", "title": "Prize Money", "format": "$,.0f" },
+          { "field": "winner_nationality", "title": "Winner" },
+          { "field": "total_entries", "title": "Entries" }
+        ]
+      }
+    },
+    {
+      "comment": "── Entry count dot on bar top ──",
+      "mark": { "type": "circle", "size": 50, "color": "#172821", "stroke": "#F3F6F0", "strokeWidth": 1, "opacity": 0.7 },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "xOffset": { "field": "tournament", "type": "nominal" },
+        "y": { "field": "prize_money_usd", "type": "quantitative" },
+        "size": {
+          "field": "total_entries", "type": "quantitative",
+          "scale": { "range": [30, 160] },
+          "legend": { "orient": "top", "title": "Entries", "symbolFillColor": "#506158", "direction": "horizontal" }
+        }
+      }
+    },
+    {
+      "comment": "── Winner nationality on Australian Open only ──",
+      "transform": [
+        { "filter": "datum.tournament === 'Australian Badminton Open' && datum.winner_nationality !== 'N/A'" }
+      ],
+      "mark": { "type": "text", "align": "center", "dy": -14, "fontSize": 9, "fontStyle": "italic", "color": "#506158" },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "xOffset": { "field": "tournament", "type": "nominal" },
+        "y": { "field": "prize_money_usd", "type": "quantitative" },
+        "text": { "field": "winner_nationality" }
+      }
+    },
+    {
+      "comment": "── Super 500 upgrade rule ──",
+      "mark": { "type": "rule", "color": "#1A7A4C", "strokeWidth": 1.5, "strokeDash": [4, 3], "opacity": 0.8 },
+      "data": { "values": [{ "year": 2022 }] },
+      "encoding": { "x": { "field": "year", "type": "ordinal" } }
+    },
+    {
+      "comment": "── Upgrade label ──",
+      "mark": { "type": "text", "align": "left", "dx": 4, "fontSize": 10, "fontWeight": "600", "color": "#1A7A4C" },
+      "data": { "values": [{ "year": 2022, "label": "↑ Super 500 upgrade" }] },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "value": 8 },
+        "text": { "field": "label" }
+      }
+    }
+  ]
+}

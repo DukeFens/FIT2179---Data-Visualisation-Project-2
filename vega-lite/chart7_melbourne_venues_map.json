@@ -1,76 +1,74 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Point map — badminton venue locations in Melbourne, sized by number of courts",
-  "width": 560,
-  "height": 420,
-  "background": "white",
-  "config": {
-    "view": { "stroke": null },
-    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
-    "legend": { "labelFontSize": 10, "titleFontSize": 10 }
-  },
-
+  "width": "container",
+  "height": 400,
+  "background": "#D6E8F0",
+  "config": { "view": { "stroke": null } },
   "projection": {
     "type": "mercator",
     "center": [145.0, -37.83],
     "scale": 55000
   },
-
   "layer": [
     {
-      "comment": "── Melbourne/Victoria base map ──",
+      "comment": "── Victoria base map ──",
       "data": {
-        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "url": "../data/aus_states_mainland.geojson",
         "format": { "type": "json", "property": "features" }
       },
       "transform": [{ "filter": "datum.properties.STATE_NAME === 'Victoria'" }],
-      "mark": { "type": "geoshape", "fill": "#EAF4F8", "stroke": "#B8D8E8", "strokeWidth": 1.2 }
+      "mark": {
+        "type": "geoshape",
+        "fill": "#EBE7DF",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      }
     },
     {
       "comment": "── Venue dots ──",
       "data": { "url": "../data/melbourne_badminton_venues.csv" },
-      "mark": { "type": "circle", "opacity": 0.88, "stroke": "white", "strokeWidth": 1.5 },
+      "mark": { "type": "circle", "opacity": 0.85, "stroke": "#FAFAF7", "strokeWidth": 1.5 },
       "encoding": {
         "longitude": { "field": "longitude", "type": "quantitative" },
         "latitude":  { "field": "latitude",  "type": "quantitative" },
         "size": {
-          "field": "courts",
-          "type": "quantitative",
+          "field": "courts", "type": "quantitative",
           "scale": { "range": [80, 700] },
-          "legend": { "title": "No. of courts", "orient": "bottom-right" }
+          "legend": {
+            "title": "No. of courts",
+            "orient": "bottom-right",
+            "titleColor": "#1A1916",
+            "labelColor": "#3D3B35"
+          }
         },
         "color": {
-          "field": "near_university",
-          "type": "nominal",
+          "field": "near_university", "type": "nominal",
           "scale": {
-            "domain": ["No", "Yes - Monash University", "Yes - Monash Caulfield", "Yes - RMIT", "Yes - UniMelb"],
-            "range": ["#2B88A1", "#D94F35", "#F5A623", "#7B4FBF", "#27AE60"]
+            "domain": ["No","Yes - Monash University","Yes - Monash Caulfield","Yes - RMIT","Yes - UniMelb"],
+            "range": ["#C8C4BC","#C47D2A","#DFA054","#8B5318","#EEC98A"]
           },
           "legend": {
             "title": "Near University",
             "orient": "top-left",
             "labelLimit": 200,
             "titleFontSize": 10,
-            "labelFontSize": 10
+            "labelFontSize": 10,
+            "titleColor": "#1A1916",
+            "labelColor": "#3D3B35",
+            "fillColor": "rgba(255,255,255,0.7)",
+            "padding": 6,
+            "cornerRadius": 4
           }
         },
         "tooltip": [
-          { "field": "name",            "title": "Venue" },
-          { "field": "suburb",          "title": "Suburb" },
-          { "field": "courts",          "title": "Courts" },
-          { "field": "type",            "title": "Type" },
-          { "field": "near_university", "title": "Near University" }
+          { "field": "name",           "title": "Venue" },
+          { "field": "suburb",         "title": "Suburb" },
+          { "field": "courts",         "title": "Courts" },
+          { "field": "type",           "title": "Type" },
+          { "field": "near_university","title": "Near University" }
         ]
       }
     }
   ],
-
-  "title": {
-    "text": "Find Your Court in Melbourne",
-    "subtitle": "Badminton venues across Greater Melbourne · Colour = proximity to universities · Source: Badminton Victoria & OpenStreetMap",
-    "fontSize": 15,
-    "subtitleFontSize": 10,
-    "subtitleColor": "#666",
-    "anchor": "start"
-  }
+  "padding": 4
 }

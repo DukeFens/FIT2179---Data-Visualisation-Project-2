@@ -1,12 +1,12 @@
-tournament,year,grade,prize_money_usd,bwf_points_winner,total_entries,host_city,category
-Australian Badminton Open,2019,Super 300,300000,3900,320,Sydney,World Tour
-Australian Badminton Open,2020,Super 300,300000,3900,0,Sydney,Cancelled (COVID)
-Australian Badminton Open,2021,Super 300,300000,3900,0,Wuhan,Relocated
-Australian Badminton Open,2022,Super 500,500000,5500,380,Sydney,World Tour
-Australian Badminton Open,2023,Super 500,750000,6000,420,Sydney,World Tour
-Australian Badminton Open,2024,Super 500,850000,6000,450,Sydney,World Tour
-Yonex Bendigo International,2022,International Challenge,75000,2700,280,Bendigo,International Series
-Yonex Bendigo International,2023,International Challenge,75000,2700,310,Bendigo,International Series
-Yonex Bendigo International,2024,International Challenge,80000,2700,295,Bendigo,International Series
-Sydney International Challenge,2023,International Challenge,75000,2700,260,Sydney,International Series
-Sydney International Challenge,2024,International Challenge,75000,2700,280,Sydney,International Series
+tournament,year,grade,prize_money_usd,bwf_points_winner,total_entries,host_city,category,winner_nationality
+Australian Badminton Open,2019,Super 300,300000,3900,320,Sydney,World Tour,China
+Australian Badminton Open,2020,Super 300,300000,3900,0,Sydney,Cancelled (COVID),N/A
+Australian Badminton Open,2021,Super 300,300000,3900,0,Wuhan,Relocated,N/A
+Australian Badminton Open,2022,Super 500,500000,5500,380,Sydney,World Tour,Indonesia
+Australian Badminton Open,2023,Super 500,750000,6000,420,Sydney,World Tour,China
+Australian Badminton Open,2024,Super 500,850000,6000,450,Sydney,World Tour,South Korea
+Yonex Bendigo International,2022,International Challenge,75000,2700,280,Bendigo,International Series,Australia
+Yonex Bendigo International,2023,International Challenge,75000,2700,310,Bendigo,International Series,Australia
+Yonex Bendigo International,2024,International Challenge,80000,2700,295,Bendigo,International Series,Australia
+Sydney International Challenge,2023,International Challenge,75000,2700,260,Sydney,International Series,Australia
+Sydney International Challenge,2024,International Challenge,75000,2700,280,Sydney,International Series,Australia

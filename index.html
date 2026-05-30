@@ -1,296 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Shuttlecock Effect — Badminton in Australia</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Shuttlecock Effect — A Visual Essay on Australian Badminton</title>
+  <meta name="description" content="A data-driven editorial examining why badminton quietly became one of the most consequential sports in modern Australia.">
 
-  <!-- Vega-Lite CDN -->
+  <!-- Vega-Lite -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =================================================================
+       DESIGN TOKENS
+       Badminton-inspired: court green, shuttle white, lime energy
+       ================================================================= */
+    :root {
+      /* Canvas & Ink */
+      --canvas:      #F3F6F0;
+      --ink:         #172821;
+      --ink-soft:    #506158;
+      --ink-faint:   #839489;
+      --rule:        #C8D5CB;
+      --rule-soft:   #DDE5DF;
+
+      /* Accent: Court Green */
+      --accent:      #1A7A4C;
+      --accent-dark: #135C39;
+      --accent-100:  #DCF1E5;
+      --accent-200:  #B3E0C7;
+      --accent-300:  #7DCBA2;
+      --accent-400:  #4AB87D;
+      --accent-500:  #2A9D5C;
+      --accent-600:  #1A7A4C;
+      --accent-700:  #135C39;
+
+      /* Categorical (colorblind safe) */
+      --cat-1: #1A7A4C;
+      --cat-2: #E07B39;
+      --cat-3: #2B7A9B;
+      --cat-4: #D4B83D;
+      --cat-5: #8B5197;
+      --cat-6: #C1503E;
+
+      /* Fonts */
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+      /* Modular Scale — Major Third (1.25), base 18px */
+      font-size: 18px;
+      --text-xs:      0.72rem;   /* ~13px  kicker */
+      --text-sm:      0.78rem;   /* ~14px  caption */
+      --text-base:    1rem;      /* 18px   body */
+      --text-lg:      1.25rem;   /* ~22px  chart title / standfirst */
+      --text-xl:      1.56rem;   /* ~28px  section sub-head */
+      --text-2xl:     1.95rem;   /* ~35px  part sub-title */
+      --text-3xl:     2.44rem;   /* ~44px  part number */
+      --text-hero:    clamp(2.44rem, 5vw, 3.33rem); /* ~44–60px headline */
+
+      /* Line Heights */
+      --lh-tight:  1.1;
+      --lh-snug:   1.25;
+      --lh-normal: 1.5;
+      --lh-loose:  1.6;
+
+      /* 8px Baseline Spacing */
+      --sp-1:   8px;
+      --sp-2:  16px;
+      --sp-3:  24px;
+      --sp-4:  32px;
+      --sp-5:  40px;
+      --sp-6:  48px;
+      --sp-8:  64px;
+      --sp-10: 80px;
+      --sp-12: 96px;
+      --sp-16: 128px;
+      --sp-20: 160px;
+    }
+
+    /* =================================================================
+       RESET & BASE
+       ================================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--lh-loose);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent-200); color: var(--ink); }
+
+    /* =================================================================
+       LAYOUT — 3-Track Story Grid
+       ================================================================= */
+    .story {
+      display: grid;
+      grid-template-columns:
+        [full-start] minmax(var(--sp-3), 1fr)
+        [standard-start] minmax(0, 140px)
+        [narrow-start] minmax(0, 62ch)
+        [narrow-end] minmax(0, 140px)
+        [standard-end] minmax(var(--sp-3), 1fr)
+        [full-end];
+      row-gap: 0; /* We control spacing manually for precision */
+    }
+
+    /* Track assignment classes */
+    .story > *         { grid-column: narrow; }
+    .track-standard    { grid-column: standard; }
+    .track-full        { grid-column: full; }
+
+    /* =================================================================
+       TYPOGRAPHY
+       ================================================================= */
+    .kicker {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--sp-2);
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      font-weight: 400; /* DM Serif Display is already heavy */
+      line-height: var(--lh-tight);
+      color: var(--ink);
+      margin-bottom: var(--sp-3);
+    }
+
+    .standfirst {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-style: italic;
+      line-height: var(--lh-snug);
+      color: var(--ink-soft);
+      max-width: 38ch;
+      text-align: left;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      line-height: var(--lh-snug);
+      color: var(--ink);
+      margin-bottom: var(--sp-2);
+    }
+
+    p {
+      color: var(--ink);
+      margin-bottom: var(--sp-3);
+      text-align: justify;
+      hyphens: auto;
+    }
+    p strong { font-weight: 600; }
+    p em { color: var(--ink-soft); }
+
+    /* =================================================================
+       MASTHEAD
+       ================================================================= */
+    .masthead {
+      grid-column: standard;
+      padding-top: var(--sp-16);
+      padding-bottom: var(--sp-12);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* =================================================================
+       PART DIVIDER — the unmistakable act-break
+       ================================================================= */
+    .part-divider {
+      grid-column: full;
+      margin-top: var(--sp-20);
+      margin-bottom: var(--sp-12);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: var(--accent-100);
+      display: flex;
+      justify-content: center;
+    }
+    .part-divider__inner {
+      width: min(62ch, 100%);
+      padding: var(--sp-12) var(--sp-3);
+      text-align: left;
+    }
+    .part-divider__number {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: var(--sp-2);
+      display: block;
+    }
+    .part-divider__title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      line-height: var(--lh-snug);
+      color: var(--ink);
+      margin-bottom: var(--sp-2);
+    }
+    .part-divider__frame {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: var(--ink-soft);
+      max-width: 50ch;
+    }
+
+
+    /* =================================================================
+       SECTION UNIT
+       ================================================================= */
+    .section-unit {
+      margin-top: var(--sp-12);
+      grid-column: standard;
+    }
+
+    /* =================================================================
+       FIGURES & CHARTS
+       ================================================================= */
+    .fig {
+      display: flex;
+      flex-direction: column;
+      margin-top: var(--sp-4);
+    }
+
+    .vg-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: var(--sp-3) 0;
+    }
+    .vg-container > div { width: 100% !important; }
+    .vg-container canvas, .vg-container svg { max-width: 100%; display: block; }
+    #vis-muscles svg { width: 100%; height: auto; }
+
+    figcaption {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: var(--lh-normal);
+      color: var(--ink-soft);
+      border-top: 1px solid var(--rule-soft);
+      padding-top: var(--sp-2);
+      margin-top: var(--sp-1);
+      text-align: left;
+    }
+    .fig-num {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .fig-src {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink-faint);
+      font-size: 0.72rem;
+    }
+
+
+    /* =================================================================
+       SPLIT ROW — text beside chart
+       ================================================================= */
+    .split-row {
+      grid-column: standard;
+      display: grid;
+      grid-template-columns: minmax(24ch, 1fr) minmax(300px, 1.8fr);
+      gap: var(--sp-8);
+      align-items: start;
+    }
+    .split-row__text {
+      padding-top: var(--sp-1);
+    }
+
+    /* =================================================================
+       INTERACTIVE EXPLORER
+       ================================================================= */
+    .explorer-block {
+      background: var(--accent-100);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: var(--sp-6);
+      margin-top: var(--sp-4);
+    }
+    .explorer-block .explore-cta {
+      color: var(--accent-dark);
+    }
+    .explore-cta {
+      display: inline-block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-200);
+      padding: var(--sp-1) var(--sp-2);
+      border-radius: 4px;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* =================================================================
+       FOOTER
+       ================================================================= */
+    .essay-footer {
+      grid-column: standard;
+      margin-top: var(--sp-16);
+      padding-top: var(--sp-6);
+      padding-bottom: var(--sp-16);
+      border-top: 1px solid var(--rule);
+      font-size: var(--text-sm);
+      color: var(--ink-soft);
+      line-height: var(--lh-normal);
+    }
+    .essay-footer p { color: var(--ink-soft); margin-bottom: var(--sp-1); }
+    .essay-footer strong { color: var(--ink); font-weight: 600; }
+
+    /* =================================================================
+       SCROLL REVEAL
+       ================================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(var(--sp-3));
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* =================================================================
+       RESPONSIVE
+       ================================================================= */
+    @media (max-width: 900px) {
+      .story {
+        grid-template-columns:
+          [full-start standard-start] var(--sp-3)
+          [narrow-start] 1fr
+          [narrow-end] var(--sp-3)
+          [standard-end full-end];
+      }
+      .split-row {
+        grid-template-columns: 1fr;
+        gap: var(--sp-4);
+        grid-column: narrow;
+      }
+      .part-divider { margin-top: var(--sp-12); margin-bottom: var(--sp-8); }
+      .part-divider__inner { padding: var(--sp-8) var(--sp-3); }
+      .masthead { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════════════ -->
-<header class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div>
-        <h1>The <span>Shuttlecock</span> Effect</h1>
-        <p class="subtitle">
-          A data-driven analysis of badminton in Australia —
-          from the science of the smash to the state of the national game.
-        </p>
-        <p class="meta">Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026</p>
-      </div>
-      <div class="hero-shuttle">🏸</div>
+<main class="story">
+
+  <!-- ═══════════════════════════════════════════════
+       MASTHEAD
+       ═══════════════════════════════════════════════ -->
+  <header class="masthead reveal">
+    <span class="kicker">FIT2179 · Data Visualisation 2 · Monash University · May 2026</span>
+    <h1>The Shuttlecock Effect</h1>
+    <p class="standfirst">How a quiet, unassuming racket sport became a measurable force in Australian health, demography, and urban geography — told in ten figures.</p>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PART ONE — THE BODY
+       ═══════════════════════════════════════════════ -->
+  <div class="part-divider track-full">
+    <div class="part-divider__inner">
+      <span class="part-divider__number">Part One</span>
+      <div class="part-divider__title">The Body</div>
+      <p class="part-divider__frame">What a single hour of badminton asks of you — and what twenty-five years of cardiac data says you gain.</p>
     </div>
   </div>
-</header>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     PART 1 — THE SCIENCE
-════════════════════════════════════════════════════════ -->
-<section class="part">
-  <div class="container">
-    <span class="section-label">Part 1 · The Science</span>
-    <h2 class="section-title">Why Your Body Loves Badminton</h2>
-    <p class="section-intro">
-      Badminton is far more than a backyard pastime. Research shows it is one of the most
-      effective full-body workouts available — and one of the very few sports scientifically
-      linked to a longer life.
-    </p>
-
-    <!-- Chart 1 + Chart 2 side by side -->
-    <div class="chart-grid two-col">
-
-      <div class="chart-card">
-        <h3>Muscles Fired in a Single Smash</h3>
-        <p class="chart-desc">
-          Each point represents a muscle group activated during a forehand overhead smash,
-          ordered by intensity. Wrist flexors and pectorals drive the shuttle — but legs,
-          core, and back are just as critical for a full-power smash.
-        </p>
-        <div class="vega-chart" id="chart1"></div>
-        <p class="chart-source">Source: Frontiers in Sports and Active Living (2025) · PMC12170632</p>
-      </div>
-
-      <div class="chart-card">
-        <h3>Play Badminton, Live Longer</h3>
-        <p class="chart-desc">
-          The Copenhagen City Heart Study tracked 8,577 people for 25 years.
-          Badminton players outlived sedentary peers by <strong>6.2 years</strong> —
-          nearly double the benefit of running.
-        </p>
-        <div class="vega-chart" id="chart2"></div>
-        <p class="chart-source">Source: Schnohr et al. (2018) · Mayo Clinic Proceedings</p>
-      </div>
-
-    </div>
-
-    <!-- Stat callouts -->
-    <div class="stat-row">
-      <div class="stat-box">
-        <div class="stat-number">+6.2</div>
-        <div class="stat-label">Extra years of life vs sedentary</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">47%</div>
-        <div class="stat-label">Lower all-cause mortality risk</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">15</div>
-        <div class="stat-label">Muscle groups activated in a smash</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number">490</div>
-        <div class="stat-label">Calories burned per hour (competitive)</div>
-      </div>
-    </div>
-
-    <!-- Chart 3 -->
-    <div class="chart-card">
-      <h3>Badminton vs. Your Day — Calorie Comparison</h3>
-      <p class="chart-desc">
-        A competitive game burns roughly the same calories as running at 8 km/h — but feels
-        far less like work. Even a social hit burns more than three hours of office coding.
-      </p>
-      <div class="vega-chart" id="chart3"></div>
-      <p class="chart-source">Source: Compendium of Physical Activities (Ainsworth et al., 2011)</p>
-    </div>
-
+  <div class="section-unit reveal">
+    <span class="kicker">01 · Longevity</span>
+    <h2>Six extra years, hidden inside an hour of play</h2>
+    <p>In 2018, the Copenhagen City Heart Study published a quarter-century of follow-up on 8,577 adults across eight sports. Gym work added under two years. Jogging added roughly three. <strong>Racket sports added six.</strong> The mechanism was not aerobic capacity alone — it was the social structure of the game: the unbroken proximity of a doubles partner forced adherence.</p>
   </div>
-</section>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-health"></div>
+    <figcaption>
+      <span class="fig-num">Figure 1.</span> Life-expectancy gains vs. sedentary peers, eight sport categories. The social dimension of racket sports appears to drive the outsized longevity benefit.
+      <span class="fig-src">Source: Schnohr et al. (2018), Mayo Clinic Proceedings · Copenhagen City Heart Study.</span>
+    </figcaption>
+  </figure>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     PART 2 — THE NATION
-════════════════════════════════════════════════════════ -->
-<section class="part">
-  <div class="container">
-    <span class="section-label">Part 2 · The Nation</span>
-    <h2 class="section-title">Half a Million Australians Already Know</h2>
-    <p class="section-intro">
-      AusPlay 2025 data shows over 420,000 Australians participate in badminton regularly.
-      Victoria leads the nation — and university suburbs cluster with courts.
-    </p>
-
-    <!-- Chart 4 — Choropleth map -->
-    <div class="chart-card">
-      <h3>Where Does Australia Play? (National Map)</h3>
-      <p class="chart-desc">
-        Hover over each state to see participation rates, total players, and registered clubs.
-        Victoria and New South Wales hold the largest communities, driven by multicultural urban populations.
-      </p>
-      <div class="vega-chart" id="chart4"></div>
-      <p class="chart-source">Source: AusPlay 2025, Australian Sports Commission (released 30 April 2026)</p>
+  <!-- Section 02 — Calories (text beside chart) -->
+  <div class="split-row section-unit reveal">
+    <div class="split-row__text">
+      <span class="kicker">02 · Energy</span>
+      <h2>Burning calories faster than a brisk walk or a swim</h2>
+      <p>Badminton requires explosive, repetitive sprints across a small court. A competitive singles hour burns nearly 490 kcal for a 70-kg adult — outperforming most everyday leisure activities by a wide margin.</p>
     </div>
-
-    <div class="narrative">
-      <strong>Did you know?</strong> Victoria's participation rate of 2.4% is the highest
-      in Australia — partly explained by Melbourne's large Southeast Asian community,
-      for whom badminton is a deeply embedded cultural sport.
-    </div>
-
-    <!-- Chart 5 + Chart 6 side by side -->
-    <div class="chart-grid two-col">
-
-      <div class="chart-card">
-        <h3>A Sport on the Rise</h3>
-        <p class="chart-desc">
-          Participation has grown steadily over the decade, recovering strongly after the COVID-19 dip.
-          The dashed line marks a survey methodology change in 2024, so earlier and later
-          figures use different collection methods.
-        </p>
-        <div class="vega-chart" id="chart5"></div>
-        <p class="chart-source">Source: AusPlay 2016–2025 &amp; Badminton Australia Annual Reports</p>
-      </div>
-
-      <div class="chart-card">
-        <h3>Gen Z Is Taking Over the Courts</h3>
-        <p class="chart-desc">
-          The 18–24 age bracket — squarely university age — is by far the largest group of
-          badminton players in Australia. Click the legend to filter by gender.
-        </p>
-        <div class="vega-chart" id="chart6"></div>
-        <p class="chart-source">Source: AusPlay 2025 (By Sport Data Tables), Australian Sports Commission</p>
-      </div>
-
-    </div>
-
-    <!-- Chart 7 — Melbourne venues map -->
-    <div class="chart-card">
-      <h3>Find Your Court in Melbourne</h3>
-      <p class="chart-desc">
-        Sixteen badminton venues mapped across Greater Melbourne. Coloured dots indicate
-        venues near major universities — courts are genuinely accessible for students at
-        Monash, RMIT, and the University of Melbourne.
-      </p>
-      <div class="vega-chart" id="chart7"></div>
-      <p class="chart-source">Source: Badminton Victoria club directory &amp; OpenStreetMap contributors</p>
-    </div>
-
+    <figure class="fig">
+      <div class="vg-container" id="vis-calories"></div>
+      <figcaption>
+        <span class="fig-num">Figure 2.</span> Energy expenditure per hour, 70-kg adult.
+        <span class="fig-src">Source: Compendium of Physical Activities, Ainsworth et al. (2011).</span>
+      </figcaption>
+    </figure>
   </div>
-</section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     PART 3 — THE ELITE
-════════════════════════════════════════════════════════ -->
-<section class="part">
-  <div class="container">
-    <span class="section-label">Part 3 · The Elite</span>
-    <h2 class="section-title">From School Yards to the World Stage</h2>
-    <p class="section-intro">
-      Australia's competitive ecosystem runs from 40,000 Sporting Schools participants all the
-      way up to twenty Senior Falcons representing Australia on the global circuit.
-    </p>
-
-    <!-- Chart 8 — Talent pipeline -->
-    <div class="chart-card">
-      <h3>The Talent Pipeline</h3>
-      <p class="chart-desc">
-        The funnel from grassroots participation to the Senior Falcons is steep. Of the 40,000+
-        children who try badminton through Shuttle Smash, fewer than 20 will ever wear the
-        national uniform. Hover each bar for program details.
-      </p>
-      <div class="vega-chart" id="chart8"></div>
-      <p class="chart-source">Source: Badminton Australia Annual Report 2023/24 · BWF international results</p>
+  <!-- Section 03 — Muscle Map (text beside chart) -->
+  <div class="split-row section-unit reveal">
+    <div class="split-row__text">
+      <span class="kicker">03 · Anatomy</span>
+      <h2>The anatomy of a smash: fifteen muscle groups in milliseconds</h2>
+      <p>An overhead smash is a head-to-toe kinetic chain that begins in the calves and ends at the index finger. The body map highlights every major muscle group from the 2025 EMG study in <em>Frontiers in Sports and Active Living</em>.</p>
     </div>
-
-    <!-- Chart 9 + Chart 10 side by side -->
-    <div class="chart-grid two-col">
-
-      <div class="chart-card">
-        <h3>Climbing the World Rankings</h3>
-        <p class="chart-desc">
-          Australia's top players have made steady gains on the BWF circuit.
-          Setyana Mapasa and Angela Yu's rise to a top-10 Women's Doubles ranking
-          culminated in the Paris 2024 Olympics. Click a player name to highlight their line.
-        </p>
-        <div class="vega-chart" id="chart9"></div>
-        <p class="chart-source">Source: BWF Historical Rankings (corporate.bwfbadminton.com)</p>
-      </div>
-
-      <div class="chart-card">
-        <h3>Australia's Tournament Ecosystem</h3>
-        <p class="chart-desc">
-          The Australian Badminton Open has grown from a Super 300 to a Super 500 event,
-          attracting elite global players to Sydney each year.
-          Bubble size reflects total tournament entries.
-        </p>
-        <div class="vega-chart" id="chart10"></div>
-        <p class="chart-source">Source: BWF World Tour official results · Badminton Australia</p>
-      </div>
-
-    </div>
-
-    <div class="narrative">
-      <strong>The takeaway:</strong> Whether you're at Monash, RMIT, or the University of Melbourne —
-      a badminton court is minutes away. The science says it will add years to your life.
-      The data says hundreds of thousands of Australians have already figured that out.
-    </div>
-
+    <figure class="fig">
+      <div class="vg-container" id="vis-muscles"></div>
+      <figcaption>
+        <span class="fig-num">Figure 3.</span> Muscle activation intensity (% MVIC) during a forehand overhead smash. Darker green = higher activation.
+        <span class="fig-src">Source: Frontiers in Sports and Active Living (2025) · PMC12170632.</span>
+      </figcaption>
+    </figure>
   </div>
-</section>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="container">
-    <p class="footer-brand">The Shuttlecock Effect</p>
-    <p>
-      Duke Phan · FIT2179 Data Visualisation 2 · Monash University · May 2026
-    </p>
-    <p style="margin-top:8px;">
-      AI tools (Claude) were used to assist with data compilation, code generation, and text editing.
-      All visualisations are the author's own work built with
-      <a href="https://vega.github.io/vega-lite/">Vega-Lite v5</a>.
-    </p>
-    <div class="footer-sources">
-      <strong style="color:#bbb;">Data Sources:</strong><br>
-      · AusPlay 2025 — Australian Sports Commission (ausport.gov.au/clearinghouse/research/ausplay)<br>
-      · Badminton Australia Annual Report 2023/24 (badminton.org.au)<br>
-      · Schnohr et al. (2018) — Mayo Clinic Proceedings (Copenhagen City Heart Study)<br>
-      · Ainsworth et al. (2011) — Compendium of Physical Activities<br>
-      · Frontiers in Sports (2025) — PMC12170632 (EMG muscle synergy study)<br>
-      · BWF Historical Rankings (corporate.bwfbadminton.com/players/historical-rankings/)<br>
-      · OpenStreetMap contributors (openstreetmap.org) · rowanhogan/australian-states (GitHub)
+  <!-- ═══════════════════════════════════════════════
+       PART TWO — THE NATION
+       ═══════════════════════════════════════════════ -->
+  <div class="part-divider track-full">
+    <div class="part-divider__inner">
+      <span class="part-divider__number">Part Two</span>
+      <div class="part-divider__title">The Nation</div>
+      <p class="part-divider__frame">Forty-two state associations, six hundred clubs, a Victorian anomaly nobody planned.</p>
     </div>
   </div>
-</footer>
 
 
-<!-- ═══════════════════════════════════════════════════════
-     VEGA-LITE EMBED SCRIPTS
-════════════════════════════════════════════════════════ -->
+  <!-- Section 04 — Geography (chart below text) -->
+  <div class="section-unit reveal">
+    <span class="kicker">04 · Geography</span>
+    <h2>Victoria hosts 40% of the national player base with 20% of the population</h2>
+    <p>The 2025 AusPlay survey recorded 420,000 Australians playing monthly — a 38% increase over the 2021 trough. But the national figure conceals an extreme regional skew driven by Southeast Asian diaspora communities who have carried the sport as a multigenerational social practice.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-states"></div>
+    <figcaption>
+      <span class="fig-num">Figure 4.</span> Adult badminton participation rate by state, 2025. Victoria's rate is more than double the national average.
+      <span class="fig-src">Source: AusPlay 2025, Australian Sports Commission.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- Section 05 — Growth Timeline -->
+  <div class="section-unit reveal">
+    <span class="kicker">05 · Growth</span>
+    <h2>COVID erased two years of growth — women recovered faster</h2>
+    <p>Australian badminton shed 80,000 participants in 2020 as courts closed. By 2023 both genders had surpassed pre-pandemic peaks, but the female cohort has grown proportionally faster — narrowing the gender gap from 2:1 to roughly 1.4:1 in a decade.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-growth"></div>
+    <figcaption>
+      <span class="fig-num">Figure 5.</span> National adult participation by gender, 2016–2025. Area band = gap between male and female participation; dashed line marks 2024 AusPlay methodology revision.
+      <span class="fig-src">Source: AusPlay 2016–2025 · Badminton Australia annual reports.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- Section 06 — Demographics (interactive) -->
+  <div class="section-unit reveal">
+    <span class="kicker">06 · Demographics</span>
+    <h2>A generation finds the court: the 18–24 cohort now dominates</h2>
+    <p>University-age players now account for more than a quarter of all regular participants. The colour scale is fixed across years — use the dropdown to compare demographic shifts directly.</p>
+  </div>
+
+  <div class="track-standard section-unit reveal">
+    <div class="explorer-block">
+      <figure class="fig">
+        <div class="vg-container" id="vis-demo"></div>
+        <figcaption>
+          <span class="fig-num">Figure 6.</span> Participation % by age group and gender. The young-adult skew is consistent across years but intensifying.
+          <span class="fig-src">Source: AusPlay By-Sport Tables · Australian Sports Commission.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PART THREE — THE ELITE
+       ═══════════════════════════════════════════════ -->
+  <div class="part-divider track-full">
+    <div class="part-divider__inner">
+      <span class="part-divider__number">Part Three</span>
+      <div class="part-divider__title">The Competitive Edge</div>
+      <p class="part-divider__frame">From forty thousand children to twenty Falcons — the steepest talent pyramid in Australian sport.</p>
+    </div>
+  </div>
+
+
+  <!-- Section 07 — Pipeline (text beside chart) -->
+  <div class="split-row section-unit reveal">
+    <div class="split-row__text">
+      <span class="kicker">07 · Pipeline</span>
+      <h2>From forty thousand children to twenty elite athletes</h2>
+      <p>Badminton Australia's <em>Sporting Schools</em> programme reaches ~40,000 children per year. Fewer than twenty will ever wear a national singlet abroad — less than 0.05% survive the funnel.</p>
+    </div>
+    <figure class="fig">
+      <div class="vg-container" id="vis-pipeline"></div>
+      <figcaption>
+        <span class="fig-num">Figure 7.</span> Logarithmic drop-off across competitive tiers.
+        <span class="fig-src">Source: Badminton Australia Annual Report 2023/24.</span>
+      </figcaption>
+    </figure>
+  </div>
+
+
+  <!-- Section 08 — Diaspora Scatter -->
+  <div class="section-unit reveal">
+    <span class="kicker">08 · The City</span>
+    <h2>Where diaspora lives, courts follow</h2>
+    <p>Plotting Melbourne's Local Government Areas by their Asian-born population share against their badminton court count reveals a striking pattern: the correlation is nearly linear. Monash, Whitehorse and Greater Dandenong — the three LGAs with the highest diaspora concentration — together account for more than half of all metropolitan courts.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-melb"></div>
+    <figcaption>
+      <span class="fig-num">Figure 8.</span> Melbourne LGAs: Asian-born % (2021 Census) vs. badminton courts. Dot size = LGA population; trend line shows positive correlation.
+      <span class="fig-src">Source: ABS 2021 Census · Badminton Victoria club directory.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- Section 09 — Elite Rankings -->
+  <div class="section-unit reveal">
+    <span class="kicker">09 · Rankings</span>
+    <h2>Paris 2024 qualification required two years of top-30 consistency</h2>
+    <p>The chart traces ranking trajectories for four key Australian players over four years, culminating in a top-ten Women's Doubles placement that sent two players to Paris.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-rankings"></div>
+    <figcaption>
+      <span class="fig-num">Figure 9.</span> BWF world ranking history, 2022–2025. Lower values = higher rankings.
+      <span class="fig-src">Source: BWF Historical Rankings · corporate.bwfbadminton.com.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- Section 10 — Tournaments -->
+  <div class="section-unit reveal">
+    <span class="kicker">10 · Tournaments</span>
+    <h2>The Super 500 upgrade doubled prize money and shifted tournament gravity</h2>
+    <p>The Australian Open was upgraded from BWF Super 300 to Super 500 in 2023, doubling prize-money pools and pulling an entirely new bracket of global players south for the winter.</p>
+  </div>
+
+  <figure class="fig track-standard section-unit reveal">
+    <div class="vg-container" id="vis-tournaments"></div>
+    <figcaption>
+      <span class="fig-num">Figure 10.</span> Australian-hosted BWF events, 2016–2025. Bubble size = total entries; colour = tournament grade.
+      <span class="fig-src">Source: BWF World Tour official results · Badminton Australia.</span>
+    </figcaption>
+  </figure>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONCLUSION
+       ═══════════════════════════════════════════════ -->
+  <div class="section-unit reveal" style="margin-top: var(--sp-16); border-top: 1px solid var(--rule); padding-top: var(--sp-8);">
+    <h2>The takeaway is shorter than the essay</h2>
+    <p>A sport that adds six years to a life. Half a million Australians who already know that. Sixteen courts within cycling distance of three universities. A funnel that, at its narrow end, sends Australians to Paris on the strength of a doubles pairing nobody outside the sport can name.</p>
+    <p>Most national sports stories in Australia are loud — codified, broadcast, sold. Badminton is not, and may never be. What makes it interesting, in the end, is precisely that quietness. It is one of the few sports the country has grown almost without trying.</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════ -->
+  <footer class="essay-footer reveal">
+    <p><strong>The Shuttlecock Effect</strong></p>
+    <p>A visual essay by Duke Phan for FIT2179 Data Visualisation 2, Monash University, May 2026.</p>
+    <p style="margin-top: var(--sp-2);">Primary sources: AusPlay 2025 (Australian Sports Commission) · Badminton Australia Annual Report 2023/24 · BWF Historical Rankings · Badminton Victoria Club Directory · Copenhagen City Heart Study (Schnohr et al., 2018) · Compendium of Physical Activities (Ainsworth et al., 2011) · Frontiers in Sports and Active Living (2025).</p>
+    <p style="margin-top: var(--sp-2);">All ten visualisations were built with Vega-Lite v5. AI tooling (Claude) assisted with data compilation and code generation. All editorial decisions are the author's own.</p>
+  </footer>
+
+</main>
+
+
+<!-- ═══════════════════════════════════════════════
+     VEGA-LITE EMBED + UNIFIED EDITORIAL THEME
+     ═══════════════════════════════════════════════ -->
 <script>
-  const opt = { actions: false, renderer: "svg" };
+  // ── Court-green editorial theme — one system ──
+  const courtGreenConfig = {
+    background: "transparent",
+    padding: { left: 8, right: 8, top: 8, bottom: 8 },
+    font: "Inter, system-ui, sans-serif",
 
-  const charts = {
-    "#chart1":  "vega-lite/chart1_muscle_body_map.json",
-    "#chart2":  "vega-lite/chart2_longevity_lollipop.json",
-    "#chart3":  "vega-lite/chart3_calorie_bar.json",
-    "#chart4":  "vega-lite/chart4_choropleth_map.json",
-    "#chart5":  "vega-lite/chart5_participation_trend.json",
-    "#chart6":  "vega-lite/chart6_population_pyramid.json",
-    "#chart7":  "vega-lite/chart7_melbourne_venues_map.json",
-    "#chart8":  "vega-lite/chart8_talent_pipeline.json",
-    "#chart9":  "vega-lite/chart9_rankings_multiline.json",
-    "#chart10": "vega-lite/chart10_tournament_bubble.json"
+    range: {
+      category: ["#1A7A4C", "#E07B39", "#2B7A9B", "#D4B83D", "#8B5197", "#C1503E"],
+      ordinal:  { scheme: "greens" },
+      ramp:     { scheme: "greens" },
+      heatmap:  { scheme: "greens" }
+    },
+
+    view: {
+      stroke: "transparent",
+      continuousWidth: 500,
+      continuousHeight: 300,
+      step: 24
+    },
+
+    title: {
+      font: "Inter, sans-serif",
+      fontSize: 13,
+      fontWeight: 600,
+      color: "#172821",
+      anchor: "start",
+      offset: 12
+    },
+
+    axis: {
+      labelFont: "Inter, sans-serif",
+      labelFontSize: 11,
+      labelColor: "#506158",
+      labelPadding: 6,
+      titleFont: "Inter, sans-serif",
+      titleFontSize: 11,
+      titleFontWeight: 500,
+      titleColor: "#506158",
+      titlePadding: 10,
+      domain: false,
+      ticks: false,
+      grid: true,
+      gridColor: "#DDE5DF",
+      gridWidth: 1,
+      gridOpacity: 0.8,
+      labelOverlap: "parity"
+    },
+    axisX: {
+      grid: false,
+      domain: true,
+      domainColor: "#C8D5CB",
+      ticks: true,
+      tickColor: "#C8D5CB",
+      tickSize: 3
+    },
+    axisY: {
+      domain: false,
+      labelPadding: 8
+    },
+
+    legend: {
+      labelFont: "Inter, sans-serif",
+      labelFontSize: 11,
+      labelColor: "#506158",
+      titleFont: "Inter, sans-serif",
+      titleFontSize: 11,
+      titleFontWeight: 600,
+      titleColor: "#172821",
+      symbolType: "circle",
+      symbolSize: 80,
+      orient: "top",
+      padding: 0
+    },
+
+    header: {
+      labelFont: "Inter, sans-serif",
+      labelFontSize: 11,
+      labelColor: "#506158",
+      titleFont: "Inter, sans-serif",
+      titleFontSize: 11,
+      titleColor: "#172821",
+      titleFontWeight: 600
+    },
+
+    mark:      { color: "#1A7A4C" },
+    bar:       { color: "#1A7A4C", cornerRadiusEnd: 2, stroke: null },
+    line:      { color: "#1A7A4C", strokeWidth: 2.5, strokeCap: "round" },
+    point:     { filled: true, size: 60, color: "#1A7A4C", stroke: "#F3F6F0", strokeWidth: 1.5 },
+    circle:    { color: "#1A7A4C", stroke: "#F3F6F0", strokeWidth: 1 },
+    area:      { color: "#1A7A4C", opacity: 0.15, line: { color: "#1A7A4C", strokeWidth: 2 } },
+    rect:      { color: "#1A7A4C", stroke: null },
+    rule:      { color: "#C8D5CB", strokeWidth: 1 },
+    text:      { font: "Inter, sans-serif", fontSize: 11, color: "#172821" },
+    arc:       { stroke: "#F3F6F0", strokeWidth: 2 },
+    geoshape:  { stroke: "#FFFFFF", strokeWidth: 0.8 }
   };
-  Object.entries(charts).forEach(([id, url]) => {
-    vegaEmbed(id, url, opt).catch(err => console.error(`❌ ${id} (${url}):`, err));
+
+  const opt = { actions: false, renderer: "svg", config: courtGreenConfig };
+
+  // Chart → file mapping
+  const specs = {
+    "#vis-health":      "vega-lite/chart2_health_matrix.json",
+    "#vis-calories":    "vega-lite/chart3_calorie_bar.json",
+    "#vis-muscles":     "vega-lite/chart1_muscle_body_map.json",
+    "#vis-states":      "vega-lite/chart4_choropleth_map.json",
+    "#vis-growth":      "vega-lite/chart4_longitudinal_growth.json",
+    "#vis-demo":        "vega-lite/chart5_demographic_heatmap.json",
+    "#vis-pipeline":    "vega-lite/chart6_talent_pipeline.json",
+    "#vis-melb":        "vega-lite/chart10_melbourne_venues.json",
+    "#vis-rankings":    "vega-lite/chart9_elite_rankings.json",
+    "#vis-tournaments": "vega-lite/chart8_tournament_density.json"
+  };
+
+  Object.entries(specs).forEach(([sel, url]) => {
+    const el = document.querySelector(sel);
+    if (el) vegaEmbed(sel, url, opt).catch(e => console.error(sel, e));
   });
+
+  // ── Scroll reveal (IntersectionObserver) ──
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
 </script>
 
 </body>

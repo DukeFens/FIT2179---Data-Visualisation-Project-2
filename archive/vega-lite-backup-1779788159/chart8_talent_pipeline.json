@@ -1,0 +1,163 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Funnel bar chart \u2014 badminton talent pipeline from Sporting Schools to the Senior Falcons",
+  "width": "container",
+  "height": 320,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/talent_pipeline.csv"
+  },
+  "layer": [
+    {
+      "comment": "\u2500\u2500 Horizontal bars \u2500\u2500",
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopRight": 4,
+        "cornerRadiusBottomRight": 4,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "y": {
+          "field": "level",
+          "type": "ordinal",
+          "sort": [
+            "Grassroots",
+            "Club",
+            "State",
+            "National",
+            "Elite"
+          ],
+          "axis": {
+            "title": null,
+            "labelFontSize": 12,
+            "labelFontWeight": "bold"
+          }
+        },
+        "x": {
+          "field": "estimated_players",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "base": 10
+          },
+          "axis": {
+            "title": "Estimated players (log scale)",
+            "titleFontSize": 11,
+            "format": ","
+          }
+        },
+        "color": {
+          "field": "level",
+          "type": "nominal",
+          "sort": [
+            "Grassroots",
+            "Club",
+            "State",
+            "National",
+            "Elite"
+          ],
+          "scale": {
+            "domain": [
+              "Grassroots",
+              "Club",
+              "State",
+              "National",
+              "Elite"
+            ],
+            "range": [
+              "#C8E6F5",
+              "#7EB8D4",
+              "#2B88A1",
+              "#1E5F74",
+              "#D94F35"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "level",
+            "title": "Level"
+          },
+          {
+            "field": "program",
+            "title": "Program"
+          },
+          {
+            "field": "estimated_players",
+            "title": "Estimated players",
+            "format": ","
+          },
+          {
+            "field": "age_range",
+            "title": "Age range"
+          },
+          {
+            "field": "description",
+            "title": "Description"
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Player count labels \u2500\u2500",
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#333"
+      },
+      "encoding": {
+        "y": {
+          "field": "level",
+          "type": "ordinal",
+          "sort": [
+            "Grassroots",
+            "Club",
+            "State",
+            "National",
+            "Elite"
+          ]
+        },
+        "x": {
+          "field": "estimated_players",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "base": 10
+          }
+        },
+        "text": {
+          "field": "estimated_players",
+          "type": "quantitative",
+          "format": ","
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "From School Yard to World Stage \u2014 The Talent Pipeline",
+    "subtitle": "Estimated players at each level (log scale) \u00b7 Source: Badminton Australia Annual Report 2023/24 & BWF records",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

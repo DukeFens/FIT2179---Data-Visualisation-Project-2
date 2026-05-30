@@ -1,103 +1,139 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Bar chart comparing calorie burn across activities — badminton highlighted",
-  "width": 560,
+  "width": "container",
   "height": 300,
-  "background": "white",
+  "data": { "url": "../data/calorie_burn_activities.csv" },
   "config": {
     "view": { "stroke": null },
-    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
-    "axis": { "labelFontSize": 11, "titleFontSize": 11, "gridColor": "#EEEEEE" }
+    "font": "Inter, sans-serif"
   },
-
-  "data": { "url": "../data/calorie_burn_activities.csv" },
-
   "transform": [
     {
-      "filter": {
-        "field": "activity",
-        "oneOf": [
-          "Badminton", "Running", "Cycling", "Swimming",
-          "Tennis", "Football (Soccer)", "Cafe/Hospitality Work", "Office/Coding"
-        ]
-      }
+      "filter": "datum.activity !== 'Cafe/Hospitality Work' && datum.activity !== 'Office/Coding'"
+    },
+    {
+      "calculate": "datum.activity + ' — ' + datum.intensity",
+      "as": "label"
     },
     {
       "calculate": "datum.activity === 'Badminton' ? 'Badminton' : 'Other'",
       "as": "highlight"
     }
   ],
-
   "layer": [
     {
-      "comment": "── Bars ──",
-      "mark": { "type": "bar", "cornerRadiusTopLeft": 3, "cornerRadiusTopRight": 3 },
+      "comment": "── Connecting line between Social and Competitive within same activity ──",
+      "transform": [
+        {
+          "joinaggregate": [
+            { "op": "min", "field": "calories_per_hour_70kg", "as": "cal_min" },
+            { "op": "max", "field": "calories_per_hour_70kg", "as": "cal_max" }
+          ],
+          "groupby": ["activity"]
+        },
+        { "filter": "datum.cal_min !== datum.cal_max" }
+      ],
+      "mark": { "type": "rule", "strokeWidth": 1.5, "opacity": 0.4 },
       "encoding": {
-        "x": {
+        "y": {
           "field": "activity",
           "type": "nominal",
           "sort": { "field": "calories_per_hour_70kg", "order": "descending" },
-          "axis": { "title": null, "labelAngle": -28, "labelFontSize": 11 }
+          "title": null,
+          "axis": {
+            "grid": false,
+            "labelFontSize": 12,
+            "labelColor": "#506158",
+            "domainColor": "#C8D5CB",
+            "tickColor": "#C8D5CB"
+          }
         },
-        "xOffset": { "field": "intensity", "type": "nominal" },
+        "x": { "field": "cal_min", "type": "quantitative" },
+        "x2": { "field": "cal_max" },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#C8D5CB"] },
+          "legend": null
+        }
+      }
+    },
+    {
+      "comment": "── Dots per intensity level ──",
+      "mark": { "type": "circle", "size": 90, "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
         "y": {
+          "field": "activity",
+          "type": "nominal",
+          "sort": { "field": "calories_per_hour_70kg", "order": "descending" },
+          "title": null
+        },
+        "x": {
           "field": "calories_per_hour_70kg",
           "type": "quantitative",
-          "axis": { "title": "Calories per hour (70 kg person)", "titleFontSize": 11 },
-          "scale": { "domain": [0, 900] }
+          "title": "Calories burned / hr (70 kg adult)",
+          "axis": {
+            "grid": true,
+            "gridColor": "#E8EDE9",
+            "domainColor": "#C8D5CB",
+            "tickColor": "#C8D5CB",
+            "labelFontSize": 11
+          }
         },
         "color": {
           "field": "highlight",
           "type": "nominal",
-          "scale": {
-            "domain": ["Badminton", "Other"],
-            "range": ["#1E5F74", "#C8D8E0"]
-          },
+          "scale": { "domain": ["Badminton", "Other"], "range": ["#1A7A4C", "#839489"] },
           "legend": null
         },
         "opacity": {
-          "field": "highlight",
+          "field": "intensity",
           "type": "nominal",
-          "scale": { "domain": ["Badminton", "Other"], "range": [1, 0.7] },
+          "scale": { "range": [0.5, 1.0] },
           "legend": null
         },
         "tooltip": [
-          { "field": "activity",               "title": "Activity" },
-          { "field": "intensity",              "title": "Intensity" },
-          { "field": "calories_per_hour_70kg", "title": "Cal/hr (70 kg)" },
-          { "field": "MET",                    "title": "MET value" }
+          { "field": "activity", "title": "Activity" },
+          { "field": "intensity", "title": "Intensity" },
+          { "field": "calories_per_hour_70kg", "title": "Cal / hr" },
+          { "field": "MET", "title": "MET score" }
         ]
       }
     },
     {
-      "comment": "── Badminton annotation band ──",
-      "data": { "values": [{ "activity": "Badminton", "note": "Badminton" }] },
-      "mark": {
-        "type": "text",
-        "align": "center",
-        "dy": -6,
-        "fontSize": 10,
-        "fontWeight": "bold",
-        "color": "#1E5F74"
-      },
+      "comment": "── Badminton Social label (below dot) ──",
+      "transform": [{ "filter": "datum.activity === 'Badminton' && datum.intensity === 'Social/Recreational'" }],
+      "mark": { "type": "text", "align": "center", "dy": 14, "fontSize": 10, "fontWeight": "600", "color": "#1A7A4C" },
       "encoding": {
-        "x": {
+        "y": {
           "field": "activity",
           "type": "nominal",
           "sort": { "field": "calories_per_hour_70kg", "order": "descending" }
         },
-        "y": { "value": 12 },
-        "text": { "field": "note" }
+        "x": { "field": "calories_per_hour_70kg", "type": "quantitative" },
+        "text": { "value": "Social" }
+      }
+    },
+    {
+      "comment": "── Badminton Competitive label (above dot) ──",
+      "transform": [{ "filter": "datum.activity === 'Badminton' && datum.intensity === 'Competitive'" }],
+      "mark": { "type": "text", "align": "center", "dy": -12, "fontSize": 10, "fontWeight": "600", "color": "#1A7A4C" },
+      "encoding": {
+        "y": {
+          "field": "activity",
+          "type": "nominal",
+          "sort": { "field": "calories_per_hour_70kg", "order": "descending" }
+        },
+        "x": { "field": "calories_per_hour_70kg", "type": "quantitative" },
+        "text": { "value": "Competitive" }
+      }
+    },
+    {
+      "comment": "── Average line ──",
+      "mark": { "type": "rule", "color": "#839489", "strokeDash": [4, 3], "strokeWidth": 1.2, "opacity": 0.7 },
+      "encoding": {
+        "x": { "aggregate": "mean", "field": "calories_per_hour_70kg" }
       }
     }
-  ],
-
-  "title": {
-    "text": "Badminton vs. Your Day — Calorie Comparison",
-    "subtitle": "Calories burned per hour for a 70 kg person · Source: Compendium of Physical Activities (Ainsworth et al., 2011)",
-    "fontSize": 15,
-    "subtitleFontSize": 10,
-    "subtitleColor": "#666",
-    "anchor": "start"
-  }
+  ]
 }

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Stacked area chart \u2014 badminton participation trend in Australia by gender (2016\u20132025)",
+  "width": "container",
+  "height": 300,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/badminton_participation_trend.csv"
+  },
+  "layer": [
+    {
+      "comment": "\u2500\u2500 Stacked area \u2500\u2500",
+      "transform": [
+        {
+          "fold": [
+            "male_participants_thousands",
+            "female_participants_thousands"
+          ],
+          "as": [
+            "gender_key",
+            "participants"
+          ]
+        },
+        {
+          "calculate": "datum.gender_key === 'male_participants_thousands' ? 'Male' : 'Female'",
+          "as": "gender"
+        }
+      ],
+      "mark": {
+        "type": "area",
+        "opacity": 0.85,
+        "line": {
+          "strokeWidth": 1.8
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "title": null,
+            "labelFontSize": 11,
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "participants",
+          "type": "quantitative",
+          "stack": "zero",
+          "axis": {
+            "title": "Participants (thousands)",
+            "titleFontSize": 11
+          }
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Male",
+              "Female"
+            ],
+            "range": [
+              "#2B88A1",
+              "#F5A623"
+            ]
+          },
+          "legend": {
+            "title": "Gender",
+            "orient": "top-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "title": "Year"
+          },
+          {
+            "field": "gender",
+            "title": "Gender"
+          },
+          {
+            "field": "participants",
+            "title": "Players (thousands)",
+            "format": ".1f"
+          },
+          {
+            "field": "data_source",
+            "title": "Survey method"
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Methodology break annotation \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "year": "2024",
+            "note": "\u2190 Phone survey   Online survey \u2192"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "dy": -14,
+        "fontSize": 9,
+        "color": "#888",
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "value": 18
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Dashed methodology break line \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "year": "2024"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          5,
+          4
+        ],
+        "color": "#AAAAAA",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        }
+      }
+    },
+    {
+      "comment": "\u2500\u2500 COVID dip annotation \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "year": "2020",
+            "note": "COVID-19 dip"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "dy": -10,
+        "fontSize": 9,
+        "color": "#D94F35",
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "value": 40
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "A Sport on the Rise \u2014 Participation Over a Decade",
+    "subtitle": "Estimated participants (thousands) \u00b7 Dashed line = survey methodology change \u00b7 Source: AusPlay 2016\u20132025",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

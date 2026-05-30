@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 320,
+  "data": { "url": "../data/melbourne_lga_courts.csv" },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "layer": [
+    {
+      "comment": "── Regression trend line ──",
+      "mark": { "type": "line", "color": "#C8D5CB", "strokeWidth": 1.5, "strokeDash": [4, 3] },
+      "transform": [
+        { "regression": "courts", "on": "asian_born_pct_2021" }
+      ],
+      "encoding": {
+        "x": { "field": "asian_born_pct_2021", "type": "quantitative" },
+        "y": { "field": "courts", "type": "quantitative" }
+      }
+    },
+    {
+      "comment": "── LGA scatter dots ──",
+      "mark": { "type": "circle", "opacity": 0.85, "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
+        "x": {
+          "field": "asian_born_pct_2021",
+          "type": "quantitative",
+          "title": "Asian-born residents, 2021 Census (%)",
+          "axis": {
+            "grid": true, "gridColor": "#E8EDE9",
+            "domainColor": "#C8D5CB", "tickColor": "#C8D5CB",
+            "labelFontSize": 11,
+            "labelExpr": "datum.value + '%'"
+          }
+        },
+        "y": {
+          "field": "courts",
+          "type": "quantitative",
+          "title": "Badminton courts in LGA",
+          "axis": {
+            "grid": true, "gridColor": "#E8EDE9",
+            "domainColor": "#C8D5CB", "tickColor": "#C8D5CB",
+            "labelFontSize": 11
+          }
+        },
+        "size": {
+          "field": "population_2021",
+          "type": "quantitative",
+          "scale": { "range": [40, 500] },
+          "legend": { "orient": "bottom", "title": "LGA Population (dot size)", "format": "~s", "direction": "horizontal", "gradientLength": 100 }
+        },
+        "color": {
+          "field": "courts",
+          "type": "quantitative",
+          "scale": { "scheme": "greens", "domain": [0, 25] },
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "lga", "title": "LGA" },
+          { "field": "asian_born_pct_2021", "title": "Asian-born (%)", "format": ".1f" },
+          { "field": "courts", "title": "Courts" },
+          { "field": "population_2021", "title": "Population", "format": "," }
+        ]
+      }
+    },
+    {
+      "comment": "── Labels for outlier LGAs only ──",
+      "transform": [
+        { "filter": "datum.courts >= 12 || datum.asian_born_pct_2021 >= 35" }
+      ],
+      "mark": { "type": "text", "align": "left", "dx": 8, "dy": -2, "fontSize": 11, "fontWeight": "600", "color": "#172821" },
+      "encoding": {
+        "x": { "field": "asian_born_pct_2021", "type": "quantitative" },
+        "y": { "field": "courts", "type": "quantitative" },
+        "text": { "field": "label" }
+      }
+    }
+  ]
+}

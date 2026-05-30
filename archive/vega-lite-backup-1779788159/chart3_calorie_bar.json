@@ -1,0 +1,180 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar chart comparing calorie burn across activities \u2014 badminton highlighted",
+  "width": "container",
+  "height": 320,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/calorie_burn_activities.csv"
+  },
+  "transform": [
+    {
+      "filter": {
+        "field": "activity",
+        "oneOf": [
+          "Badminton",
+          "Running",
+          "Cycling",
+          "Swimming",
+          "Tennis",
+          "Football (Soccer)",
+          "Cafe/Hospitality Work",
+          "Office/Coding"
+        ]
+      }
+    },
+    {
+      "calculate": "datum.activity === 'Badminton' ? 'Badminton' : 'Other'",
+      "as": "highlight"
+    }
+  ],
+  "layer": [
+    {
+      "comment": "\u2500\u2500 Bars \u2500\u2500",
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+      "encoding": {
+        "x": {
+          "field": "activity",
+          "type": "nominal",
+          "sort": {
+            "field": "calories_per_hour_70kg",
+            "order": "descending"
+          },
+          "axis": {
+            "title": null,
+            "labelAngle": -28,
+            "labelFontSize": 11
+          }
+        },
+        "xOffset": {
+          "field": "intensity",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "calories_per_hour_70kg",
+          "type": "quantitative",
+          "axis": {
+            "title": "Calories per hour (70 kg person)",
+            "titleFontSize": 11
+          },
+          "scale": {
+            "domain": [
+              0,
+              900
+            ]
+          }
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              "#1E5F74",
+              "#C8D8E0"
+            ]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Badminton",
+              "Other"
+            ],
+            "range": [
+              1,
+              0.7
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "activity",
+            "title": "Activity"
+          },
+          {
+            "field": "intensity",
+            "title": "Intensity"
+          },
+          {
+            "field": "calories_per_hour_70kg",
+            "title": "Cal/hr (70 kg)"
+          },
+          {
+            "field": "MET",
+            "title": "MET value"
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Badminton annotation band \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "activity": "Badminton",
+            "note": "Badminton"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "dy": -6,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#1E5F74"
+      },
+      "encoding": {
+        "x": {
+          "field": "activity",
+          "type": "nominal",
+          "sort": {
+            "field": "calories_per_hour_70kg",
+            "order": "descending"
+          }
+        },
+        "y": {
+          "value": 12
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Badminton vs. Your Day \u2014 Calorie Comparison",
+    "subtitle": "Calories burned per hour for a 70 kg person \u00b7 Source: Compendium of Physical Activities (Ainsworth et al., 2011)",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

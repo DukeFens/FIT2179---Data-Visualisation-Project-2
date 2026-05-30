@@ -1,22 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Choropleth map of Australia — badminton participation rate by state (AusPlay 2025)",
-  "width": 600,
-  "height": 380,
-  "background": "white",
-  "config": {
-    "view": { "stroke": null },
-    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif"
-  },
-
+  "width": "container",
+  "height": 460,
+  "background": "transparent",
+  "config": { "view": { "stroke": null } },
   "projection": { "type": "mercator" },
-
   "layer": [
     {
-      "comment": "── State fill by participation rate ──",
+      "comment": "── Choropleth ──",
       "data": {
-        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
-        "format": { "type": "json", "property": "features" }
+        "url": "../data/aus_states_mainland.geojson",
+        "format": { "property": "features" }
       },
       "transform": [
         {
@@ -24,71 +18,126 @@
           "from": {
             "data": { "url": "../data/australia_badminton_participation_by_state.csv" },
             "key": "state",
-            "fields": ["participation_rate_pct", "total_participants_thousands", "registered_clubs", "state_code"]
+            "fields": ["state_code", "participation_rate_pct", "total_participants_thousands", "registered_clubs"]
           }
         }
       ],
-      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 1.5 },
+      "mark": { "type": "geoshape", "stroke": "#506158", "strokeWidth": 0.6 },
       "encoding": {
         "color": {
           "field": "participation_rate_pct",
           "type": "quantitative",
-          "scale": {
-            "domain": [0.5, 2.5],
-            "range": ["#C8E6F5", "#2B88A1", "#1E5F74"]
-          },
+          "scale": { "scheme": "greens", "domain": [0.8, 2.5] },
           "legend": {
             "title": "Participation rate (%)",
+            "format": ".1f",
             "orient": "bottom-right",
             "direction": "horizontal",
-            "gradientLength": 160,
+            "gradientLength": 150,
+            "gradientThickness": 10,
             "titleFontSize": 10,
-            "labelFontSize": 10
+            "titleFontWeight": 600,
+            "titleColor": "#172821",
+            "labelFontSize": 10,
+            "labelColor": "#506158",
+            "fillColor": "#F3F6F0",
+            "strokeColor": "#C8D5CB",
+            "padding": 8,
+            "cornerRadius": 3,
+            "offset": 10
           }
         },
         "tooltip": [
-          { "field": "properties.STATE_NAME",       "title": "State" },
-          { "field": "participation_rate_pct",      "title": "Participation rate (%)", "format": ".1f" },
-          { "field": "total_participants_thousands", "title": "Players (thousands)", "format": ".1f" },
-          { "field": "registered_clubs",            "title": "Registered clubs" }
+          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" },
+          { "field": "state_code", "type": "nominal", "title": "Code" },
+          { "field": "participation_rate_pct", "type": "quantitative", "format": ".1f", "title": "Rate (%)" },
+          { "field": "total_participants_thousands", "type": "quantitative", "format": ".1f", "title": "Players (000s)" },
+          { "field": "registered_clubs", "type": "quantitative", "title": "Clubs" }
         ]
       }
     },
     {
-      "comment": "── State labels ──",
+      "comment": "── State abbreviation labels ──",
       "data": {
         "values": [
-          { "label": "WA",  "lon": 122.0, "lat": -25.5 },
-          { "label": "NT",  "lon": 133.0, "lat": -19.5 },
-          { "label": "SA",  "lon": 135.5, "lat": -29.5 },
-          { "label": "QLD", "lon": 145.0, "lat": -22.0 },
-          { "label": "NSW", "lon": 146.5, "lat": -32.5 },
-          { "label": "VIC", "lon": 144.5, "lat": -37.0 },
-          { "label": "TAS", "lon": 146.5, "lat": -42.0 },
-          { "label": "ACT", "lon": 149.2, "lat": -35.5 }
+          { "lon": 121.5, "lat": -26.0, "label": "WA" },
+          { "lon": 133.5, "lat": -19.5, "label": "NT" },
+          { "lon": 143.5, "lat": -22.5, "label": "QLD" },
+          { "lon": 135.5, "lat": -30.0, "label": "SA" },
+          { "lon": 146.5, "lat": -32.0, "label": "NSW" },
+          { "lon": 143.8, "lat": -36.8, "label": "VIC" },
+          { "lon": 146.5, "lat": -42.5, "label": "TAS" },
+          { "lon": 149.0, "lat": -35.5, "label": "ACT" }
         ]
       },
       "mark": {
         "type": "text",
         "fontSize": 11,
-        "fontWeight": "bold",
-        "color": "white",
-        "opacity": 0.9
+        "fontWeight": "600",
+        "color": "#172821",
+        "opacity": 0.6
       },
       "encoding": {
         "longitude": { "field": "lon", "type": "quantitative" },
         "latitude":  { "field": "lat", "type": "quantitative" },
-        "text":      { "field": "label", "type": "nominal" }
+        "text":      { "field": "label" }
+      }
+    },
+    {
+      "comment": "── Victoria centroid dot ──",
+      "data": { "values": [{ "lon": 144.8, "lat": -37.0 }] },
+      "mark": { "type": "circle", "size": 70, "color": "#172821", "opacity": 0.85 },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude":  { "field": "lat", "type": "quantitative" }
+      }
+    },
+    {
+      "comment": "── Leader line: VIC dot → callout (off eastern coast) ──",
+      "data": {
+        "values": [
+          { "lon": 144.8, "lat": -37.0, "order": 1 },
+          { "lon": 156.0, "lat": -34.5, "order": 2 }
+        ]
+      },
+      "mark": { "type": "line", "color": "#172821", "strokeWidth": 1.2, "opacity": 0.65 },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude":  { "field": "lat", "type": "quantitative" },
+        "order":     { "field": "order" }
+      }
+    },
+    {
+      "comment": "── Callout stat (off coast, outside map) ──",
+      "data": { "values": [{ "lon": 156.2, "lat": -33.8 }] },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 15,
+        "fontWeight": "700",
+        "color": "#172821"
+      },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude":  { "field": "lat", "type": "quantitative" },
+        "text":      { "value": "2.4% rate" }
+      }
+    },
+    {
+      "comment": "── Callout sub-text ──",
+      "data": { "values": [{ "lon": 156.2, "lat": -35.2 }] },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 11,
+        "color": "#506158",
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude":  { "field": "lat", "type": "quantitative" },
+        "text":      { "value": "2× the national average" }
       }
     }
-  ],
-
-  "title": {
-    "text": "Where Does Australia Play Badminton?",
-    "subtitle": "Participation rate by state · Source: AusPlay 2025 (Australian Sports Commission, April 2026)",
-    "fontSize": 15,
-    "subtitleFontSize": 10,
-    "subtitleColor": "#666",
-    "anchor": "start"
-  }
+  ]
 }

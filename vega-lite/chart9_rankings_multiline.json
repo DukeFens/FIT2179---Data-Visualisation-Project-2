@@ -1,17 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Multi-line chart — BWF world rankings of top Australian players over time (2022–2025)",
-  "width": 460,
+  "width": "container",
   "height": 300,
-  "background": "white",
-  "config": {
-    "view": { "stroke": null },
-    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
-    "axis": { "labelFontSize": 11, "titleFontSize": 11, "gridColor": "#EEEEEE" }
-  },
-
+  "background": null,
+  "config": { "view": { "stroke": null } },
   "data": { "url": "../data/australian_players_bwf_rankings.csv" },
-
   "params": [
     {
       "name": "playerSelect",
@@ -19,29 +12,25 @@
       "bind": "legend"
     }
   ],
-
   "layer": [
     {
       "comment": "── Lines per player ──",
-      "mark": { "type": "line", "point": { "size": 60 }, "strokeWidth": 2.5 },
+      "mark": { "type": "line", "point": { "size": 65 }, "strokeWidth": 2.5 },
       "encoding": {
         "x": {
-          "field": "year",
-          "type": "ordinal",
+          "field": "year", "type": "ordinal",
           "axis": { "title": null, "labelFontSize": 11 }
         },
         "y": {
-          "field": "world_ranking",
-          "type": "quantitative",
+          "field": "world_ranking", "type": "quantitative",
           "scale": { "reverse": true },
-          "axis": { "title": "BWF World Ranking (lower = better)", "titleFontSize": 11 }
+          "axis": { "title": "BWF World Ranking (lower = better)", "titleFontSize": 10.5 }
         },
         "color": {
-          "field": "player",
-          "type": "nominal",
+          "field": "player", "type": "nominal",
           "scale": {
-            "domain": ["Tiffany Ho", "Setyana Mapasa", "Angela Yu", "Gronya Sommerville"],
-            "range": ["#1E5F74", "#F5A623", "#D94F35", "#7B4FBF"]
+            "domain": ["Tiffany Ho","Setyana Mapasa","Angela Yu","Gronya Sommerville"],
+            "range": ["#8B5318","#C47D2A","#DFA054","#EEC98A"]
           },
           "legend": {
             "title": "Player (click to highlight)",
@@ -51,11 +40,10 @@
           }
         },
         "strokeDash": {
-          "field": "discipline",
-          "type": "nominal",
+          "field": "discipline", "type": "nominal",
           "scale": {
-            "domain": ["Women's Singles", "Women's Doubles", "Mixed Doubles"],
-            "range": [[1, 0], [4, 2], [2, 2]]
+            "domain": ["Women's Singles","Women's Doubles","Mixed Doubles"],
+            "range": [[1,0],[4,2],[2,2]]
           },
           "legend": {
             "title": "Discipline",
@@ -66,7 +54,7 @@
         },
         "opacity": {
           "condition": { "param": "playerSelect", "value": 1 },
-          "value": 0.12
+          "value": 0.1
         },
         "tooltip": [
           { "field": "player",        "title": "Player" },
@@ -80,35 +68,20 @@
     {
       "comment": "── Paris Olympics annotation ──",
       "data": { "values": [{ "year": "2024", "note": "Paris Olympics" }] },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "dx": 5,
-        "dy": -10,
-        "fontSize": 10,
-        "color": "#B8860B",
-        "fontWeight": "bold"
-      },
+      "mark": { "type": "text", "align": "left", "dx": 5, "dy": -10, "fontSize": 10, "color": "#C47D2A", "fontWeight": "bold" },
       "encoding": {
-        "x":    { "field": "year", "type": "ordinal" },
-        "y":    { "value": 20 },
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "value": 20 },
         "text": { "field": "note" }
       }
     },
     {
       "comment": "── Paris Olympics rule ──",
       "data": { "values": [{ "year": "2024" }] },
-      "mark": { "type": "rule", "strokeDash": [4,3], "color": "#B8860B", "strokeWidth": 1, "opacity": 0.6 },
+      "mark": { "type": "rule", "strokeDash": [4,3], "color": "#DFA054", "strokeWidth": 1, "opacity": 0.6 },
       "encoding": { "x": { "field": "year", "type": "ordinal" } }
     }
   ],
-
-  "title": {
-    "text": "Climbing the World Rankings — Australia's Top Players",
-    "subtitle": "BWF World Rankings (lower = better) · Click legend to highlight a player · Source: BWF Historical Rankings",
-    "fontSize": 15,
-    "subtitleFontSize": 10,
-    "subtitleColor": "#666",
-    "anchor": "start"
-  }
+  "autosize": { "type": "fit", "contains": "padding" },
+  "padding": 4
 }

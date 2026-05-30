@@ -1,0 +1,221 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Multi-line chart \u2014 BWF world rankings of top Australian players over time (2022\u20132025)",
+  "width": "container",
+  "height": 300,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/australian_players_bwf_rankings.csv"
+  },
+  "params": [
+    {
+      "name": "playerSelect",
+      "select": {
+        "type": "point",
+        "fields": [
+          "player"
+        ]
+      },
+      "bind": "legend"
+    }
+  ],
+  "layer": [
+    {
+      "comment": "\u2500\u2500 Lines per player \u2500\u2500",
+      "mark": {
+        "type": "line",
+        "point": {
+          "size": 60
+        },
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "title": null,
+            "labelFontSize": 11
+          }
+        },
+        "y": {
+          "field": "world_ranking",
+          "type": "quantitative",
+          "scale": {
+            "reverse": true
+          },
+          "axis": {
+            "title": "BWF World Ranking (lower = better)",
+            "titleFontSize": 11
+          }
+        },
+        "color": {
+          "field": "player",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Tiffany Ho",
+              "Setyana Mapasa",
+              "Angela Yu",
+              "Gronya Sommerville"
+            ],
+            "range": [
+              "#1E5F74",
+              "#F5A623",
+              "#D94F35",
+              "#7B4FBF"
+            ]
+          },
+          "legend": {
+            "title": "Player (click to highlight)",
+            "orient": "top-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "strokeDash": {
+          "field": "discipline",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Women's Singles",
+              "Women's Doubles",
+              "Mixed Doubles"
+            ],
+            "range": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                2
+              ],
+              [
+                2,
+                2
+              ]
+            ]
+          },
+          "legend": {
+            "title": "Discipline",
+            "orient": "bottom-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "playerSelect",
+            "value": 1
+          },
+          "value": 0.12
+        },
+        "tooltip": [
+          {
+            "field": "player",
+            "title": "Player"
+          },
+          {
+            "field": "discipline",
+            "title": "Discipline"
+          },
+          {
+            "field": "year",
+            "title": "Year"
+          },
+          {
+            "field": "world_ranking",
+            "title": "World Ranking"
+          },
+          {
+            "field": "points",
+            "title": "Points",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Paris Olympics annotation \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "year": "2024",
+            "note": "Paris Olympics"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": -10,
+        "fontSize": 10,
+        "color": "#B8860B",
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "value": 20
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "comment": "\u2500\u2500 Paris Olympics rule \u2500\u2500",
+      "data": {
+        "values": [
+          {
+            "year": "2024"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          4,
+          3
+        ],
+        "color": "#B8860B",
+        "strokeWidth": 1,
+        "opacity": 0.6
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Climbing the World Rankings \u2014 Australia's Top Players",
+    "subtitle": "BWF World Rankings (lower = better) \u00b7 Click legend to highlight a player \u00b7 Source: BWF Historical Rankings",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}

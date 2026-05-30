@@ -1,0 +1,137 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "data": { "url": "../data/badminton_participation_trend.csv" },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "transform": [
+    { "fold": ["male_participants_thousands", "female_participants_thousands"], "as": ["gender_key", "participants"] },
+    {
+      "calculate": "datum.gender_key === 'male_participants_thousands' ? 'Male' : 'Female'",
+      "as": "Gender"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": "Year",
+      "axis": {
+        "grid": false,
+        "domainColor": "#C8D5CB",
+        "tickColor": "#C8D5CB",
+        "format": "d",
+        "labelFontSize": 11,
+        "values": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+      }
+    }
+  },
+  "layer": [
+    {
+      "comment": "── Area band between male and female ──",
+      "mark": { "type": "area", "interpolate": "monotone", "opacity": 0.08, "color": "#1A7A4C" },
+      "encoding": {
+        "y": {
+          "field": "male_participants_thousands",
+          "type": "quantitative",
+          "title": "Participants (thousands)",
+          "axis": { "grid": true, "gridColor": "#E8EDE9", "format": ".0f", "labelFontSize": 11,
+            "labelExpr": "datum.value + 'K'" }
+        },
+        "y2": { "field": "female_participants_thousands" }
+      }
+    },
+    {
+      "comment": "── Gender lines ──",
+      "mark": { "type": "line", "interpolate": "monotone", "strokeWidth": 2.5, "strokeCap": "round" },
+      "encoding": {
+        "y": {
+          "field": "participants",
+          "type": "quantitative",
+          "title": "Participants (thousands)"
+        },
+        "color": {
+          "field": "Gender",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Male", "Female"],
+            "range": ["#1A7A4C", "#839489"]
+          },
+          "legend": { "orient": "top", "title": null }
+        },
+        "tooltip": [
+          { "field": "year", "title": "Year" },
+          { "field": "Gender", "title": "Gender" },
+          { "field": "participants", "title": "Participants (K)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "comment": "── Dots at each year ──",
+      "mark": { "type": "circle", "size": 40, "stroke": "#F3F6F0", "strokeWidth": 1.5 },
+      "encoding": {
+        "y": { "field": "participants", "type": "quantitative" },
+        "color": {
+          "field": "Gender", "type": "nominal",
+          "scale": { "domain": ["Male", "Female"], "range": ["#1A7A4C", "#839489"] },
+          "legend": null
+        }
+      }
+    },
+    {
+      "comment": "── COVID dip reference line ──",
+      "mark": { "type": "rule", "color": "#506158", "strokeWidth": 1.5, "strokeDash": [4, 3], "opacity": 0.7 },
+      "data": { "values": [{ "year": 2020 }] },
+      "encoding": {
+        "x": { "field": "year", "type": "quantitative" },
+        "y": null
+      }
+    },
+    {
+      "comment": "── COVID label ──",
+      "mark": { "type": "text", "align": "right", "dx": -5, "fontSize": 10, "fontWeight": "600", "color": "#506158" },
+      "data": { "values": [{ "year": 2020, "label": "COVID-19 drop" }] },
+      "encoding": {
+        "x": { "field": "year", "type": "quantitative" },
+        "y": { "value": 14 },
+        "text": { "field": "label" }
+      }
+    },
+    {
+      "comment": "── New methodology line ──",
+      "mark": { "type": "rule", "color": "#839489", "strokeWidth": 1.2, "strokeDash": [2, 4], "opacity": 0.6 },
+      "data": { "values": [{ "year": 2024 }] },
+      "encoding": {
+        "x": { "field": "year", "type": "quantitative" },
+        "y": null
+      }
+    },
+    {
+      "comment": "── New methodology label ──",
+      "mark": { "type": "text", "align": "left", "dx": 5, "fontSize": 10, "fontStyle": "italic", "color": "#839489" },
+      "data": { "values": [{ "year": 2024, "label": "New methodology" }] },
+      "encoding": {
+        "x": { "field": "year", "type": "quantitative" },
+        "y": { "value": 14 },
+        "text": { "field": "label" }
+      }
+    },
+    {
+      "comment": "── End-point labels ──",
+      "transform": [{ "filter": "datum.year === 2025" }],
+      "mark": { "type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "600" },
+      "encoding": {
+        "y": { "field": "participants", "type": "quantitative" },
+        "color": {
+          "field": "Gender", "type": "nominal",
+          "scale": { "domain": ["Male", "Female"], "range": ["#1A7A4C", "#839489"] },
+          "legend": null
+        },
+        "text": { "field": "Gender" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": { "step": 60 },
+  "data": { "url": "../data/ausplay_badminton_demographics.csv" },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "params": [
+    {
+      "name": "YearSelect",
+      "value": 2024,
+      "bind": { "input": "select", "options": [2016, 2020, 2024], "name": "Select Year: " }
+    }
+  ],
+  "transform": [
+    { "filter": "datum.year == YearSelect" }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "rect", "stroke": "#F3F6F0", "strokeWidth": 2 },
+      "encoding": {
+        "x": {
+          "field": "age_group",
+          "type": "ordinal",
+          "sort": ["15-24", "25-34", "35-44", "45-54", "55+"],
+          "title": "Age Group",
+          "axis": { "grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 12 }
+        },
+        "y": {
+          "field": "gender",
+          "type": "nominal",
+          "sort": ["Male", "Female"],
+          "title": "Gender",
+          "axis": { "grid": false, "domainColor": "#C8D5CB", "tickColor": "#C8D5CB", "labelFontSize": 12 }
+        },
+        "color": {
+          "field": "percentage",
+          "type": "quantitative",
+          "title": "Participation (%)",
+          "scale": { "scheme": "greens", "domain": [5, 25] },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "gradientLength": 180,
+            "gradientThickness": 10,
+            "title": "Participation (%)"
+          }
+        },
+        "tooltip": [
+          { "field": "year", "title": "Year" },
+          { "field": "age_group", "title": "Age Group" },
+          { "field": "gender", "title": "Gender" },
+          { "field": "percentage", "title": "Participation (%)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "baseline": "middle", "fontWeight": "bold", "fontSize": 13 },
+      "encoding": {
+        "x": {
+          "field": "age_group", "type": "ordinal",
+          "sort": ["15-24", "25-34", "35-44", "45-54", "55+"]
+        },
+        "y": { "field": "gender", "type": "nominal", "sort": ["Male", "Female"] },
+        "text": { "field": "percentage", "type": "quantitative", "format": ".1f" },
+        "color": {
+          "condition": { "test": "datum.percentage > 17", "value": "white" },
+          "value": "#172821"
+        }
+      }
+    }
+  ]
+}

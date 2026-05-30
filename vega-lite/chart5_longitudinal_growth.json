@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "data": { "url": "../data/aus_sports_participation_longitudinal.csv" },
+  "config": {
+    "view": { "stroke": null },
+    "font": "Inter, sans-serif"
+  },
+  "layer": [
+    {
+      "mark": { "type": "line", "point": true, "strokeWidth": 3 },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": { "grid": true, "domainColor": "#D9D8D2", "tickColor": "#D9D8D2", "labelAngle": 0 }
+        },
+        "y": {
+          "field": "participants",
+          "type": "quantitative",
+          "title": "Participants",
+          "axis": { "format": ".2s", "grid": true, "gridColor": "#F0EFEB" }
+        },
+        "color": {
+          "field": "sport",
+          "type": "nominal",
+          "title": "Sport",
+          "scale": {
+            "domain": ["Badminton", "Tennis", "Cricket"],
+            "range": ["#C47D2A", "#8B5318", "#E5E4DE"]
+          }
+        },
+        "tooltip": [
+          { "field": "year", "title": "Year" },
+          { "field": "sport", "title": "Sport" },
+          { "field": "participants", "title": "Participants", "format": "," },
+          { "field": "event", "title": "Note" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "rule", "color": "#1A1916", "strokeDash": [2, 2], "opacity": 0.5 },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" }
+      },
+      "transform": [
+        { "filter": "datum.event != null && datum.event != ''" }
+      ]
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 5, "dy": -130, "fontSize": 11, "color": "#3D3B35" },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "text": { "field": "event", "type": "nominal" }
+      },
+      "transform": [
+        { "filter": "datum.event != null && datum.event != ''" }
+      ]
+    }
+  ]
+}

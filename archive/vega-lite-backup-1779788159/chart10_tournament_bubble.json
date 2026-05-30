@@ -1,0 +1,146 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bubble chart \u2014 BWF tournaments in Australia: prize money vs BWF points, sized by entries",
+  "width": "container",
+  "height": 320,
+  "background": "white",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Segoe UI, Helvetica Neue, Arial, sans-serif",
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 11,
+      "gridColor": "#EEEEEE"
+    }
+  },
+  "data": {
+    "url": "../data/bwf_tournaments_australia.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.prize_money_usd > 0"
+    }
+  ],
+  "mark": {
+    "type": "circle",
+    "opacity": 0.85,
+    "stroke": "white",
+    "strokeWidth": 1.5
+  },
+  "encoding": {
+    "x": {
+      "field": "prize_money_usd",
+      "type": "quantitative",
+      "axis": {
+        "title": "Prize Money (USD)",
+        "titleFontSize": 11,
+        "format": "$,.0f"
+      },
+      "scale": {
+        "domain": [
+          50000,
+          950000
+        ]
+      }
+    },
+    "y": {
+      "field": "bwf_points_winner",
+      "type": "quantitative",
+      "axis": {
+        "title": "BWF Points (winner)",
+        "titleFontSize": 11,
+        "format": ","
+      },
+      "scale": {
+        "domain": [
+          2000,
+          7000
+        ]
+      }
+    },
+    "size": {
+      "field": "total_entries",
+      "type": "quantitative",
+      "scale": {
+        "range": [
+          100,
+          1400
+        ]
+      },
+      "legend": {
+        "title": "Total entries",
+        "orient": "bottom-right",
+        "titleFontSize": 10,
+        "labelFontSize": 10
+      }
+    },
+    "color": {
+      "field": "grade",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Super 500",
+          "Super 300",
+          "International Challenge"
+        ],
+        "range": [
+          "#1E5F74",
+          "#F5A623",
+          "#D94F35"
+        ]
+      },
+      "legend": {
+        "title": "Tournament Grade",
+        "orient": "top-left",
+        "titleFontSize": 10,
+        "labelFontSize": 10
+      }
+    },
+    "tooltip": [
+      {
+        "field": "tournament",
+        "title": "Tournament"
+      },
+      {
+        "field": "year",
+        "title": "Year"
+      },
+      {
+        "field": "grade",
+        "title": "Grade"
+      },
+      {
+        "field": "prize_money_usd",
+        "title": "Prize Money (USD)",
+        "format": "$,.0f"
+      },
+      {
+        "field": "bwf_points_winner",
+        "title": "Points (winner)",
+        "format": ","
+      },
+      {
+        "field": "total_entries",
+        "title": "Total entries"
+      },
+      {
+        "field": "host_city",
+        "title": "Host city"
+      }
+    ]
+  },
+  "title": {
+    "text": "Australia's Badminton Tournament Ecosystem",
+    "subtitle": "Prize money vs. BWF ranking points \u00b7 Bubble size = total entries \u00b7 Source: BWF World Tour results",
+    "fontSize": 15,
+    "subtitleFontSize": 10,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  }
+}
