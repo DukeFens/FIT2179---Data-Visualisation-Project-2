@@ -3,7 +3,7 @@
   "width": "container",
   "height": 320,
   "data": {
-    "url": "../data/australian_players_bwf_rankings.csv",
+    "url": "data/australian_players_bwf_rankings.csv",
     "format": {
       "type": "csv",
       "parse": { "year": "number", "week": "number", "world_ranking": "number", "points": "number" }

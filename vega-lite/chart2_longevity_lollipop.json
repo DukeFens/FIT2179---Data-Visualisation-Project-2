@@ -4,7 +4,7 @@
   "height": 300,
   "background": null,
   "config": { "view": { "stroke": null } },
-  "data": { "url": "../data/longevity_sports.csv" },
+  "data": { "url": "data/longevity_sports.csv" },
   "layer": [
     {
       "comment": "── Lollipop stem ──",

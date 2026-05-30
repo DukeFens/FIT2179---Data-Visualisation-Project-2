@@ -4,7 +4,7 @@
   "height": 300,
   "background": null,
   "config": { "view": { "stroke": null } },
-  "data": { "url": "../data/australian_players_bwf_rankings.csv" },
+  "data": { "url": "data/australian_players_bwf_rankings.csv" },
   "params": [
     {
       "name": "playerSelect",

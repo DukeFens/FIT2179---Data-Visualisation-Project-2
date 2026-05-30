@@ -9,14 +9,14 @@
     {
       "comment": "── Choropleth ──",
       "data": {
-        "url": "../data/aus_states_mainland.geojson",
+        "url": "data/aus_states_mainland.geojson",
         "format": { "property": "features" }
       },
       "transform": [
         {
           "lookup": "properties.STATE_NAME",
           "from": {
-            "data": { "url": "../data/australia_badminton_participation_by_state.csv" },
+            "data": { "url": "data/australia_badminton_participation_by_state.csv" },
             "key": "state",
             "fields": ["state_code", "participation_rate_pct", "total_participants_thousands", "registered_clubs"]
           }

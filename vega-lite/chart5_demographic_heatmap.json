@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
   "height": { "step": 60 },
-  "data": { "url": "../data/ausplay_badminton_demographics.csv" },
+  "data": { "url": "data/ausplay_badminton_demographics.csv" },
   "config": {
     "view": { "stroke": null },
     "font": "Inter, sans-serif"

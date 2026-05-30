@@ -56,7 +56,7 @@
     {
       "comment": "── Layer 2: muscle activation regions (GeoJSON) ──",
       "data": {
-        "url": "../data/muscle_regions.geojson",
+        "url": "data/muscle_regions.geojson",
         "format": {
           "type": "json",
           "property": "features"
@@ -67,7 +67,7 @@
           "lookup": "properties.id",
           "from": {
             "data": {
-              "url": "../data/muscle_activation_smash.csv"
+              "url": "data/muscle_activation_smash.csv"
             },
             "key": "id",
             "fields": [

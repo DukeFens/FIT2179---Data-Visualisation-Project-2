@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
   "height": { "step": 56 },
-  "data": { "url": "../data/talent_pipeline.csv" },
+  "data": { "url": "data/talent_pipeline.csv" },
   "config": {
     "view": { "stroke": null },
     "font": "Inter, sans-serif"

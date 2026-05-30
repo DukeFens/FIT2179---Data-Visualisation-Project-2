@@ -4,7 +4,7 @@
   "height": 300,
   "background": null,
   "config": { "view": { "stroke": null } },
-  "data": { "url": "../data/badminton_participation_trend.csv" },
+  "data": { "url": "data/badminton_participation_trend.csv" },
   "layer": [
     {
       "comment": "── Stacked area by gender ──",

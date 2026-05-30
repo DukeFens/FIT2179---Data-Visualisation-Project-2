@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
   "height": 300,
-  "data": { "url": "../data/calorie_burn_activities.csv" },
+  "data": { "url": "data/calorie_burn_activities.csv" },
   "config": {
     "view": { "stroke": null },
     "font": "Inter, sans-serif"

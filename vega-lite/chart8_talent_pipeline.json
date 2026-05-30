@@ -4,7 +4,7 @@
   "height": 280,
   "background": null,
   "config": { "view": { "stroke": null } },
-  "data": { "url": "../data/talent_pipeline.csv" },
+  "data": { "url": "data/talent_pipeline.csv" },
   "layer": [
     {
       "comment": "── Horizontal bars ──",
